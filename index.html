@@ -186,69 +186,96 @@
     </button>
   </div>
   
-<!-- React & Dependencies (these work fine) -->
-<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <!-- React & Dependencies -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
-<!-- Use CDNjs instead of unpkg (better CORS support) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.5.0/Recharts.js"></script>
+  <!-- Recharts from CDNjs (only source that's allowed) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.5.0/Recharts.js"></script>
 
-<!-- Lucide from CDNjs -->
-<script src="https://unpkg.com/lucide@0.294.0/dist/umd/lucide.min.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@0.294.0/dist/umd/lucide.min.js"></script>
 
-<!-- Fallback check -->
-<script>
-  console.log('Libraries loaded:');
-  console.log('- React:', typeof React !== 'undefined' ? '✓' : '✗');
-  console.log('- ReactDOM:', typeof ReactDOM !== 'undefined' ? '✓' : '✗');
-  console.log('- Recharts:', typeof Recharts !== 'undefined' ? '✓' : '✗');
-  console.log('- Lucide:', typeof lucide !== 'undefined' ? '✓' : '✗');
+  <!-- Library Check & Fallbacks -->
+  <script>
+    console.log('📦 Libraries loaded:');
+    console.log('- React:', typeof React !== 'undefined' ? '✓' : '✗');
+    console.log('- ReactDOM:', typeof ReactDOM !== 'undefined' ? '✓' : '✗');
+    console.log('- Recharts:', typeof Recharts !== 'undefined' ? '✓' : '✗');
+    console.log('- Lucide:', typeof lucide !== 'undefined' ? '✓' : '✗');
+    
+    // Create fallbacks if Recharts fails to load
+    if (typeof Recharts === 'undefined') {
+      console.warn('⚠️ Recharts failed to load, creating fallback placeholders');
+      
+      window.Recharts = {
+        ResponsiveContainer: function({ children, width, height }) {
+          return React.createElement('div', { 
+            style: { 
+              width: width || '100%', 
+              height: height || 300, 
+              background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+              borderRadius: '16px', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'center',
+              color: 'white',
+              fontSize: '18px',
+              fontWeight: 'bold',
+              padding: '20px',
+              textAlign: 'center'
+            }
+          }, React.createElement('div', {}, 
+            React.createElement('div', { style: { fontSize: '48px', marginBottom: '10px' }}, '📊'),
+            React.createElement('div', {}, 'Chart View'),
+            React.createElement('div', { style: { fontSize: '14px', marginTop: '10px', opacity: 0.8 }}, 
+              'Charts will display here when data is available'
+            )
+          ));
+        },
+        LineChart: function() { return null; },
+        Line: function() { return null; },
+        AreaChart: function() { return null; },
+        Area: function() { return null; },
+        RadarChart: function() { return null; },
+        Radar: function() { return null; },
+        BarChart: function() { return null; },
+        Bar: function() { return null; },
+        PieChart: function() { return null; },
+        Pie: function() { return null; },
+        Cell: function() { return null; },
+        XAxis: function() { return null; },
+        YAxis: function() { return null; },
+        CartesianGrid: function() { return null; },
+        Tooltip: function() { return null; },
+        Legend: function() { return null; },
+        PolarGrid: function() { return null; },
+        PolarAngleAxis: function() { return null; },
+        PolarRadiusAxis: function() { return null; }
+      };
+    }
+    
+    // Ensure Lucide is available
+    if (typeof lucide === 'undefined') {
+      console.error('❌ Lucide icons failed to load');
+    }
+  </script>
   
-  // Create fallbacks if needed
-  if (typeof Recharts === 'undefined') {
-    window.Recharts = {
-      ResponsiveContainer: ({ children, width, height }) => 
-        React.createElement('div', { 
-          style: { width: width || '100%', height: height || 300, background: '#f3f4f6', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center' }
-        }, React.createElement('p', { style: { color: '#6b7280' }}, '📊 Chart Placeholder')),
-      LineChart: () => null,
-      Line: () => null,
-      AreaChart: () => null,
-      Area: () => null,
-      RadarChart: () => null,
-      Radar: () => null,
-      BarChart: () => null,
-      Bar: () => null,
-      PieChart: () => null,
-      Pie: () => null,
-      Cell: () => null,
-      XAxis: () => null,
-      YAxis: () => null,
-      CartesianGrid: () => null,
-      Tooltip: () => null,
-      Legend: () => null,
-      PolarGrid: () => null,
-      PolarAngleAxis: () => null,
-      PolarRadiusAxis: () => null
-    };
-    console.warn('⚠️ Recharts failed to load, using placeholders');
-  }
-</script>
-  
+  <!-- Service Worker & PWA Setup -->
+  <script>
     // Service Worker registration
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('/service-worker.js')
           .then(registration => {
-            console.log('ServiceWorker registered:', registration);
+            console.log('✓ ServiceWorker registered:', registration);
             
             // Check for updates
             registration.addEventListener('updatefound', () => {
               const newWorker = registration.installing;
               newWorker.addEventListener('statechange', () => {
                 if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                  // New service worker available
                   document.getElementById('updatePrompt').classList.add('show');
                 }
               });
@@ -270,7 +297,6 @@
       e.preventDefault();
       deferredPrompt = e;
       
-      // Show install prompt after 10 seconds
       setTimeout(() => {
         installPrompt.classList.add('show');
       }, 10000);
@@ -290,9 +316,8 @@
       installPrompt.classList.remove('show');
     });
     
-    // Detect if installed
     window.addEventListener('appinstalled', () => {
-      console.log('PWA installed successfully!');
+      console.log('✓ PWA installed successfully!');
       installPrompt.classList.remove('show');
     });
     
@@ -331,7 +356,7 @@
     if (navigator.storage && navigator.storage.persist) {
       navigator.storage.persist().then(granted => {
         if (granted) {
-          console.log('Storage will not be cleared except by explicit user action');
+          console.log('✓ Storage will not be cleared except by explicit user action');
         }
       });
     }
@@ -342,7 +367,6 @@
     const tab = urlParams.get('tab');
     const action = urlParams.get('action');
     
-    // Store initial state
     window.initialState = { mode, tab, action };
   </script>
   
@@ -351,18 +375,17 @@
   <script type="text/babel">
     const { useState, useEffect } = React;
     const root = ReactDOM.createRoot(document.getElementById('root'));
-    root.render(<TurnbullShawDashboard />);
+    root.render(React.createElement(TurnbullShawDashboard));
   </script>
   
-  <!-- iOS Add to Home Screen detection -->
+  <!-- iOS Compatibility -->
   <script>
     // Check if running as standalone app
     const isStandalone = window.matchMedia('(display-mode: standalone)').matches || 
                         window.navigator.standalone === true;
     
     if (isStandalone) {
-      console.log('Running as installed PWA');
-      // Could add analytics or special handling here
+      console.log('✓ Running as installed PWA');
     }
     
     // Prevent zoom on double tap
