@@ -186,15 +186,34 @@
     </button>
   </div>
   
-  <!-- React & Dependencies -->
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/recharts@2.5.0/dist/Recharts.min.js"></script>
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+<!-- React & Dependencies -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<!-- Recharts Dependencies -->
+<script crossorigin src="https://unpkg.com/prop-types@15.8.1/prop-types.min.js"></script>
+<script crossorigin src="https://unpkg.com/recharts-scale@0.4.5/dist/index.js"></script>
+<script crossorigin src="https://unpkg.com/d3-interpolate@3.0.1/dist/d3-interpolate.min.js"></script>
+<script crossorigin src="https://unpkg.com/d3-color@3.1.0/dist/d3-color.min.js"></script>
+<script crossorigin src="https://unpkg.com/d3-shape@3.2.0/dist/d3-shape.min.js"></script>
+
+<!-- Recharts Main Library -->
+<script crossorigin src="https://unpkg.com/recharts@2.5.0/dist/Recharts.js"></script>
+
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+
+<!-- Verify libraries loaded -->
+<script>
+  window.addEventListener('load', () => {
+    console.log('React:', typeof React !== 'undefined' ? '✓' : '✗');
+    console.log('ReactDOM:', typeof ReactDOM !== 'undefined' ? '✓' : '✗');
+    console.log('Recharts:', typeof Recharts !== 'undefined' ? '✓' : '✗');
+    console.log('Lucide:', typeof lucide !== 'undefined' ? '✓' : '✗');
+  });
+</script>
   
-  <!-- Service Worker Registration -->
-  <script>
     // Service Worker registration
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
