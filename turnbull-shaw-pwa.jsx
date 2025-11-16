@@ -1,6 +1,6 @@
 // Access libraries from global scope (loaded via CDN)
 const { useState, useEffect, useMemo, useRef } = React;
-const { CheckCircle2, Circle, TrendingUp, Home, Zap, Heart, DollarSign, Calendar, Target, Award, Settings, Calculator, PieChart, BarChart3, Sparkles, Trophy, Star, Bell, Download, Upload, Users, Car, MapPin, Clock, Book, Gamepad2, Mountain, Music, Coffee, Utensils, CalendarHeart, Smile, Gift, Sunrise, Moon, Sun, CloudRain, Activity, Battery, Fuel, Navigation, ChevronRight, ChevronDown, PlayCircle, CheckSquare, Camera, Mic, Plus, TrendingDown, Flame, Baby, Cake, Syringe, Ruler, FileText, MessageSquare, Image, Lightbulb, Brain, Repeat, AlertCircle, Edit2, X, Save, Calendar: CalendarIcon } = lucide;
+const { CheckCircle2, Circle, TrendingUp, Home, Zap, Heart, DollarSign, Calendar, Target, Award, Settings, Calculator, PieChart, BarChart3, Sparkles, Trophy, Star, Bell, Download, Upload, Users, Car, MapPin, Clock, Book, Gamepad2, Mountain, Music, Coffee, Utensils, CalendarHeart, Smile, Gift, Sunrise, Moon, Sun, CloudRain, Activity, Battery, Fuel, Navigation, ChevronRight, ChevronDown, PlayCircle, CheckSquare, Camera, Mic, Plus, TrendingDown, Flame, Baby, Cake, Syringe, Ruler, FileText, MessageSquare, Image, Lightbulb, Brain, Repeat, AlertCircle, Edit2, X, Save } = lucide;
 const { LineChart, Line, AreaChart, Area, PieChart: RePieChart, Pie, Cell, BarChart, Bar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } = Recharts;
 
 
