@@ -1,5 +1,51 @@
 // Access libraries from global scope (loaded via CDN)
 const { useState, useEffect, useMemo, useRef } = React;
+const { CheckCircle2, Circle, TrendingUp, Home, Zap, Heart, DollarSign, Calendar, Target, Award, Settings, Calculator, PieChart, BarChart3, Sparkles, Trophy, Star, Bell, Download, Upload, Users, Car, MapPin, Clock, Book, Gamepad2, Mountain, Music, Coffee, Utensils, CalendarHeart, Smile, Gift, Sunrise, Moon, Sun, CloudRain, Activity, Battery, Fuel, Navigation, ChevronRight, ChevronDown, PlayCircle, CheckSquare, Camera, Mic, Plus, TrendingDown, Flame, Baby, Cake, Syringe, Ruler, FileText, MessageSquare, Image, Lightbulb, Brain, Repeat, AlertCircle, Edit2, X, Save, Calendar: CalendarIcon } = lucide;
+
+// Safe Recharts destructuring with fallbacks
+const {
+  LineChart = () => null,
+  Line = () => null,
+  AreaChart = () => null,
+  Area = () => null,
+  PieChart: RePieChart = () => null,
+  Pie = () => null,
+  Cell = () => null,
+  BarChart = () => null,
+  Bar = () => null,
+  RadarChart = () => null,
+  PolarGrid = () => null,
+  PolarAngleAxis = () => null,
+  PolarRadiusAxis = () => null,
+  Radar = () => null,
+  XAxis = () => null,
+  YAxis = () => null,
+  CartesianGrid = () => null,
+  Tooltip = () => null,
+  Legend = () => null,
+  ResponsiveContainer = ({ children, width, height }) => 
+    React.createElement('div', { 
+      style: { 
+        width: width || '100%', 
+        height: height || 300,
+        background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+        borderRadius: '16px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        fontSize: '18px',
+        fontWeight: 'bold',
+        padding: '20px',
+        textAlign: 'center'
+      }
+    }, React.createElement('div', {},
+      React.createElement('div', { style: { fontSize: '48px', marginBottom: '10px' }}, '📊'),
+      React.createElement('div', {}, 'Chart View')
+    ))
+} = typeof Recharts !== 'undefined' ? Recharts : {};
+// Access libraries from global scope (loaded via CDN)
+const { useState, useEffect, useMemo, useRef } = React;
 const { CheckCircle2, Circle, TrendingUp, Home, Zap, Heart, DollarSign, Calendar, Target, Award, Settings, Calculator, PieChart, BarChart3, Sparkles, Trophy, Star, Bell, Download, Upload, Users, Car, MapPin, Clock, Book, Gamepad2, Mountain, Music, Coffee, Utensils, CalendarHeart, Smile, Gift, Sunrise, Moon, Sun, CloudRain, Activity, Battery, Fuel, Navigation, ChevronRight, ChevronDown, PlayCircle, CheckSquare, Camera, Mic, Plus, TrendingDown, Flame, Baby, Cake, Syringe, Ruler, FileText, MessageSquare, Image, Lightbulb, Brain, Repeat, AlertCircle, Edit2, X, Save } = lucide;
 const { LineChart, Line, AreaChart, Area, PieChart: RePieChart, Pie, Cell, BarChart, Bar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } = Recharts;
 
