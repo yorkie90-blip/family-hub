@@ -1,0 +1,1400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Family Hub">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="description" content="Track your family's goals, finances, and Madison's milestones on your journey to £95k">
+ 
+  <title>Turnbull-Shaw Family Hub</title>
+ 
+  <link rel="manifest" href="/manifest.json">
+  <link rel="icon" type="image/png" sizes="32x32" href="/icon-32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+   
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+   
+    #root { min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+   
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: white;
+      text-align: center;
+      padding: 20px;
+    }
+   
+    .loading-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+   
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Comprehensive App Styles */
+    .app-container { min-height: 100vh; background: linear-gradient(135deg, #ebf4ff 0%, #fce7f3 100%); }
+    .header {
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+      color: white;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      padding: 24px 16px;
+    }
+    .header-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .header-title { font-size: 2rem; font-weight: bold; margin-bottom: 8px; }
+    .header-subtitle { color: rgba(255, 255, 255, 0.9); font-size: 0.95rem; }
+    .progress-display { text-align: right; }
+    .progress-number { font-size: 3rem; font-weight: bold; margin-bottom: 4px; }
+    .progress-label { color: rgba(255, 255, 255, 0.9); }
+    .nav {
+      background: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 100px;
+      z-index: 30;
+    }
+    .nav-content {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      gap: 32px;
+      overflow-x: auto;
+    }
+    .nav-button {
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 500;
+      border: none;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      text-transform: capitalize;
+    }
+    .nav-button-active { background: #6366f1; color: white; }
+    .nav-button-inactive { background: transparent; color: #374151; }
+    .nav-button-inactive:hover { background: #f3f4f6; }
+    .main { max-width: 1280px; margin: 0 auto; padding: 32px 24px; }
+    .card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .card-title { font-size: 1.5rem; font-weight: bold; margin-bottom: 16px; }
+    .banner {
+      background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+      border-radius: 16px;
+      padding: 32px;
+      color: white;
+      margin-bottom: 32px;
+      box-shadow: 0 10px 30px rgba(251, 191, 36, 0.3);
+    }
+    .banner-title { font-size: 1.875rem; font-weight: bold; margin-bottom: 16px; }
+    .banner-text { font-size: 1.25rem; }
+    .grid { display: grid; gap: 24px; margin-bottom: 32px; }
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+    .progress-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 24px;
+    }
+    .progress-card-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      align-items: center;
+    }
+    .progress-card-title { font-size: 1.25rem; font-weight: bold; }
+    .progress-card-value { font-size: 2.5rem; font-weight: bold; }
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      transition: width 0.5s ease;
+    }
+    .tab-buttons { display: flex; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .tab-button {
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .goal-item {
+      margin-bottom: 16px;
+      padding: 12px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .goal-item:hover { background: #f9fafb; }
+    .goal-header { display: flex; justify-content: space-between; align-items: center; }
+    .goal-checkbox { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .checkbox { width: 20px; height: 20px; border-radius: 4px; cursor: pointer; }
+    .goal-text { font-size: 1.125rem; }
+    .goal-text-completed { text-decoration: line-through; color: #9ca3af; }
+    .subtask-list { margin-left: 32px; margin-top: 8px; }
+    .subtask-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+    .priority-badge {
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .priority-critical { background: #fee2e2; border: 2px solid #f87171; color: #991b1b; }
+    .priority-high { background: #fed7aa; border: 2px solid #fb923c; color: #9a3412; }
+    .priority-medium { background: #fef3c7; border: 2px solid #fbbf24; color: #92400e; }
+    .priority-low { background: #dbeafe; border: 2px solid #60a5fa; color: #1e3a8a; }
+    .input-group { margin-bottom: 16px; }
+    .input-label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #374151;
+    }
+    .input {
+      width: 100%;
+      padding: 10px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border 0.2s;
+    }
+    .input:focus { outline: none; border-color: #6366f1; }
+    .button {
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .button-primary { background: #6366f1; color: white; }
+    .button-primary:hover { background: #4f46e5; }
+    .button-secondary { background: #e5e7eb; color: #374151; }
+    .button-secondary:hover { background: #d1d5db; }
+    .button-danger { background: #ef4444; color: white; }
+    .button-danger:hover { background: #dc2626; }
+    .celebration {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      pointer-events: none;
+    }
+    .celebration-content {
+      background: linear-gradient(135deg, #fbbf24 0%, #ec4899 100%);
+      color: white;
+      padding: 24px 48px;
+      border-radius: 999px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      font-size: 1.5rem;
+      font-weight: bold;
+      animation: bounce 0.5s ease-in-out;
+    }
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-20px); }
+    }
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      padding: 16px;
+    }
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      max-width: 500px;
+      width: 100%;
+      padding: 24px;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .modal-title { font-size: 1.5rem; font-weight: bold; }
+    .close-button {
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #6b7280;
+    }
+    .habit-card {
+      background: white;
+      border-radius: 12px;
+      padding: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      margin-bottom: 12px;
+    }
+    .habit-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .habit-name { font-weight: 600; font-size: 1.1rem; }
+    .habit-streak {
+      background: #10b981;
+      color: white;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 12px;
+      margin-top: 16px;
+    }
+    .photo-item {
+      aspect-ratio: 1;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .photo-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .milestone-item {
+      padding: 16px;
+      background: #f9fafb;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border-left: 4px solid #6366f1;
+    }
+    .milestone-name { font-weight: 600; margin-bottom: 4px; }
+    .milestone-typical { font-size: 0.875rem; color: #6b7280; }
+    .achievement-badge {
+      background: linear-gradient(135deg, #fbbf24 0%, #f97316 100%);
+      color: white;
+      padding: 16px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.3);
+    }
+    .achievement-title { font-size: 1.25rem; font-weight: bold; margin-bottom: 4px; }
+    .achievement-desc { font-size: 0.95rem; opacity: 0.9; }
+    .floating-button {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #6366f1;
+      color: white;
+      border: none;
+      box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
+      cursor: pointer;
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      z-index: 40;
+    }
+    .floating-button:hover {
+      background: #4f46e5;
+      transform: scale(1.1);
+    }
+    @media (max-width: 768px) {
+      .header-title { font-size: 1.5rem; }
+      .progress-number { font-size: 2rem; }
+      .banner-title { font-size: 1.5rem; }
+      .card-title { font-size: 1.25rem; }
+      .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div class="loading">
+      <div class="loading-spinner"></div>
+      <h1 style="font-size: 2em; margin-bottom: 10px;">❤️ Family Hub</h1>
+      <p>Loading your journey...</p>
+    </div>
+  </div>
+
+  <!-- React & Dependencies -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  
+  <script>
+    if (typeof React === 'undefined') {
+      document.write('<script crossorigin src="https://cdn.jsdelivr.net/npm/react@18/umd/react.production.min.js"><\/script>');
+      document.write('<script crossorigin src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.production.min.js"><\/script>');
+    }
+  </script>
+  
+  <script src="https://unpkg.com/@babel/standalone@7.23.5/babel.min.js"></script>
+  
+  <script>
+    console.log('📦 React:', typeof React !== 'undefined' ? '✓' : '✗');
+    console.log('📦 ReactDOM:', typeof ReactDOM !== 'undefined' ? '✓' : '✗');
+    
+    if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') {
+      document.getElementById('root').innerHTML = '<div class="loading"><h1 style="color: red;">⚠️ Error Loading</h1><p>Please refresh the page.</p></div>';
+      throw new Error('React libraries failed to load');
+    }
+
+    // Storage API
+    window.storage = {
+      async get(key) {
+        try {
+          const value = localStorage.getItem(key);
+          return value ? { value } : null;
+        } catch (error) {
+          console.error('Storage get error:', error);
+          return null;
+        }
+      },
+      async set(key, value) {
+        try {
+          localStorage.setItem(key, value);
+          return true;
+        } catch (error) {
+          console.error('Storage set error:', error);
+          return false;
+        }
+      }
+    };
+
+    // URL params
+    const urlParams = new URLSearchParams(window.location.search);
+    window.initialState = {
+      mode: urlParams.get('mode'),
+      tab: urlParams.get('tab'),
+      action: urlParams.get('action')
+    };
+  </script>
+
+  <!-- MAIN APP WITH ALL FEATURES -->
+  <script type="text/babel">
+    const { useState, useEffect, useMemo, useRef } = React;
+
+    const TurnbullShawDashboard = () => {
+      const [config, setConfig] = useState({
+        richAge: 35,
+        shawnieJob: 'PIP Assessor (BSc Nursing)',
+        shawnieIncome: 40000,
+        richIncome: 0,
+        madisonAge: '17 weeks',
+        madisonBirthDate: '2024-07-15',
+        location: 'Sheffield',
+        currentPension: 73000,
+        currentSavings: 0,
+        targetYear: '2028-29',
+        carModel: '2024 Corsa E',
+        electricRate: 0.47,
+        monthlyMiles: 800,
+        monthlyExpenses: 2800,
+        familyName: 'Turnbull-Shaw',
+        notificationsEnabled: false
+      });
+
+      const [activeTab, setActiveTab] = useState('dashboard');
+      const [activePersonalTab, setActivePersonalTab] = useState('rich');
+      const [showCelebration, setShowCelebration] = useState(false);
+      const [dataLoaded, setDataLoaded] = useState(false);
+      const [viewMode, setViewMode] = useState('full');
+      const [showQuickCapture, setShowQuickCapture] = useState(false);
+      const [quickCaptureType, setQuickCaptureType] = useState('win');
+      const [quickWinText, setQuickWinText] = useState('');
+      const [selectedMilestone, setSelectedMilestone] = useState(null);
+      const [dailyActivity, setDailyActivity] = useState(null);
+      const [lastActivityDate, setLastActivityDate] = useState(null);
+
+      const [data, setData] = useState({
+        richGoals: {
+          career: {
+            "Research electrician apprenticeships": {
+              completed: false, priority: "critical", dueDate: "2025-11-23", estimatedHours: 8,
+              subtasks: [
+                { id: 1, task: "Google top 5 electrician courses in Sheffield", completed: false, estimatedMinutes: 30 },
+                { id: 2, task: "Join 3 electrician Facebook/Reddit groups", completed: false, estimatedMinutes: 20 },
+                { id: 3, task: "Call Sheffield College for adult apprenticeship info", completed: false, estimatedMinutes: 15 },
+                { id: 4, task: "Request course brochures from 3 providers", completed: false, estimatedMinutes: 30 }
+              ]
+            },
+            "Update CV for electrician applications": {
+              completed: false, priority: "high", subtasks: [
+                { id: 1, task: "List all transferable skills", completed: false, estimatedMinutes: 30 },
+                { id: 2, task: "Write personal statement", completed: false, estimatedMinutes: 45 }
+              ]
+            },
+            "Apply to 3+ apprenticeships": { completed: false, priority: "high", subtasks: [] },
+            "Begin apprenticeship training": { completed: false, priority: "high", subtasks: [] },
+            "Complete Level 2 qualification": { completed: false, priority: "medium", subtasks: [] },
+            "Reach £40k income milestone": { completed: false, priority: "medium", subtasks: [] }
+          },
+          personal: {
+            "Master 3 new recipes for family meals": { completed: false, priority: "medium", subtasks: [] },
+            "Read 12 books this year": { completed: false, priority: "medium", subtasks: [] },
+            "Build Madison's first Lego set together": { completed: false, priority: "high", subtasks: [] },
+            "Start fitness routine (3x week)": { completed: false, priority: "medium", subtasks: [] }
+          },
+          stretch: {
+            "Start side business (electrical)": { completed: false, priority: "low", subtasks: [] },
+            "Get solar panel certification": { completed: false, priority: "low", subtasks: [] }
+          }
+        },
+        shawnieGoals: {
+          career: {
+            "Research senior PIP assessor roles": { completed: false, priority: "high", subtasks: [] },
+            "Apply for promotion/pay rise": { completed: false, priority: "high", subtasks: [] },
+            "Complete additional nursing CPD": { completed: false, priority: "medium", subtasks: [] },
+            "Reach £45k salary": { completed: false, priority: "high", subtasks: [] }
+          },
+          personal: {
+            "Create family photo albums": { completed: false, priority: "medium", subtasks: [] },
+            "Join local mum's group": { completed: false, priority: "high", subtasks: [] },
+            "Master family budget planning": { completed: false, priority: "critical", subtasks: [] },
+            "Create meal planning system": { completed: false, priority: "high", subtasks: [] }
+          },
+          stretch: {
+            "Complete master's degree": { completed: false, priority: "low", subtasks: [] },
+            "Start family blog/vlog": { completed: false, priority: "low", subtasks: [] }
+          }
+        },
+        familyGoals: {
+          financial: {
+            "Open Lifetime ISAs (both)": { completed: false, priority: "critical", subtasks: [] },
+            "Save £10k emergency fund": { completed: false, priority: "critical", subtasks: [] },
+            "Save £37.5k house deposit": { completed: false, priority: "critical", subtasks: [] },
+            "Buy first home": { completed: false, priority: "critical", subtasks: [] },
+            "Start Madison's Junior ISA": { completed: false, priority: "high", subtasks: [] },
+            "Get life insurance": { completed: false, priority: "critical", subtasks: [] }
+          },
+          lifestyle: {
+            "Create bedtime routine for Madison": { completed: false, priority: "critical", subtasks: [] },
+            "Establish date night tradition": { completed: false, priority: "high", subtasks: [] },
+            "Take Madison swimming": { completed: false, priority: "high", subtasks: [] },
+            "First family holiday": { completed: false, priority: "medium", subtasks: [] },
+            "Join parent & baby groups": { completed: false, priority: "high", subtasks: [] }
+          },
+          home: {
+            "Organize nursery perfectly": { completed: false, priority: "high", subtasks: [] },
+            "Meal prep Sundays": { completed: false, priority: "high", subtasks: [] },
+            "Create cleaning schedule": { completed: false, priority: "medium", subtasks: [] }
+          }
+        },
+        habits: {
+          daily: [
+            { id: 1, name: "Madison tummy time", streak: 0, lastCompleted: null, goal: 'daily' },
+            { id: 2, name: "Read to Madison", streak: 0, lastCompleted: null, goal: 'daily' },
+            { id: 3, name: "Couple check-in", streak: 0, lastCompleted: null, goal: 'daily' },
+            { id: 4, name: "Gratitude sharing", streak: 0, lastCompleted: null, goal: 'daily' }
+          ],
+          weekly: [
+            { id: 5, name: "Date night", streak: 0, lastCompleted: null, goal: 'weekly' },
+            { id: 6, name: "Meal prep Sunday", streak: 0, lastCompleted: null, goal: 'weekly' },
+            { id: 7, name: "Deep clean", streak: 0, lastCompleted: null, goal: 'weekly' },
+            { id: 8, name: "Family adventure", streak: 0, lastCompleted: null, goal: 'weekly' }
+          ]
+        },
+        madison: {
+          milestones: [
+            { id: 1, name: "First smile", date: null, photos: [], notes: "", typical: "6-8 weeks" },
+            { id: 2, name: "Holds head up", date: null, photos: [], notes: "", typical: "2-4 months" },
+            { id: 3, name: "Rolls over", date: null, photos: [], notes: "", typical: "4-6 months" },
+            { id: 4, name: "Sits without support", date: null, photos: [], notes: "", typical: "6-8 months" },
+            { id: 5, name: "First tooth", date: null, photos: [], notes: "", typical: "4-7 months" },
+            { id: 6, name: "Crawls", date: null, photos: [], notes: "", typical: "7-10 months" },
+            { id: 7, name: "First word", date: null, photos: [], notes: "", typical: "10-14 months" },
+            { id: 8, name: "Stands alone", date: null, photos: [], notes: "", typical: "9-12 months" },
+            { id: 9, name: "First steps", date: null, photos: [], notes: "", typical: "12-15 months" },
+            { id: 10, name: "First birthday", date: null, photos: [], notes: "", typical: "12 months" }
+          ],
+          vaccinations: [
+            { id: 1, name: "8 weeks - 6-in-1, Rotavirus, MenB", date: null, completed: false },
+            { id: 2, name: "12 weeks - 6-in-1, Pneumococcal, Rotavirus", date: null, completed: false },
+            { id: 3, name: "16 weeks - 6-in-1, MenB", date: null, completed: false },
+            { id: 4, name: "1 year - Hib/MenC, MMR, Pneumococcal, MenB", date: null, completed: false }
+          ],
+          photoAlbum: [],
+          memories: []
+        },
+        achievements: [],
+        expenses: [],
+        quickWins: [],
+        socialCalendar: {
+          closeFriends: {
+            "Rheiza (Harrogate)": { lastSeen: null, frequency: 14 },
+            "Luke (Harrogate)": { lastSeen: null, frequency: 14 },
+            "Kat & Paul (Sheffield)": { lastSeen: null, frequency: 14 }
+          },
+          family: {
+            "Mom & Sully (Burnley)": { lastSeen: null, frequency: 14 },
+            "Emily & Isaac (Sheffield)": { lastSeen: null, frequency: 14 },
+            "Shawnie's Parents (Peterlee)": { lastSeen: null, frequency: 14 }
+          }
+        }
+      });
+
+      // Load data
+      useEffect(() => {
+        const load = async () => {
+          try {
+            const saved = await window.storage?.get('turnbullShawData');
+            const conf = await window.storage?.get('turnbullShawConfig');
+            if (saved?.value) setData(JSON.parse(saved.value));
+            if (conf?.value) setConfig(prev => ({ ...prev, ...JSON.parse(conf.value) }));
+            setDataLoaded(true);
+          } catch { setDataLoaded(true); }
+        };
+        load();
+
+        // Daily activity
+        const today = new Date().toDateString();
+        if (lastActivityDate !== today) {
+          selectDailyActivity();
+          setLastActivityDate(today);
+        }
+      }, []);
+
+      // Save data
+      useEffect(() => {
+        if (dataLoaded) window.storage?.set('turnbullShawData', JSON.stringify(data));
+      }, [data, dataLoaded]);
+
+      useEffect(() => {
+        if (dataLoaded) window.storage?.set('turnbullShawConfig', JSON.stringify(config));
+      }, [config, dataLoaded]);
+
+      // Helper functions
+      const selectDailyActivity = () => {
+        const hour = new Date().getHours();
+        let slot = 'morning';
+        if (hour >= 12 && hour < 17) slot = 'afternoon';
+        else if (hour >= 17) slot = 'evening';
+        
+        const activities = [
+          { time: "morning", activity: "Madison tummy time with music 🎵", type: "baby" },
+          { time: "morning", activity: "Family walk in local park 🌳", type: "exercise" },
+          { time: "afternoon", activity: "Sensory play with Madison ✨", type: "baby" },
+          { time: "afternoon", activity: "Video call family member 📱", type: "social" },
+          { time: "evening", activity: "Bath time songs with Madison 🛁", type: "baby" },
+          { time: "evening", activity: "Co-op gaming session 🎮", type: "fun" },
+          { time: "evening", activity: "Share daily gratitudes 💖", type: "relationship" }
+        ];
+        
+        const pool = activities.filter(a => a.time === slot);
+        setDailyActivity(pool[Math.floor(Math.random() * pool.length)]);
+      };
+
+      const toggleGoal = (person, cat, goal) => {
+        const was = data[person][cat][goal].completed;
+        setData(prev => ({
+          ...prev,
+          [person]: {
+            ...prev[person],
+            [cat]: {
+              ...prev[person][cat],
+              [goal]: { ...prev[person][cat][goal], completed: !was }
+            }
+          }
+        }));
+        if (!was) {
+          triggerCelebration();
+          checkAchievements();
+        }
+      };
+
+      const toggleSubtask = (person, cat, goal, subId) => {
+        setData(prev => ({
+          ...prev,
+          [person]: {
+            ...prev[person],
+            [cat]: {
+              ...prev[person][cat],
+              [goal]: {
+                ...prev[person][cat][goal],
+                subtasks: prev[person][cat][goal].subtasks.map(st =>
+                  st.id === subId ? { ...st, completed: !st.completed } : st
+                )
+              }
+            }
+          }
+        }));
+      };
+
+      const calculateProgress = () => {
+        const all = [
+          ...Object.values(data.richGoals).flatMap(c => Object.values(c)),
+          ...Object.values(data.shawnieGoals).flatMap(c => Object.values(c)),
+          ...Object.values(data.familyGoals).flatMap(c => Object.values(c))
+        ];
+        const done = all.filter(g => g.completed).length;
+        return Math.round((done / all.length) * 100);
+      };
+
+      const calculatePersonProgress = (person) => {
+        const goals = Object.values(data[person]).flatMap(c => Object.values(c));
+        const done = goals.filter(g => g.completed).length;
+        return Math.round((done / goals.length) * 100);
+      };
+
+      const triggerCelebration = () => {
+        setShowCelebration(true);
+        setTimeout(() => setShowCelebration(false), 2000);
+      };
+
+      const checkAchievements = () => {
+        const prog = calculateProgress();
+        const milestones = [
+          { t: 10, title: "Journey Begun! 🌟", desc: "First 10% complete" },
+          { t: 25, title: "Quarter Champion! 🏆", desc: "25% achieved" },
+          { t: 50, title: "Halfway Heroes! ⭐", desc: "50% milestone" },
+          { t: 75, title: "Nearly There! 🚀", desc: "75% complete" },
+          { t: 100, title: "Dream Achieved! 🎉", desc: "100% success!" }
+        ];
+        for (const m of milestones) {
+          if (prog >= m.t && !data.achievements.some(a => a.title === m.title)) {
+            const ach = { ...m, date: new Date().toISOString() };
+            setData(prev => ({ ...prev, achievements: [...prev.achievements, ach] }));
+            break;
+          }
+        }
+      };
+
+      const completeHabit = (id) => {
+        const today = new Date().toDateString();
+        setData(prev => {
+          const update = list => list.map(h => {
+            if (h.id !== id) return h;
+            const last = h.lastCompleted ? new Date(h.lastCompleted).toDateString() : null;
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+            const streak = last === today ? h.streak : (last === yesterday ? h.streak + 1 : 1);
+            return { ...h, lastCompleted: new Date().toISOString(), streak };
+          });
+          return {
+            ...prev,
+            habits: { daily: update(prev.habits.daily), weekly: update(prev.habits.weekly) }
+          };
+        });
+        triggerCelebration();
+      };
+
+      const addQuickWin = () => {
+        if (!quickWinText.trim()) return;
+        const win = { id: Date.now(), text: quickWinText, ts: new Date().toISOString() };
+        setData(prev => ({ ...prev, quickWins: [...prev.quickWins, win] }));
+        setQuickWinText('');
+        setShowQuickCapture(false);
+        triggerCelebration();
+      };
+
+      const capturePhoto = () => {
+        const input = document.createElement('input');
+        input.type = 'file';
+        input.accept = 'image/*';
+        input.capture = 'environment';
+        input.onchange = ev => {
+          const file = ev.target.files[0];
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = e => {
+            const photo = { id: Date.now(), data: e.target.result, ts: new Date().toISOString() };
+            setData(prev => ({
+              ...prev,
+              madison: { ...prev.madison, photoAlbum: [...prev.madison.photoAlbum, photo] }
+            }));
+            setShowQuickCapture(false);
+            triggerCelebration();
+          };
+          reader.readAsDataURL(file);
+        };
+        input.click();
+      };
+
+      const markMilestone = (id) => {
+        setData(prev => ({
+          ...prev,
+          madison: {
+            ...prev.madison,
+            milestones: prev.madison.milestones.map(m =>
+              m.id === id ? { ...m, date: new Date().toISOString() } : m
+            )
+          }
+        }));
+        triggerCelebration();
+      };
+
+      const markVaccination = (id) => {
+        setData(prev => ({
+          ...prev,
+          madison: {
+            ...prev.madison,
+            vaccinations: prev.madison.vaccinations.map(v =>
+              v.id === id ? { ...v, completed: !v.completed, date: v.completed ? null : new Date().toISOString() } : v
+            )
+          }
+        }));
+      };
+
+      const getPriorityColor = p => {
+        const map = {
+          critical: 'priority-critical',
+          high: 'priority-high',
+          medium: 'priority-medium',
+          low: 'priority-low'
+        };
+        return map[p] || map.medium;
+      };
+
+      const progressComparison = [
+        { name: 'Rich', progress: calculatePersonProgress('richGoals'), color: '#6366f1' },
+        { name: 'Shawnie', progress: calculatePersonProgress('shawnieGoals'), color: '#ec4899' },
+        { name: 'Family', progress: calculatePersonProgress('familyGoals'), color: '#10b981' }
+      ];
+
+      // Render
+      return (
+        <div className="app-container">
+          {showCelebration && (
+            <div className="celebration">
+              <div className="celebration-content">
+                Amazing Progress! 🎉
+              </div>
+            </div>
+          )}
+
+          <header className="header">
+            <div className="header-content">
+              <div>
+                <h1 className="header-title">❤️ The {config.familyName} Family Hub</h1>
+                <p className="header-subtitle">Rich, Shawnie & Madison's Journey to £95k & Beyond!</p>
+              </div>
+              <div className="progress-display">
+                <div className="progress-number">{calculateProgress()}%</div>
+                <div className="progress-label">Progress</div>
+              </div>
+            </div>
+          </header>
+
+          <nav className="nav">
+            <div className="nav-content">
+              {['dashboard', 'goals', 'habits', 'madison', 'social', 'finances', 'settings'].map(t => (
+                <button
+                  key={t}
+                  onClick={() => setActiveTab(t)}
+                  className={`nav-button ${activeTab === t ? 'nav-button-active' : 'nav-button-inactive'}`}
+                >
+                  {t}
+                </button>
+              ))}
+            </div>
+          </nav>
+
+          <main className="main">
+            {/* DASHBOARD TAB */}
+            {activeTab === 'dashboard' && (
+              <div>
+                {dailyActivity && (
+                  <div className="banner">
+                    <h2 className="banner-title">✨ Today's Family Activity</h2>
+                    <p className="banner-text">{dailyActivity.activity}</p>
+                    <button
+                      onClick={selectDailyActivity}
+                      className="button button-secondary"
+                      style={{ marginTop: '16px' }}
+                    >
+                      Get New Activity
+                    </button>
+                  </div>
+                )}
+
+                <div className="grid grid-3">
+                  {progressComparison.map((p, i) => (
+                    <div key={i} className="progress-card">
+                      <div className="progress-card-header">
+                        <h3 className="progress-card-title">{p.name}'s Goals</h3>
+                        <span className="progress-card-value" style={{ color: p.color }}>{p.progress}%</span>
+                      </div>
+                      <div className="progress-bar">
+                        <div className="progress-bar-fill" style={{ width: `${p.progress}%`, backgroundColor: p.color }} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {data.achievements.length > 0 && (
+                  <div className="card">
+                    <h2 className="card-title">🏆 Recent Achievements</h2>
+                    {data.achievements.slice(-3).reverse().map((ach, i) => (
+                      <div key={i} className="achievement-badge">
+                        <div className="achievement-title">{ach.title}</div>
+                        <div className="achievement-desc">{ach.desc}</div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {data.quickWins.length > 0 && (
+                  <div className="card">
+                    <h2 className="card-title">⭐ Recent Quick Wins</h2>
+                    {data.quickWins.slice(-5).reverse().map((win, i) => (
+                      <div key={i} style={{ padding: '12px', background: '#f0fdf4', borderRadius: '8px', marginBottom: '8px' }}>
+                        <p style={{ fontWeight: '600' }}>{win.text}</p>
+                        <p style={{ fontSize: '0.875rem', color: '#6b7280', marginTop: '4px' }}>
+                          {new Date(win.ts).toLocaleDateString()}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* GOALS TAB */}
+            {activeTab === 'goals' && (
+              <div>
+                <div className="tab-buttons">
+                  <button
+                    onClick={() => setActivePersonalTab('rich')}
+                    className="tab-button"
+                    style={{ background: activePersonalTab === 'rich' ? '#6366f1' : '#e5e7eb', color: activePersonalTab === 'rich' ? 'white' : '#374151' }}
+                  >
+                    Rich
+                  </button>
+                  <button
+                    onClick={() => setActivePersonalTab('shawnie')}
+                    className="tab-button"
+                    style={{ background: activePersonalTab === 'shawnie' ? '#ec4899' : '#e5e7eb', color: activePersonalTab === 'shawnie' ? 'white' : '#374151' }}
+                  >
+                    Shawnie
+                  </button>
+                  <button
+                    onClick={() => setActivePersonalTab('family')}
+                    className="tab-button"
+                    style={{ background: activePersonalTab === 'family' ? '#10b981' : '#e5e7eb', color: activePersonalTab === 'family' ? 'white' : '#374151' }}
+                  >
+                    Family
+                  </button>
+                </div>
+
+                {activePersonalTab === 'rich' && (
+                  <>
+                    <h2 className="card-title">Rich's Goals</h2>
+                    {Object.entries(data.richGoals).map(([cat, goals]) => (
+                      <div key={cat} className="card">
+                        <h3 style={{ fontSize: '1.25rem', fontWeight: '600', textTransform: 'capitalize', marginBottom: '16px' }}>
+                          {cat}
+                        </h3>
+                        {Object.entries(goals).map(([g, goal]) => (
+                          <div key={g} className="goal-item">
+                            <div className="goal-header">
+                              <label className="goal-checkbox">
+                                <input
+                                  type="checkbox"
+                                  checked={goal.completed}
+                                  onChange={() => toggleGoal('richGoals', cat, g)}
+                                  className="checkbox"
+                                  style={{ accentColor: '#6366f1' }}
+                                />
+                                <span className={`goal-text ${goal.completed ? 'goal-text-completed' : ''}`}>{g}</span>
+                              </label>
+                              {goal.priority && (
+                                <span className={`priority-badge ${getPriorityColor(goal.priority)}`}>
+                                  {goal.priority}
+                                </span>
+                              )}
+                            </div>
+                            {goal.subtasks?.length > 0 && (
+                              <div className="subtask-list">
+                                {goal.subtasks.map(st => (
+                                  <div key={st.id} className="subtask-item">
+                                    <input
+                                      type="checkbox"
+                                      checked={st.completed}
+                                      onChange={() => toggleSubtask('richGoals', cat, g, st.id)}
+                                      style={{ accentColor: '#6366f1' }}
+                                    />
+                                    <span className={st.completed ? 'goal-text-completed' : ''}>{st.task}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </>
+                )}
+
+                {activePersonalTab === 'shawnie' && (
+                  <>
+                    <h2 className="card-title">Shawnie's Goals</h2>
+                    {Object.entries(data.shawnieGoals).map(([cat, goals]) => (
+                      <div key={cat} className="card">
+                        <h3 style={{ fontSize: '1.25rem', fontWeight: '600', textTransform: 'capitalize', marginBottom: '16px' }}>
+                          {cat}
+                        </h3>
+                        {Object.entries(goals).map(([g, goal]) => (
+                          <div key={g} className="goal-item">
+                            <div className="goal-header">
+                              <label className="goal-checkbox">
+                                <input
+                                  type="checkbox"
+                                  checked={goal.completed}
+                                  onChange={() => toggleGoal('shawnieGoals', cat, g)}
+                                  className="checkbox"
+                                  style={{ accentColor: '#ec4899' }}
+                                />
+                                <span className={`goal-text ${goal.completed ? 'goal-text-completed' : ''}`}>{g}</span>
+                              </label>
+                              {goal.priority && (
+                                <span className={`priority-badge ${getPriorityColor(goal.priority)}`}>
+                                  {goal.priority}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </>
+                )}
+
+                {activePersonalTab === 'family' && (
+                  <>
+                    <h2 className="card-title">Family Goals</h2>
+                    {Object.entries(data.familyGoals).map(([cat, goals]) => (
+                      <div key={cat} className="card">
+                        <h3 style={{ fontSize: '1.25rem', fontWeight: '600', textTransform: 'capitalize', marginBottom: '16px' }}>
+                          {cat}
+                        </h3>
+                        {Object.entries(goals).map(([g, goal]) => (
+                          <div key={g} className="goal-item">
+                            <div className="goal-header">
+                              <label className="goal-checkbox">
+                                <input
+                                  type="checkbox"
+                                  checked={goal.completed}
+                                  onChange={() => toggleGoal('familyGoals', cat, g)}
+                                  className="checkbox"
+                                  style={{ accentColor: '#10b981' }}
+                                />
+                                <span className={`goal-text ${goal.completed ? 'goal-text-completed' : ''}`}>{g}</span>
+                              </label>
+                              {goal.priority && (
+                                <span className={`priority-badge ${getPriorityColor(goal.priority)}`}>
+                                  {goal.priority}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </>
+                )}
+              </div>
+            )}
+
+            {/* HABITS TAB */}
+            {activeTab === 'habits' && (
+              <div>
+                <div className="card">
+                  <h2 className="card-title">📅 Daily Habits</h2>
+                  {data.habits.daily.map(habit => (
+                    <div key={habit.id} className="habit-card">
+                      <div className="habit-header">
+                        <span className="habit-name">{habit.name}</span>
+                        <span className="habit-streak">🔥 {habit.streak} day streak</span>
+                      </div>
+                      <button
+                        onClick={() => completeHabit(habit.id)}
+                        className="button button-primary"
+                        style={{ marginTop: '8px', width: '100%' }}
+                      >
+                        Complete Today
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="card">
+                  <h2 className="card-title">🗓️ Weekly Habits</h2>
+                  {data.habits.weekly.map(habit => (
+                    <div key={habit.id} className="habit-card">
+                      <div className="habit-header">
+                        <span className="habit-name">{habit.name}</span>
+                        <span className="habit-streak">🔥 {habit.streak} week streak</span>
+                      </div>
+                      <button
+                        onClick={() => completeHabit(habit.id)}
+                        className="button button-primary"
+                        style={{ marginTop: '8px', width: '100%' }}
+                      >
+                        Complete This Week
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* MADISON TAB */}
+            {activeTab === 'madison' && (
+              <div>
+                <div className="card">
+                  <h2 className="card-title">👶 Madison's Milestones</h2>
+                  {data.madison.milestones.map(milestone => (
+                    <div key={milestone.id} className="milestone-item">
+                      <div className="milestone-name">{milestone.name}</div>
+                      <div className="milestone-typical">Typical: {milestone.typical}</div>
+                      {milestone.date ? (
+                        <div style={{ marginTop: '8px', color: '#10b981', fontWeight: '600' }}>
+                          ✓ Achieved: {new Date(milestone.date).toLocaleDateString()}
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => markMilestone(milestone.id)}
+                          className="button button-primary"
+                          style={{ marginTop: '8px' }}
+                        >
+                          Mark as Achieved
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+
+                <div className="card">
+                  <h2 className="card-title">💉 Vaccinations</h2>
+                  {data.madison.vaccinations.map(vacc => (
+                    <div key={vacc.id} style={{ padding: '12px', background: vacc.completed ? '#d1fae5' : '#f9fafb', borderRadius: '8px', marginBottom: '12px' }}>
+                      <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
+                        <input
+                          type="checkbox"
+                          checked={vacc.completed}
+                          onChange={() => markVaccination(vacc.id)}
+                          style={{ width: '20px', height: '20px', accentColor: '#10b981' }}
+                        />
+                        <div>
+                          <div style={{ fontWeight: '600' }}>{vacc.name}</div>
+                          {vacc.date && (
+                            <div style={{ fontSize: '0.875rem', color: '#6b7280', marginTop: '4px' }}>
+                              Completed: {new Date(vacc.date).toLocaleDateString()}
+                            </div>
+                          )}
+                        </div>
+                      </label>
+                    </div>
+                  ))}
+                </div>
+
+                {data.madison.photoAlbum.length > 0 && (
+                  <div className="card">
+                    <h2 className="card-title">📸 Photo Album ({data.madison.photoAlbum.length})</h2>
+                    <div className="photo-grid">
+                      {data.madison.photoAlbum.slice().reverse().map(photo => (
+                        <div key={photo.id} className="photo-item">
+                          <img src={photo.data} alt="Madison" />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* SOCIAL TAB */}
+            {activeTab === 'social' && (
+              <div>
+                <div className="card">
+                  <h2 className="card-title">👥 Close Friends</h2>
+                  {Object.entries(data.socialCalendar.closeFriends).map(([name, info]) => (
+                    <div key={name} style={{ padding: '16px', background: '#f9fafb', borderRadius: '8px', marginBottom: '12px' }}>
+                      <div style={{ fontWeight: '600', marginBottom: '8px' }}>{name}</div>
+                      {info.lastSeen && (
+                        <div style={{ fontSize: '0.875rem', color: '#6b7280' }}>
+                          Last seen: {new Date(info.lastSeen).toLocaleDateString()}
+                        </div>
+                      )}
+                      <button
+                        onClick={() => {
+                          setData(prev => ({
+                            ...prev,
+                            socialCalendar: {
+                              ...prev.socialCalendar,
+                              closeFriends: {
+                                ...prev.socialCalendar.closeFriends,
+                                [name]: { ...info, lastSeen: new Date().toISOString() }
+                              }
+                            }
+                          }));
+                        }}
+                        className="button button-primary"
+                        style={{ marginTop: '8px' }}
+                      >
+                        Mark as Seen Today
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="card">
+                  <h2 className="card-title">👨‍👩‍👧‍👦 Family</h2>
+                  {Object.entries(data.socialCalendar.family).map(([name, info]) => (
+                    <div key={name} style={{ padding: '16px', background: '#f9fafb', borderRadius: '8px', marginBottom: '12px' }}>
+                      <div style={{ fontWeight: '600', marginBottom: '8px' }}>{name}</div>
+                      {info.lastSeen && (
+                        <div style={{ fontSize: '0.875rem', color: '#6b7280' }}>
+                          Last seen: {new Date(info.lastSeen).toLocaleDateString()}
+                        </div>
+                      )}
+                      <button
+                        onClick={() => {
+                          setData(prev => ({
+                            ...prev,
+                            socialCalendar: {
+                              ...prev.socialCalendar,
+                              family: {
+                                ...prev.socialCalendar.family,
+                                [name]: { ...info, lastSeen: new Date().toISOString() }
+                              }
+                            }
+                          }));
+                        }}
+                        className="button button-primary"
+                        style={{ marginTop: '8px' }}
+                      >
+                        Mark as Seen Today
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* FINANCES TAB */}
+            {activeTab === 'finances' && (
+              <div className="card">
+                <h2 className="card-title">💰 Financial Overview</h2>
+                <div className="grid grid-2">
+                  <div style={{ padding: '24px', background: '#d1fae5', borderRadius: '12px' }}>
+                    <h3 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '8px' }}>Current Savings</h3>
+                    <p style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#059669' }}>
+                      £{config.currentSavings.toLocaleString()}
+                    </p>
+                  </div>
+                  <div style={{ padding: '24px', background: '#dbeafe', borderRadius: '12px' }}>
+                    <h3 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '8px' }}>Current Pension</h3>
+                    <p style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#2563eb' }}>
+                      £{config.currentPension.toLocaleString()}
+                    </p>
+                  </div>
+                  <div style={{ padding: '24px', background: '#fef3c7', borderRadius: '12px' }}>
+                    <h3 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '8px' }}>Combined Income</h3>
+                    <p style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#92400e' }}>
+                      £{(config.richIncome + config.shawnieIncome).toLocaleString()}
+                    </p>
+                  </div>
+                  <div style={{ padding: '24px', background: '#fce7f3', borderRadius: '12px' }}>
+                    <h3 style={{ fontSize: '1.125rem', fontWeight: '600', marginBottom: '8px' }}>Monthly Expenses</h3>
+                    <p style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#9f1239' }}>
+                      £{config.monthlyExpenses.toLocaleString()}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* SETTINGS TAB */}
+            {activeTab === 'settings' && (
+              <div className="card">
+                <h2 className="card-title">⚙️ Settings</h2>
+                <div className="input-group">
+                  <label className="input-label">Family Name</label>
+                  <input
+                    type="text"
+                    value={config.familyName}
+                    onChange={(e) => setConfig(prev => ({ ...prev, familyName: e.target.value }))}
+                    className="input"
+                  />
+                </div>
+                <div className="input-group">
+                  <label className="input-label">Location</label>
+                  <input
+                    type="text"
+                    value={config.location}
+                    onChange={(e) => setConfig(prev => ({ ...prev, location: e.target.value }))}
+                    className="input"
+                  />
+                </div>
+                <div className="input-group">
+                  <label className="input-label">Shawnie's Income (£)</label>
+                  <input
+                    type="number"
+                    value={config.shawnieIncome}
+                    onChange={(e) => setConfig(prev => ({ ...prev, shawnieIncome: parseInt(e.target.value) || 0 }))}
+                    className="input"
+                  />
+                </div>
+                <div className="input-group">
+                  <label className="input-label">Rich's Income (£)</label>
+                  <input
+                    type="number"
+                    value={config.richIncome}
+                    onChange={(e) => setConfig(prev => ({ ...prev, richIncome: parseInt(e.target.value) || 0 }))}
+                    className="input"
+                  />
+                </div>
+                <div className="input-group">
+                  <label className="input-label">Current Savings (£)</label>
+                  <input
+                    type="number"
+                    value={config.currentSavings}
+                    onChange={(e) => setConfig(prev => ({ ...prev, currentSavings: parseInt(e.target.value) || 0 }))}
+                    className="input"
+                  />
+                </div>
+                <div className="input-group">
+                  <label className="input-label">Current Pension (£)</label>
+                  <input
+                    type="number"
+                    value={config.currentPension}
+                    onChange={(e) => setConfig(prev => ({ ...prev, currentPension: parseInt(e.target.value) || 0 }))}
+                    className="input"
+                  />
+                </div>
+              </div>
+            )}
+          </main>
+
+          {/* Floating Action Button */}
+          <button onClick={() => setShowQuickCapture(true)} className="floating-button">
+            +
+          </button>
+
+          {/* Quick Capture Modal */}
+          {showQuickCapture && (
+            <div className="modal" onClick={() => setShowQuickCapture(false)}>
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-header">
+                  <h3 className="modal-title">Quick Capture</h3>
+                  <button onClick={() => setShowQuickCapture(false)} className="close-button">×</button>
+                </div>
+                
+                <div className="tab-buttons">
+                  <button
+                    onClick={() => setQuickCaptureType('win')}
+                    className="tab-button"
+                    style={{ background: quickCaptureType === 'win' ? '#10b981' : '#e5e7eb', color: quickCaptureType === 'win' ? 'white' : '#374151' }}
+                  >
+                    Quick Win
+                  </button>
+                  <button
+                    onClick={() => setQuickCaptureType('photo')}
+                    className="tab-button"
+                    style={{ background: quickCaptureType === 'photo' ? '#6366f1' : '#e5e7eb', color: quickCaptureType === 'photo' ? 'white' : '#374151' }}
+                  >
+                    Photo
+                  </button>
+                </div>
+
+                {quickCaptureType === 'win' && (
+                  <div>
+                    <textarea
+                      value={quickWinText}
+                      onChange={(e) => setQuickWinText(e.target.value)}
+                      placeholder="What went well today?"
+                      className="input"
+                      rows={4}
+                      style={{ marginBottom: '16px' }}
+                    />
+                    <button onClick={addQuickWin} className="button button-primary" style={{ width: '100%' }}>
+                      Save Quick Win
+                    </button>
+                  </div>
+                )}
+
+                {quickCaptureType === 'photo' && (
+                  <div>
+                    <p style={{ marginBottom: '16px', color: '#6b7280' }}>
+                      Capture a special moment with Madison
+                    </p>
+                    <button onClick={capturePhoto} className="button button-primary" style={{ width: '100%' }}>
+                      📸 Take Photo
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    };
+
+    // Render to DOM
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<TurnbullShawDashboard />);
+  </script>
+</body>
+</html>
