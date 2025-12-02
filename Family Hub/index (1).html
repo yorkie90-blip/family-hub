@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#6366f1">
+  <title>Turnbull-Shaw Family Life Planner</title>
+  <link rel="manifest" href="/manifest.json">
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #ebf4ff 0%, #fce7f3 100%);
+      min-height: 100vh;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+      color: white;
+      padding: 20px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .header-title { font-size: 1.75rem; font-weight: bold; }
+    .header-subtitle { opacity: 0.9; font-size: 0.95rem; }
+    .progress-display { text-align: right; }
+    .progress-number { font-size: 2.5rem; font-weight: bold; }
+
+    .nav {
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 80px;
+      z-index: 99;
+    }
+
+    .nav-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+    }
+
+    .nav-button {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 8px;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 500;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .nav-button.active { background: #6366f1; color: white; }
+    .nav-button:not(.active):hover { background: #f3f4f6; }
+
+    .main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .card-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-primary { background: #6366f1; color: white; }
+    .btn-primary:hover { background: #4f46e5; }
+    .btn-secondary { background: #e5e7eb; color: #374151; }
+    .btn-danger { background: #ef4444; color: white; }
+    .btn-success { background: #10b981; color: white; }
+
+    .input, .textarea, .select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    .input:focus, .textarea:focus, .select:focus {
+      outline: none;
+      border-color: #6366f1;
+    }
+
+    .grid { display: grid; gap: 20px; }
+    .grid-2 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+    .grid-3 { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
+
+    .goal-item {
+      padding: 16px;
+      background: #f9fafb;
+      border-radius: 8px;
+      border-left: 4px solid #6366f1;
+      margin-bottom: 12px;
+    }
+
+    .goal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .goal-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+      flex: 1;
+    }
+
+    .goal-meta {
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-top: 8px;
+    }
+
+    .goal-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .task-item {
+      padding: 12px;
+      background: white;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      padding: 24px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #6b7280;
+    }
+
+    .label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: #374151;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      padding: 8px;
+      background: white;
+      border: 2px solid #e5e7eb;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .calendar-day:hover {
+      border-color: #6366f1;
+      background: #f0f9ff;
+    }
+
+    .calendar-day.has-tasks {
+      background: #dbeafe;
+      border-color: #3b82f6;
+    }
+
+    .stat-box {
+      padding: 20px;
+      border-radius: 12px;
+      text-align: center;
+    }
+
+    .stat-label {
+      font-size: 0.95rem;
+      color: #6b7280;
+      margin-bottom: 8px;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+    }
+
+    .tip-box {
+      background: #fef3c7;
+      border-left: 4px solid #f59e0b;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+
+    .tip-title {
+      font-weight: 600;
+      color: #92400e;
+      margin-bottom: 4px;
+    }
+
+    .link-box {
+      background: #dbeafe;
+      padding: 12px;
+      border-radius: 6px;
+      margin-top: 8px;
+    }
+
+    .link-box a {
+      color: #2563eb;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .link-box a:hover {
+      text-decoration: underline;
+    }
+
+    .rota-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #f9fafb;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .checkbox {
+      width: 20px;
+      height: 20px;
+      cursor: pointer;
+    }
+
+    .floating-add {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: #6366f1;
+      color: white;
+      border: none;
+      font-size: 2rem;
+      box-shadow: 0 4px 12px rgba(99, 102, 241, 0.4);
+      cursor: pointer;
+      z-index: 99;
+    }
+
+    .floating-add:hover {
+      background: #4f46e5;
+      transform: scale(1.1);
+    }
+
+    .badge {
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+    }
+
+    .badge-critical { background: #fee2e2; color: #991b1b; }
+    .badge-high { background: #fed7aa; color: #9a3412; }
+    .badge-medium { background: #fef3c7; color: #92400e; }
+    .badge-daily { background: #dbeafe; color: #1e40af; }
+    .badge-weekly { background: #dcfce7; color: #166534; }
+    .badge-monthly { background: #fce7f3; color: #9f1239; }
+
+    @media (max-width: 768px) {
+      .header-title { font-size: 1.25rem; }
+      .progress-number { font-size: 2rem; }
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.23.5/babel.min.js"></script>
+
+  <script>
+    if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') {
+      document.body.innerHTML = '<div style="padding: 40px; text-align: center;"><h1>Error Loading</h1><p>Please refresh the page</p></div>';
+    }
+
+    window.storage = {
+      async get(key) {
+        try {
+          const value = localStorage.getItem(key);
+          return value ? { value } : null;
+        } catch { return null; }
+      },
+      async set(key, value) {
+        try {
+          localStorage.setItem(key, value);
+          return true;
+        } catch { return false; }
+      }
+    };
+  </script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const FamilyPlanner = () => {
+      const [activeTab, setActiveTab] = useState('dashboard');
+      const [showModal, setShowModal] = useState(false);
+      const [modalType, setModalType] = useState('');
+      const [editingItem, setEditingItem] = useState(null);
+      
+      const [config, setConfig] = useState({
+        startDate: '2024-12-04',
+        familyName: 'Turnbull-Shaw',
+        location: 'Seaham, UK',
+        targetLocation: 'Sheffield',
+        moveDate: '2025-12-01',
+        richIncome: 0,
+        shawnieIncome: 0,
+        shawnieReturnDate: '2026-07-01',
+        shawnieReturnIncome: 40000,
+        richPension: 72766.58,
+        shawniePension: 0,
+        savings: 0,
+        benefits: {
+          pip: true,
+          esa: true,
+          housingPayment: true,
+          childBenefit: true,
+          councilTaxReduction: true,
+          energyBillReduction: true
+        }
+      });
+
+      const [data, setData] = useState({
+        goals: [
+          {
+            id: 1,
+            person: 'Rich',
+            category: 'Career',
+            title: 'Become Qualified Electrician',
+            description: 'Complete full electrician training and certification',
+            priority: 'critical',
+            targetDate: '2028-12-01',
+            status: 'not-started',
+            steps: [
+              { id: 1, task: 'Research apprenticeship programs in Sheffield', completed: false, frequency: 'one-time', dueDate: '2024-12-15', links: ['https://www.gov.uk/apply-apprenticeship', 'https://www.sheffield.ac.uk/'], notes: 'Contact Sheffield College, check entry requirements' },
+              { id: 2, task: 'Update CV highlighting transferable skills', completed: false, frequency: 'one-time', dueDate: '2024-12-20' },
+              { id: 3, task: 'Apply to 5+ apprenticeship positions', completed: false, frequency: 'one-time', dueDate: '2025-01-15' },
+              { id: 4, task: 'Complete Level 2 Electrical Installation', completed: false, frequency: 'one-time', dueDate: '2026-06-01' },
+              { id: 5, task: 'Complete Level 3 Electrical Installation', completed: false, frequency: 'one-time', dueDate: '2027-06-01' },
+              { id: 6, task: 'Achieve 18th Edition Wiring Regulations', completed: false, frequency: 'one-time', dueDate: '2027-09-01' },
+              { id: 7, task: 'Gain 2000+ hours practical experience', completed: false, frequency: 'ongoing', dueDate: '2028-06-01' },
+              { id: 8, task: 'Pass AM2 practical assessment', completed: false, frequency: 'one-time', dueDate: '2028-09-01' },
+              { id: 9, task: 'Secure qualified electrician position £35k+', completed: false, frequency: 'one-time', dueDate: '2028-12-01' }
+            ],
+            tips: 'Average electrician salary in UK: £35-40k starting, £45-55k experienced. High demand trade with excellent job security.',
+            links: ['https://www.gov.uk/become-apprentice', 'https://www.napit.org.uk/']
+          },
+          {
+            id: 2,
+            person: 'Shawnie',
+            category: 'Career',
+            title: 'Return to Work & Career Progression',
+            description: 'Return to PIP Assessor role and progress to senior position',
+            priority: 'high',
+            targetDate: '2027-07-01',
+            status: 'not-started',
+            steps: [
+              { id: 1, task: 'Plan childcare arrangements', completed: false, frequency: 'one-time', dueDate: '2026-05-01' },
+              { id: 2, task: 'Return to PIP Assessor role', completed: false, frequency: 'one-time', dueDate: '2026-07-01' },
+              { id: 3, task: 'Complete CPD requirements', completed: false, frequency: 'yearly', dueDate: '2027-01-01' },
+              { id: 4, task: 'Research senior PIP assessor roles', completed: false, frequency: 'one-time', dueDate: '2027-03-01' },
+              { id: 5, task: 'Apply for senior position £45k+', completed: false, frequency: 'one-time', dueDate: '2027-06-01' }
+            ]
+          },
+          {
+            id: 3,
+            person: 'Family',
+            category: 'Financial',
+            title: 'Move to Sheffield',
+            description: 'Relocate family from Seaham to Sheffield',
+            priority: 'critical',
+            targetDate: '2025-12-01',
+            status: 'not-started',
+            steps: [
+              { id: 1, task: 'Research Sheffield neighborhoods', completed: false, frequency: 'one-time', dueDate: '2025-03-01' },
+              { id: 2, task: 'Visit potential areas', completed: false, frequency: 'one-time', dueDate: '2025-06-01' },
+              { id: 3, task: 'Secure rental property', completed: false, frequency: 'one-time', dueDate: '2025-09-01' },
+              { id: 4, task: 'Arrange moving services', completed: false, frequency: 'one-time', dueDate: '2025-11-01' },
+              { id: 5, task: 'Complete move', completed: false, frequency: 'one-time', dueDate: '2025-12-01' }
+            ],
+            tips: 'Sheffield neighborhoods to consider: Crookes, Nether Edge, Walkley (family-friendly, good schools, affordable)',
+            links: ['https://www.sheffield.gov.uk/', 'https://www.rightmove.co.uk/']
+          },
+          {
+            id: 4,
+            person: 'Madison',
+            category: 'Development',
+            title: 'UK Childhood Milestones & Education',
+            description: 'Track Madison\'s development through UK education system',
+            priority: 'high',
+            targetDate: '2040-01-01',
+            status: 'ongoing',
+            steps: [
+              { id: 1, task: 'First birthday celebration', completed: false, frequency: 'one-time', dueDate: '2025-07-15' },
+              { id: 2, task: 'Register with Sheffield GP', completed: false, frequency: 'one-time', dueDate: '2026-01-01' },
+              { id: 3, task: 'Start nursery (age 2)', completed: false, frequency: 'one-time', dueDate: '2026-07-01', notes: '15 hours free childcare in England from age 2' },
+              { id: 4, task: 'Apply for primary school places', completed: false, frequency: 'one-time', dueDate: '2028-01-01', notes: 'Apply by 15 January for September start' },
+              { id: 5, task: 'Start reception (age 4)', completed: false, frequency: 'one-time', dueDate: '2028-09-01' },
+              { id: 6, task: 'Year 1 phonics screening', completed: false, frequency: 'one-time', dueDate: '2029-06-01' },
+              { id: 7, task: 'Key Stage 1 SATs (age 7)', completed: false, frequency: 'one-time', dueDate: '2031-05-01' },
+              { id: 8, task: 'Apply for secondary school', completed: false, frequency: 'one-time', dueDate: '2035-10-01' },
+              { id: 9, task: 'Start secondary school (age 11)', completed: false, frequency: 'one-time', dueDate: '2035-09-01' }
+            ],
+            tips: 'UK Free childcare: 15 hrs from age 2, 30 hrs from age 3. Primary school starts at age 4 (reception year).',
+            links: ['https://www.gov.uk/childcare-parenting', 'https://www.sheffield.gov.uk/schools']
+          }
+        ],
+        habits: [
+          { id: 1, person: 'Rich', task: 'Hoover house', frequency: 'daily', lastCompleted: null, streak: 0 },
+          { id: 2, person: 'Rich', task: 'Bath Madison', frequency: 'daily', lastCompleted: null, streak: 0 },
+          { id: 3, person: 'Rich', task: 'Wash clothes', frequency: 'daily', lastCompleted: null, streak: 0 },
+          { id: 4, person: 'Rich', task: 'Cook dinner', frequency: 'daily', lastCompleted: null, streak: 0 },
+          { id: 5, person: 'Shawnie', task: 'Change Madison', frequency: 'daily', lastCompleted: null, streak: 0 },
+          { id: 6, person: 'Shawnie', task: 'Family admin', frequency: 'daily', lastCompleted: null, streak: 0 },
+          { id: 7, person: 'Shawnie', task: 'Budget review', frequency: 'weekly', lastCompleted: null, streak: 0 },
+          { id: 8, person: 'Both', task: 'Deep clean kitchen', frequency: 'weekly', lastCompleted: null, streak: 0 },
+          { id: 9, person: 'Both', task: 'Deep clean bathroom', frequency: 'weekly', lastCompleted: null, streak: 0 },
+          { id: 10, person: 'Both', task: 'Declutter session', frequency: 'monthly', lastCompleted: null, streak: 0 },
+          { id: 11, person: 'Family', task: 'Date night', frequency: 'weekly', lastCompleted: null, streak: 0 },
+          { id: 12, person: 'Family', task: 'Board game night', frequency: 'weekly', lastCompleted: null, streak: 0 },
+          { id: 13, person: 'Family', task: 'Hiking trip', frequency: 'monthly', lastCompleted: null, streak: 0 }
+        ],
+        moneyTips: [
+          { id: 1, title: 'Council Tax Reduction', tip: 'You may be eligible for up to 100% council tax reduction. Apply at Sheffield.gov.uk', category: 'benefits' },
+          { id: 2, title: 'Healthy Start Vouchers', tip: '£8.50/week for milk, fruit, veg. Apply if claiming benefits and pregnant/children under 4', category: 'benefits' },
+          { id: 3, title: 'Free Prescriptions', tip: 'ESA recipients get free NHS prescriptions. Get HC2 certificate for dental/optical too', category: 'healthcare' },
+          { id: 4, title: 'Meal Planning Saves £££', tip: 'Plan weekly meals, shop with list only. Can save £200+/month vs ad-hoc shopping', category: 'budgeting' },
+          { id: 5, title: 'Energy Switching', tip: 'Check uSwitch every 6 months for better energy deals. Could save £300+/year', category: 'bills' },
+          { id: 6, title: 'Baby Clothes Swap', tip: 'Join local Facebook baby clothes swap groups. Madison will grow fast!', category: 'parenting' },
+          { id: 7, title: 'Batch Cooking', tip: 'Cook 2x portions, freeze half. Saves time and money (bulk buying)', category: 'food' },
+          { id: 8, title: 'Pension Check', tip: 'Track down Shawnie\'s pension using gov.uk pension tracing service', category: 'pensions' }
+        ]
+      });
+
+      useEffect(() => {
+        const load = async () => {
+          const savedData = await window.storage.get('familyPlannerData');
+          const savedConfig = await window.storage.get('familyPlannerConfig');
+          if (savedData?.value) setData(JSON.parse(savedData.value));
+          if (savedConfig?.value) setConfig(JSON.parse(savedConfig.value));
+        };
+        load();
+      }, []);
+
+      useEffect(() => {
+        window.storage.set('familyPlannerData', JSON.stringify(data));
+      }, [data]);
+
+      useEffect(() => {
+        window.storage.set('familyPlannerConfig', JSON.stringify(config));
+      }, [config]);
+
+      const completeTask = (goalId, stepId) => {
+        setData(prev => ({
+          ...prev,
+          goals: prev.goals.map(g => 
+            g.id === goalId ? {
+              ...g,
+              steps: g.steps.map(s => 
+                s.id === stepId ? { ...s, completed: !s.completed } : s
+              )
+            } : g
+          )
+        }));
+      };
+
+      const completeHabit = (habitId) => {
+        const today = new Date().toDateString();
+        setData(prev => ({
+          ...prev,
+          habits: prev.habits.map(h => {
+            if (h.id !== habitId) return h;
+            const last = h.lastCompleted ? new Date(h.lastCompleted).toDateString() : null;
+            const yesterday = new Date(Date.now() - 86400000).toDateString();
+            const newStreak = last === today ? h.streak : (last === yesterday ? h.streak + 1 : 1);
+            return { ...h, lastCompleted: new Date().toISOString(), streak: newStreak };
+          })
+        }));
+      };
+
+      const addGoal = (goalData) => {
+        const newGoal = { ...goalData, id: Date.now(), steps: [] };
+        setData(prev => ({ ...prev, goals: [...prev.goals, newGoal] }));
+        setShowModal(false);
+      };
+
+      const updateGoal = (goalId, updates) => {
+        setData(prev => ({
+          ...prev,
+          goals: prev.goals.map(g => g.id === goalId ? { ...g, ...updates } : g)
+        }));
+      };
+
+      const deleteGoal = (goalId) => {
+        if (confirm('Delete this goal?')) {
+          setData(prev => ({ ...prev, goals: prev.goals.filter(g => g.id !== goalId) }));
+        }
+      };
+
+      const calculateProgress = () => {
+        const allSteps = data.goals.flatMap(g => g.steps);
+        if (allSteps.length === 0) return 0;
+        const completed = allSteps.filter(s => s.completed).length;
+        return Math.round((completed / allSteps.length) * 100);
+      };
+
+      const getUpcomingTasks = () => {
+        const now = new Date();
+        const tasks = [];
+        data.goals.forEach(goal => {
+          goal.steps.forEach(step => {
+            if (!step.completed && step.dueDate) {
+              const due = new Date(step.dueDate);
+              const daysUntil = Math.ceil((due - now) / 86400000);
+              if (daysUntil >= 0 && daysUntil <= 30) {
+                tasks.push({ ...step, goal: goal.title, person: goal.person, daysUntil });
+              }
+            }
+          });
+        });
+        return tasks.sort((a, b) => a.daysUntil - b.daysUntil);
+      };
+
+      return (
+        <div>
+          <header className="header">
+            <div className="header-content">
+              <div>
+                <h1 className="header-title">❤️ {config.familyName} Life Planner</h1>
+                <p className="header-subtitle">Rich, Shawnie & Madison • Journey to £95k & Sheffield</p>
+              </div>
+              <div className="progress-display">
+                <div className="progress-number">{calculateProgress()}%</div>
+                <div>Overall Progress</div>
+              </div>
+            </div>
+          </header>
+
+          <nav className="nav">
+            <div className="nav-content">
+              {['dashboard', 'goals', 'calendar', 'cleaning', 'finances', 'money-tips', 'settings'].map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab)}
+                  className={`nav-button ${activeTab === tab ? 'active' : ''}`}
+                >
+                  {tab.replace('-', ' ')}
+                </button>
+              ))}
+            </div>
+          </nav>
+
+          <main className="main">
+            {activeTab === 'dashboard' && (
+              <div>
+                <div className="card">
+                  <h2 className="card-title">📊 Family Overview</h2>
+                  <div className="grid grid-3">
+                    <div className="stat-box" style={{background: '#dbeafe'}}>
+                      <div className="stat-label">Days Since Start</div>
+                      <div className="stat-value" style={{color: '#2563eb'}}>
+                        {Math.floor((new Date() - new Date(config.startDate)) / 86400000)}
+                      </div>
+                    </div>
+                    <div className="stat-box" style={{background: '#dcfce7'}}>
+                      <div className="stat-label">Tasks Completed</div>
+                      <div className="stat-value" style={{color: '#16a34a'}}>
+                        {data.goals.flatMap(g => g.steps).filter(s => s.completed).length}
+                      </div>
+                    </div>
+                    <div className="stat-box" style={{background: '#fef3c7'}}>
+                      <div className="stat-label">Active Goals</div>
+                      <div className="stat-value" style={{color: '#ca8a04'}}>
+                        {data.goals.length}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="card">
+                  <h2 className="card-title">⏰ Upcoming Tasks (Next 30 Days)</h2>
+                  {getUpcomingTasks().slice(0, 5).map((task, i) => (
+                    <div key={i} className="task-item">
+                      <div>
+                        <div style={{fontWeight: '600'}}>{task.task}</div>
+                        <div style={{fontSize: '0.875rem', color: '#6b7280'}}>
+                          {task.goal} • {task.person} • Due in {task.daysUntil} days
+                        </div>
+                      </div>
+                      <span className={`badge ${task.daysUntil <= 7 ? 'badge-critical' : 'badge-medium'}`}>
+                        {task.daysUntil <= 7 ? 'Urgent' : 'Soon'}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="card">
+                  <h2 className="card-title">🔥 Today's Habits</h2>
+                  {data.habits.filter(h => h.frequency === 'daily').map(habit => (
+                    <div key={habit.id} className="rota-item">
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={habit.lastCompleted && new Date(habit.lastCompleted).toDateString() === new Date().toDateString()}
+                        onChange={() => completeHabit(habit.id)}
+                      />
+                      <div style={{flex: 1}}>
+                        <div style={{fontWeight: '600'}}>{habit.task}</div>
+                        <div style={{fontSize: '0.875rem', color: '#6b7280'}}>
+                          {habit.person} • {habit.streak} day streak
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'goals' && (
+              <div>
+                <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '20px'}}>
+                  <h2 className="card-title">🎯 Family Goals</h2>
+                  <button className="btn btn-primary" onClick={() => {
+                    setModalType('add-goal');
+                    setShowModal(true);
+                  }}>
+                    + Add Goal
+                  </button>
+                </div>
+
+                {data.goals.map(goal => (
+                  <div key={goal.id} className="card">
+                    <div className="goal-header">
+                      <div>
+                        <div className="goal-name">{goal.title}</div>
+                        <div className="goal-meta">
+                          {goal.person} • {goal.category} • Target: {new Date(goal.targetDate).toLocaleDateString()}
+                        </div>
+                      </div>
+                      <span className={`badge badge-${goal.priority}`}>{goal.priority}</span>
+                    </div>
+
+                    <p style={{marginTop: '8px', color: '#6b7280'}}>{goal.description}</p>
+
+                    {goal.tips && (
+                      <div className="tip-box">
+                        <div className="tip-title">💡 Tip</div>
+                        <div>{goal.tips}</div>
+                      </div>
+                    )}
+
+                    {goal.links && goal.links.length > 0 && (
+                      <div className="link-box">
+                        <strong>🔗 Resources:</strong>
+                        {goal.links.map((link, i) => (
+                          <div key={i}>
+                            <a href={link} target="_blank" rel="noopener noreferrer">{link}</a>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    <div style={{marginTop: '16px'}}>
+                      <strong>Steps ({goal.steps.filter(s => s.completed).length}/{goal.steps.length}):</strong>
+                      {goal.steps.map(step => (
+                        <div key={step.id} className="task-item" style={{marginTop: '8px'}}>
+                          <label style={{display: 'flex', alignItems: 'center', gap: '12px', flex: 1, cursor: 'pointer'}}>
+                            <input
+                              type="checkbox"
+                              className="checkbox"
+                              checked={step.completed}
+                              onChange={() => completeTask(goal.id, step.id)}
+                            />
+                            <div style={{flex: 1}}>
+                              <div style={{textDecoration: step.completed ? 'line-through' : 'none'}}>
+                                {step.task}
+                              </div>
+                              {step.dueDate && (
+                                <div style={{fontSize: '0.875rem', color: '#6b7280'}}>
+                                  Due: {new Date(step.dueDate).toLocaleDateString()}
+                                </div>
+                              )}
+                              {step.notes && (
+                                <div style={{fontSize: '0.875rem', color: '#6b7280', marginTop: '4px'}}>
+                                  📝 {step.notes}
+                                </div>
+                              )}
+                              {step.links && step.links.map((link, i) => (
+                                <div key={i} style={{fontSize: '0.875rem', marginTop: '4px'}}>
+                                  <a href={link} target="_blank" rel="noopener noreferrer">{link}</a>
+                                </div>
+                              ))}
+                            </div>
+                          </label>
+                          {step.frequency && (
+                            <span className={`badge badge-${step.frequency}`}>{step.frequency}</span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="goal-actions">
+                      <button className="btn btn-secondary" onClick={() => {
+                        setEditingItem(goal);
+                        setModalType('edit-goal');
+                        setShowModal(true);
+                      }}>
+                        Edit
+                      </button>
+                      <button className="btn btn-danger" onClick={() => deleteGoal(goal.id)}>
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {activeTab === 'cleaning' && (
+              <div>
+                <div className="card">
+                  <h2 className="card-title">🧹 Daily Cleaning Rota</h2>
+                  {data.habits.filter(h => h.frequency === 'daily').map(habit => (
+                    <div key={habit.id} className="rota-item">
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={habit.lastCompleted && new Date(habit.lastCompleted).toDateString() === new Date().toDateString()}
+                        onChange={() => completeHabit(habit.id)}
+                      />
+                      <div style={{flex: 1}}>
+                        <strong>{habit.task}</strong> - {habit.person}
+                      </div>
+                      <span className="badge badge-daily">Daily</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="card">
+                  <h2 className="card-title">📅 Weekly Cleaning Tasks</h2>
+                  {data.habits.filter(h => h.frequency === 'weekly').map(habit => (
+                    <div key={habit.id} className="rota-item">
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={habit.lastCompleted && (new Date() - new Date(habit.lastCompleted)) < 604800000}
+                        onChange={() => completeHabit(habit.id)}
+                      />
+                      <div style={{flex: 1}}>
+                        <strong>{habit.task}</strong> - {habit.person}
+                      </div>
+                      <span className="badge badge-weekly">Weekly</span>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="card">
+                  <h2 className="card-title">🗓️ Monthly Cleaning Tasks</h2>
+                  {data.habits.filter(h => h.frequency === 'monthly').map(habit => (
+                    <div key={habit.id} className="rota-item">
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={habit.lastCompleted && (new Date() - new Date(habit.lastCompleted)) < 2592000000}
+                        onChange={() => completeHabit(habit.id)}
+                      />
+                      <div style={{flex: 1}}>
+                        <strong>{habit.task}</strong> - {habit.person}
+                      </div>
+                      <span className="badge badge-monthly">Monthly</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'finances' && (
+              <div>
+                <div className="card">
+                  <h2 className="card-title">💰 Current Financial Status</h2>
+                  <div className="grid grid-2">
+                    <div>
+                      <label className="label">Rich's Income</label>
+                      <input
+                        type="number"
+                        className="input"
+                        value={config.richIncome}
+                        onChange={(e) => setConfig({...config, richIncome: parseFloat(e.target.value) || 0})}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Shawnie's Income</label>
+                      <input
+                        type="number"
+                        className="input"
+                        value={config.shawnieIncome}
+                        onChange={(e) => setConfig({...config, shawnieIncome: parseFloat(e.target.value) || 0})}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Current Savings</label>
+                      <input
+                        type="number"
+                        className="input"
+                        value={config.savings}
+                        onChange={(e) => setConfig({...config, savings: parseFloat(e.target.value) || 0})}
+                      />
+                    </div>
+                    <div>
+                      <label className="label">Combined Monthly Income</label>
+                      <div style={{fontSize: '2rem', fontWeight: 'bold', color: '#16a34a', padding: '10px 0'}}>
+                        £{((config.richIncome + config.shawnieIncome) / 12).toFixed(0)}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="card">
+                  <h2 className="card-title">🏦 Pensions</h2>
+                  <div className="grid grid-2">
+                    <div>
+                      <label className="label">Rich's Pension</label>
+                      <input
+                        type="number"
+                        className="input"
+                        value={config.richPension}
+                        onChange={(e) => setConfig({...config, richPension: parseFloat(e.target.value) || 0})}
+                      />
+                      <div style={{fontSize: '1.5rem', fontWeight: 'bold', color: '#2563eb'}}>
+                        £{config.richPension.toLocaleString()}
+                      </div>
+                    </div>
+                    <div>
+                      <label className="label">Shawnie's Pension</label>
+                      <input
+                        type="number"
+                        className="input"
+                        value={config.shawniePension}
+                        onChange={(e) => setConfig({...config, shawniePension: parseFloat(e.target.value) || 0})}
+                      />
+                      <div style={{fontSize: '1.5rem', fontWeight: 'bold', color: '#ec4899'}}>
+                        £{config.shawniePension.toLocaleString()}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="tip-box" style={{marginTop: '16px'}}>
+                    <div className="tip-title">💡 Action Required</div>
+                    <div>Track down Shawnie's pension using: <a href="https://www.gov.uk/find-pension-contact-details" target="_blank" rel="noopener noreferrer">GOV.UK Pension Tracing Service</a></div>
+                  </div>
+                </div>
+
+                <div className="card">
+                  <h2 className="card-title">🎯 Income Targets</h2>
+                  <div className="tip-box">
+                    <div className="tip-title">📈 Path to £95k Combined</div>
+                    <div style={{marginTop: '8px'}}>
+                      <strong>Current:</strong> £{config.richIncome + config.shawnieIncome}k/year<br/>
+                      <strong>Target (2028):</strong> £95k/year<br/>
+                      <strong>Rich target:</strong> £45k (qualified electrician)<br/>
+                      <strong>Shawnie target:</strong> £50k (senior PIP assessor)<br/>
+                      <strong>Gap:</strong> £{95000 - (config.richIncome + config.shawnieIncome)} to go
+                    </div>
+                  </div>
+                </div>
+
+                <div className="card">
+                  <h2 className="card-title">🏛️ Benefits Status</h2>
+                  {Object.entries(config.benefits).map(([key, value]) => (
+                    <div key={key} className="rota-item">
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        checked={value}
+                        onChange={() => setConfig({
+                          ...config,
+                          benefits: {...config.benefits, [key]: !value}
+                        })}
+                      />
+                      <div style={{flex: 1, textTransform: 'uppercase'}}>
+                        {key.replace(/([A-Z])/g, ' $1').trim()}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'money-tips' && (
+              <div>
+                <div className="card">
+                  <h2 className="card-title">💡 Money Tips & Life Hacks</h2>
+                  {data.moneyTips.map(tip => (
+                    <div key={tip.id} className="tip-box" style={{marginBottom: '12px'}}>
+                      <div className="tip-title">{tip.title}</div>
+                      <div>{tip.tip}</div>
+                      <span className="badge badge-medium" style={{marginTop: '8px', display: 'inline-block'}}>
+                        {tip.category}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'calendar' && (
+              <div className="card">
+                <h2 className="card-title">📅 Task Calendar</h2>
+                <p>Calendar view coming soon - showing upcoming tasks for now</p>
+                <div style={{marginTop: '20px'}}>
+                  {getUpcomingTasks().map((task, i) => (
+                    <div key={i} className="task-item">
+                      <div>
+                        <div style={{fontWeight: '600'}}>{task.task}</div>
+                        <div style={{fontSize: '0.875rem', color: '#6b7280'}}>
+                          {new Date(task.dueDate).toLocaleDateString()} • {task.person}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'settings' && (
+              <div className="card">
+                <h2 className="card-title">⚙️ Settings</h2>
+                <div className="grid grid-2">
+                  <div>
+                    <label className="label">Start Date</label>
+                    <input
+                      type="date"
+                      className="input"
+                      value={config.startDate}
+                      onChange={(e) => setConfig({...config, startDate: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="label">Current Location</label>
+                    <input
+                      type="text"
+                      className="input"
+                      value={config.location}
+                      onChange={(e) => setConfig({...config, location: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="label">Target Location</label>
+                    <input
+                      type="text"
+                      className="input"
+                      value={config.targetLocation}
+                      onChange={(e) => setConfig({...config, targetLocation: e.target.value})}
+                    />
+                  </div>
+                  <div>
+                    <label className="label">Planned Move Date</label>
+                    <input
+                      type="date"
+                      className="input"
+                      value={config.moveDate}
+                      onChange={(e) => setConfig({...config, moveDate: e.target.value})}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </main>
+
+          {showModal && (
+            <div className="modal" onClick={() => setShowModal(false)}>
+              <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+                <div className="modal-header">
+                  <h3>{modalType === 'add-goal' ? 'Add New Goal' : 'Edit Goal'}</h3>
+                  <button className="close-btn" onClick={() => setShowModal(false)}>×</button>
+                </div>
+                <p>Goal editor form coming soon - for now edit goals in the data structure</p>
+                <button className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
+              </div>
+            </div>
+          )}
+
+          <button className="floating-add" onClick={() => {
+            setModalType('add-goal');
+            setShowModal(true);
+          }}>
+            +
+          </button>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<FamilyPlanner />);
+  </script>
+</body>
+</html>
