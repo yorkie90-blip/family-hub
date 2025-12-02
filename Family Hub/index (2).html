@@ -1,0 +1,1983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#6366f1">
+  <title>Turnbull-Shaw Family Life Planner</title>
+  <link rel="manifest" href="/manifest.json">
+  
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #ec4899;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --rich-color: #3b82f6;
+      --shawnie-color: #ec4899;
+      --family-color: #10b981;
+      --madison-color: #f59e0b;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      color: #1f2937;
+    }
+
+    .app-wrapper {
+      background: linear-gradient(135deg, #f0f9ff 0%, #fce7f3 50%, #fef3c7 100%);
+      min-height: 100vh;
+    }
+
+    /* STUNNING HEADER */
+    .hero-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f857a6 100%);
+      color: white;
+      padding: 32px 24px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+      opacity: 0.3;
+    }
+
+    .hero-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-title {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 12px;
+      text-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      animation: fadeInDown 0.6s ease;
+    }
+
+    .hero-subtitle {
+      font-size: 1.25rem;
+      opacity: 0.95;
+      font-weight: 400;
+      animation: fadeInDown 0.6s ease 0.1s backwards;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .hero-stat {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 20px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.3);
+      animation: fadeInUp 0.6s ease backwards;
+    }
+
+    .hero-stat:nth-child(1) { animation-delay: 0.2s; }
+    .hero-stat:nth-child(2) { animation-delay: 0.3s; }
+    .hero-stat:nth-child(3) { animation-delay: 0.4s; }
+    .hero-stat:nth-child(4) { animation-delay: 0.5s; }
+
+    .hero-stat-value {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .hero-stat-label {
+      font-size: 0.875rem;
+      opacity: 0.9;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* NAVIGATION */
+    .nav-container {
+      background: white;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .nav::-webkit-scrollbar { display: none; }
+
+    .nav-item {
+      padding: 16px 24px;
+      border: none;
+      background: transparent;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      color: #6b7280;
+    }
+
+    .nav-item::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%) scaleX(0);
+      width: 80%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 3px 3px 0 0;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-item.active {
+      color: var(--primary);
+    }
+
+    .nav-item.active::after {
+      transform: translateX(-50%) scaleX(1);
+    }
+
+    .nav-item:hover {
+      color: var(--primary);
+      background: rgba(99, 102, 241, 0.05);
+    }
+
+    /* MAIN CONTENT */
+    .main {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 32px 24px 100px;
+    }
+
+    /* GORGEOUS CARDS */
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+      transform: translateY(-4px);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* TODAY'S TASKS - BEAUTIFUL LAYOUT */
+    .today-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+    }
+
+    .task-card {
+      background: linear-gradient(135deg, #f9fafb 0%, #ffffff 100%);
+      border-radius: 16px;
+      padding: 20px;
+      border-left: 4px solid var(--primary);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .task-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .task-card:hover {
+      transform: translateX(8px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    .task-card:hover::before {
+      opacity: 1;
+    }
+
+    .task-card.completed {
+      opacity: 0.7;
+      border-left-color: var(--success);
+    }
+
+    .task-card.completed .task-title {
+      text-decoration: line-through;
+    }
+
+    .task-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .task-checkbox {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      accent-color: var(--primary);
+      transform: scale(1.2);
+    }
+
+    .task-content {
+      flex: 1;
+      margin-left: 16px;
+    }
+
+    .task-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #1f2937;
+    }
+
+    .task-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .task-badge {
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .badge-person-rich { background: #dbeafe; color: #1e40af; }
+    .badge-person-shawnie { background: #fce7f3; color: #9f1239; }
+    .badge-person-family { background: #d1fae5; color: #065f46; }
+    .badge-person-madison { background: #fef3c7; color: #92400e; }
+
+    .badge-priority-critical { background: #fee2e2; color: #991b1b; }
+    .badge-priority-high { background: #fed7aa; color: #9a3412; }
+    .badge-priority-medium { background: #fef3c7; color: #92400e; }
+    .badge-priority-low { background: #dbeafe; color: #1e40af; }
+
+    .badge-time {
+      background: #f3f4f6;
+      color: #374151;
+    }
+
+    /* PROGRESS CIRCLES */
+    .progress-circle {
+      width: 120px;
+      height: 120px;
+      position: relative;
+    }
+
+    .progress-circle svg {
+      transform: rotate(-90deg);
+    }
+
+    .progress-circle-bg {
+      fill: none;
+      stroke: #e5e7eb;
+      stroke-width: 10;
+    }
+
+    .progress-circle-fill {
+      fill: none;
+      stroke: url(#gradient);
+      stroke-width: 10;
+      stroke-linecap: round;
+      transition: stroke-dashoffset 0.8s ease;
+    }
+
+    .progress-circle-text {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 1.75rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* GOAL CARDS */
+    .goal-card {
+      background: white;
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+      transition: all 0.3s ease;
+      border: 2px solid transparent;
+    }
+
+    .goal-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 8px 32px rgba(99, 102, 241, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .goal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 16px;
+    }
+
+    .goal-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #1f2937;
+      margin-bottom: 8px;
+    }
+
+    .goal-description {
+      color: #6b7280;
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .goal-progress-bar {
+      width: 100%;
+      height: 12px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 16px 0;
+    }
+
+    .goal-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 999px;
+      transition: width 0.6s ease;
+      box-shadow: 0 0 12px rgba(99, 102, 241, 0.4);
+    }
+
+    /* STEP ITEMS */
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 16px;
+      background: #f9fafb;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      transition: all 0.2s ease;
+    }
+
+    .step-item:hover {
+      background: #f3f4f6;
+      transform: translateX(4px);
+    }
+
+    .step-item.completed {
+      opacity: 0.6;
+    }
+
+    .step-checkbox {
+      width: 22px;
+      height: 22px;
+      margin-top: 4px;
+      cursor: pointer;
+      accent-color: var(--success);
+      flex-shrink: 0;
+    }
+
+    .step-content {
+      flex: 1;
+    }
+
+    .step-title {
+      font-weight: 600;
+      color: #1f2937;
+      margin-bottom: 6px;
+    }
+
+    .step-item.completed .step-title {
+      text-decoration: line-through;
+      color: #9ca3af;
+    }
+
+    .step-notes {
+      font-size: 0.875rem;
+      color: #6b7280;
+      margin-top: 6px;
+      padding: 8px 12px;
+      background: white;
+      border-radius: 8px;
+      border-left: 3px solid #3b82f6;
+    }
+
+    .step-links {
+      margin-top: 8px;
+    }
+
+    .step-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 0.875rem;
+      font-weight: 500;
+      padding: 4px 12px;
+      background: rgba(99, 102, 241, 0.1);
+      border-radius: 6px;
+      margin-right: 8px;
+      margin-top: 4px;
+      transition: all 0.2s ease;
+    }
+
+    .step-link:hover {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-2px);
+    }
+
+    /* TIP BOXES */
+    .tip-box {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+      border-left: 4px solid #f59e0b;
+      padding: 20px;
+      border-radius: 12px;
+      margin: 16px 0;
+      box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
+    }
+
+    .tip-icon {
+      font-size: 1.5rem;
+      margin-bottom: 8px;
+    }
+
+    .tip-title {
+      font-weight: 700;
+      color: #92400e;
+      margin-bottom: 8px;
+      font-size: 1.1rem;
+    }
+
+    .tip-content {
+      color: #78350f;
+      line-height: 1.6;
+    }
+
+    /* BUTTONS */
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+      color: white;
+    }
+
+    .btn-secondary {
+      background: white;
+      color: #374151;
+      border: 2px solid #e5e7eb;
+    }
+
+    .btn-success {
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: white;
+    }
+
+    .btn-danger {
+      background: linear-gradient(135deg, #ef4444, #dc2626);
+      color: white;
+    }
+
+    /* FLOATING ACTION BUTTON */
+    .fab {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      font-size: 2rem;
+      box-shadow: 0 8px 32px rgba(99, 102, 241, 0.4);
+      cursor: pointer;
+      z-index: 999;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .fab:hover {
+      transform: scale(1.1) rotate(90deg);
+      box-shadow: 0 12px 48px rgba(99, 102, 241, 0.6);
+    }
+
+    /* MODAL */
+    .modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 24px;
+      padding: 32px;
+      max-width: 600px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.3);
+      animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .modal-title {
+      font-size: 1.75rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .close-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: none;
+      background: #f3f4f6;
+      color: #6b7280;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .close-btn:hover {
+      background: #e5e7eb;
+      transform: rotate(90deg);
+    }
+
+    /* FORMS */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .label {
+      display: block;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    .input, .textarea, .select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 2px solid #e5e7eb;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      background: white;
+    }
+
+    .input:focus, .textarea:focus, .select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1);
+    }
+
+    .textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* CELEBRATION */
+    .celebration {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      pointer-events: none;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .celebration-content {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b, #ec4899);
+      color: white;
+      padding: 32px 48px;
+      border-radius: 999px;
+      font-size: 2rem;
+      font-weight: 800;
+      box-shadow: 0 20px 80px rgba(251, 191, 36, 0.5);
+      animation: pulse 0.6s ease;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .hero-title { font-size: 2rem; }
+      .hero-subtitle { font-size: 1rem; }
+      .hero-stat-value { font-size: 2rem; }
+      .card { padding: 20px; }
+      .card-title { font-size: 1.5rem; }
+      .today-grid { grid-template-columns: 1fr; }
+      .goal-title { font-size: 1.25rem; }
+      .fab { width: 56px; height: 56px; bottom: 20px; right: 20px; }
+    }
+
+    /* LOADING SCREEN */
+    .loading-screen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10000;
+      color: white;
+    }
+
+    .loading-spinner {
+      width: 60px;
+      height: 60px;
+      border: 5px solid rgba(255,255,255,0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin-bottom: 20px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div id="root">
+    <div class="loading-screen">
+      <div class="loading-spinner"></div>
+      <div class="loading-text">Loading Your Family Planner...</div>
+    </div>
+  </div>
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.23.5/babel.min.js"></script>
+
+  <script>
+    if (typeof React === 'undefined' || typeof ReactDOM === 'undefined') {
+      document.body.innerHTML = '<div style="padding: 40px; text-align: center;"><h1>Error Loading</h1><p>Please refresh</p></div>';
+    }
+
+    window.storage = {
+      async get(key) {
+        try {
+          const value = localStorage.getItem(key);
+          return value ? { value } : null;
+        } catch { return null; }
+      },
+      async set(key, value) {
+        try {
+          localStorage.setItem(key, value);
+          return true;
+        } catch { return false; }
+      }
+    };
+  </script>
+
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    const FamilyPlanner = () => {
+      const [activeTab, setActiveTab] = useState('today');
+      const [showModal, setShowModal] = useState(false);
+      const [modalContent, setModalContent] = useState(null);
+      const [showCelebration, setShowCelebration] = useState(false);
+      const [selectedDate, setSelectedDate] = useState(new Date());
+      
+      const [config, setConfig] = useState({
+        startDate: '2024-12-04',
+        familyName: 'Turnbull-Shaw',
+        location: 'Seaham, UK',
+        targetLocation: 'Sheffield',
+        moveDate: '2025-12-01',
+        richIncome: 0,
+        shawnieIncome: 0,
+        shawnieReturnDate: '2026-07-01',
+        shawnieReturnIncome: 40000,
+        richPension: 72766.58,
+        shawniePension: 0,
+        savings: 0
+      });
+
+      const [data, setData] = useState({
+        goals: [
+          {
+            id: 1,
+            person: 'Rich',
+            category: 'Career',
+            title: 'Become Qualified Electrician',
+            description: 'Complete full electrician training pathway to qualification',
+            priority: 'critical',
+            targetDate: '2028-12-01',
+            color: '#3b82f6',
+            icon: '⚡',
+            steps: [
+              {
+                id: 1,
+                task: 'Research Sheffield electrician apprenticeship programs',
+                completed: false,
+                dueDate: '2024-12-15',
+                frequency: 'one-time',
+                estimatedHours: 4,
+                notes: 'Check Sheffield College, City College, local employers. Look for Level 2 and Level 3 programs.',
+                links: [
+                  'https://www.gov.uk/apply-apprenticeship',
+                  'https://www.sheffield.ac.uk/',
+                  'https://www.findapprenticeship.service.gov.uk/'
+                ],
+                dayTasks: [
+                  { day: 1, task: 'Google "electrician apprenticeships Sheffield"', duration: 30 },
+                  { day: 1, task: 'List 10 potential programs/employers', duration: 30 },
+                  { day: 2, task: 'Visit gov.uk apprenticeship site', duration: 30 },
+                  { day: 2, task: 'Check entry requirements for each', duration: 45 },
+                  { day: 3, task: 'Join r/electricians and UK Electricians Facebook group', duration: 20 },
+                  { day: 3, task: 'Ask about Sheffield apprenticeships in forums', duration: 25 },
+                  { day: 4, task: 'Create comparison spreadsheet', duration: 60 }
+                ]
+              },
+              {
+                id: 2,
+                task: 'Call 5 training providers for information packs',
+                completed: false,
+                dueDate: '2024-12-20',
+                frequency: 'one-time',
+                estimatedHours: 2,
+                notes: 'Sheffield College: 0114 260 2600. Ask about adult apprenticeships, funding, start dates.',
+                dayTasks: [
+                  { day: 1, task: 'Prepare questions list', duration: 20 },
+                  { day: 1, task: 'Call Sheffield College', duration: 15 },
+                  { day: 2, task: 'Call 2 local employers', duration: 30 },
+                  { day: 3, task: 'Call 2 more providers', duration: 30 },
+                  { day: 4, task: 'Organize all info received', duration: 30 }
+                ]
+              },
+              {
+                id: 3,
+                task: 'Update CV highlighting transferable skills',
+                completed: false,
+                dueDate: '2024-12-27',
+                frequency: 'one-time',
+                estimatedHours: 3,
+                notes: 'Focus on: problem-solving, working with tools, customer service, reliability, learning ability.',
+                dayTasks: [
+                  { day: 1, task: 'List all past jobs and responsibilities', duration: 45 },
+                  { day: 2, task: 'Identify transferable skills from each', duration: 45 },
+                  { day: 3, task: 'Write strong personal statement', duration: 60 },
+                  { day: 4, task: 'Format CV professionally', duration: 30 },
+                  { day: 5, task: 'Get Shawnie to review', duration: 20 }
+                ]
+              },
+              {
+                id: 4,
+                task: 'Apply to 5 apprenticeship positions',
+                completed: false,
+                dueDate: '2025-01-15',
+                frequency: 'one-time',
+                estimatedHours: 8,
+                notes: 'Apply through gov.uk, direct to employers, and via Indeed/Reed.',
+                dayTasks: [
+                  { day: 1, task: 'Customize CV for Application 1', duration: 30 },
+                  { day: 1, task: 'Write cover letter for Application 1', duration: 60 },
+                  { day: 1, task: 'Submit Application 1', duration: 20 },
+                  { day: 3, task: 'Customize and submit Application 2', duration: 90 },
+                  { day: 5, task: 'Customize and submit Application 3', duration: 90 },
+                  { day: 7, task: 'Customize and submit Application 4', duration: 90 },
+                  { day: 9, task: 'Customize and submit Application 5', duration: 90 }
+                ]
+              },
+              {
+                id: 5,
+                task: 'Attend interviews and secure apprenticeship',
+                completed: false,
+                dueDate: '2025-03-01',
+                frequency: 'one-time',
+                estimatedHours: 10,
+                notes: 'Prepare for common interview questions. Research each company. Practice answers.',
+                dayTasks: [
+                  { day: 1, task: 'Research company for Interview 1', duration: 60 },
+                  { day: 1, task: 'Prepare answers to common questions', duration: 90 },
+                  { day: 2, task: 'Mock interview with Shawnie', duration: 45 },
+                  { day: 3, task: 'Attend Interview 1', duration: 120 },
+                  { day: 4, task: 'Send thank-you email', duration: 15 }
+                ]
+              },
+              {
+                id: 6,
+                task: 'Begin Level 2 Electrical Installation',
+                completed: false,
+                dueDate: '2025-09-01',
+                frequency: 'ongoing',
+                notes: 'This is typically 12-18 months. Combine college and workplace learning.'
+              },
+              {
+                id: 7,
+                task: 'Complete Level 3 Electrical Installation',
+                completed: false,
+                dueDate: '2027-06-01',
+                frequency: 'ongoing',
+                notes: 'Advanced qualification. Another 12-18 months after Level 2.'
+              },
+              {
+                id: 8,
+                task: 'Achieve 18th Edition Wiring Regulations',
+                completed: false,
+                dueDate: '2027-09-01',
+                frequency: 'one-time',
+                notes: 'Essential certification for all electricians. 3-day course + exam.'
+              },
+              {
+                id: 9,
+                task: 'Pass AM2 practical assessment',
+                completed: false,
+                dueDate: '2028-09-01',
+                frequency: 'one-time',
+                notes: 'Final practical test. Proves competence. Required for JIB Gold Card.'
+              },
+              {
+                id: 10,
+                task: 'Secure qualified electrician position £40k+',
+                completed: false,
+                dueDate: '2028-12-01',
+                frequency: 'one-time',
+                notes: 'Target: £40-45k starting salary as qualified electrician in Sheffield.'
+              }
+            ],
+            tips: '💡 UK Electrician Salary Guide:\n• Apprentice: £12-18k\n• Newly qualified: £25-32k\n• 2-3 years experience: £35-42k\n• 5+ years experience: £40-50k\n• Self-employed: £45-65k\n\nHigh demand trade with excellent job security. Average UK electrician earns £40k.',
+            resources: [
+              { name: 'Gov.uk Apprenticeships', url: 'https://www.gov.uk/become-apprentice' },
+              { name: 'Find An Apprenticeship', url: 'https://www.findapprenticeship.service.gov.uk/' },
+              { name: 'JIB Grading Scheme', url: 'https://www.jib.org.uk/' },
+              { name: 'NAPIT Registration', url: 'https://www.napit.org.uk/' }
+            ]
+          },
+          {
+            id: 2,
+            person: 'Shawnie',
+            category: 'Career',
+            title: 'Return to Work & Progress to Senior Role',
+            description: 'Return as PIP Assessor July 2026, progress to senior position',
+            priority: 'high',
+            targetDate: '2027-07-01',
+            color: '#ec4899',
+            icon: '💼',
+            steps: [
+              {
+                id: 1,
+                task: 'Research childcare options in Sheffield',
+                completed: false,
+                dueDate: '2026-04-01',
+                frequency: 'one-time',
+                estimatedHours: 6,
+                notes: 'Check nurseries near workplace, costs (£800-1200/month), availability, Ofsted ratings.',
+                dayTasks: [
+                  { day: 1, task: 'List 10 nurseries near workplace', duration: 45 },
+                  { day: 2, task: 'Check Ofsted ratings for each', duration: 60 },
+                  { day: 3, task: 'Call top 5 for availability and costs', duration: 90 },
+                  { day: 4, task: 'Visit top 3 nurseries', duration: 180 }
+                ]
+              },
+              {
+                id: 2,
+                task: 'Secure childcare place for Madison',
+                completed: false,
+                dueDate: '2026-05-01',
+                frequency: 'one-time',
+                notes: 'Book at least 2 months before return date. Confirm hours, fees, notice period.'
+              },
+              {
+                id: 3,
+                task: 'Prepare for return to work',
+                completed: false,
+                dueDate: '2026-06-15',
+                frequency: 'one-time',
+                dayTasks: [
+                  { day: 1, task: 'Contact HR about return date', duration: 30 },
+                  { day: 2, task: 'Arrange work wardrobe', duration: 60 },
+                  { day: 3, task: 'Plan morning routine with childcare', duration: 45 },
+                  { day: 4, task: 'Do practice childcare drop-off', duration: 60 }
+                ]
+              },
+              {
+                id: 4,
+                task: 'Return to PIP Assessor role',
+                completed: false,
+                dueDate: '2026-07-01',
+                frequency: 'milestone',
+                notes: 'First day back! £40k salary resumes. Phased return if needed.'
+              },
+              {
+                id: 5,
+                task: 'Complete mandatory CPD requirements',
+                completed: false,
+                dueDate: '2026-12-01',
+                frequency: 'yearly',
+                notes: 'Nursing CPD: 35 hours per year for revalidation. Mix of courses, reflection, feedback.'
+              },
+              {
+                id: 6,
+                task: 'Research senior PIP assessor roles',
+                completed: false,
+                dueDate: '2027-03-01',
+                frequency: 'one-time',
+                notes: 'Band 6 equivalent, £45-50k. Often requires additional training or specialization.'
+              },
+              {
+                id: 7,
+                task: 'Apply for senior position',
+                completed: false,
+                dueDate: '2027-06-01',
+                frequency: 'one-time',
+                notes: 'Target: £45-50k salary increase. Prepare evidence of competence.'
+              }
+            ],
+            tips: '💡 PIP Assessor Career Path:\n• Band 5: £28-34k (Standard assessor)\n• Band 6: £34-42k (Senior assessor)\n• Band 7: £42-50k (Lead assessor)\n• Management: £45-60k\n\nCPD is essential for progression. Consider specialist areas (mental health, complex cases).'
+          },
+          {
+            id: 3,
+            person: 'Family',
+            category: 'Financial',
+            title: 'Move to Sheffield',
+            description: 'Relocate family from Seaham to Sheffield by December 2025',
+            priority: 'critical',
+            targetDate: '2025-12-01',
+            color: '#10b981',
+            icon: '🏠',
+            steps: [
+              {
+                id: 1,
+                task: 'Research Sheffield neighborhoods',
+                completed: false,
+                dueDate: '2025-03-01',
+                frequency: 'one-time',
+                estimatedHours: 8,
+                notes: 'Focus on: Crookes, Walkley, Nether Edge, Hillsborough. Check schools, transport, amenities.',
+                dayTasks: [
+                  { day: 1, task: 'Google each neighborhood + "family friendly"', duration: 90 },
+                  { day: 2, task: 'Check school Ofsted ratings in each area', duration: 90 },
+                  { day: 3, task: 'Research rent prices on Rightmove', duration: 60 },
+                  { day: 4, task: 'Join Sheffield parents Facebook groups', duration: 30 },
+                  { day: 5, task: 'Ask for neighborhood recommendations', duration: 45 }
+                ]
+              },
+              {
+                id: 2,
+                task: 'Visit Sheffield to view areas',
+                completed: false,
+                dueDate: '2025-06-01',
+                frequency: 'one-time',
+                notes: 'Plan weekend trip. Visit 3-4 neighborhoods, check local amenities, get feel for areas.'
+              },
+              {
+                id: 3,
+                task: 'View 10+ rental properties',
+                completed: false,
+                dueDate: '2025-08-01',
+                frequency: 'one-time',
+                notes: 'Budget: £800-1000/month for 2-bed. Check transport links, condition, landlord references.'
+              },
+              {
+                id: 4,
+                task: 'Secure rental property',
+                completed: false,
+                dueDate: '2025-09-01',
+                frequency: 'one-time',
+                notes: 'Pay deposit (usually 5 weeks rent). Sign tenancy agreement. Arrange move-in date.'
+              },
+              {
+                id: 5,
+                task: 'Arrange removal services',
+                completed: false,
+                dueDate: '2025-11-01',
+                frequency: 'one-time',
+                notes: 'Compare Man & Van services. Budget £200-400. Book weekday for cheaper rates.'
+              },
+              {
+                id: 6,
+                task: 'Transfer benefits to Sheffield address',
+                completed: false,
+                dueDate: '2025-11-15',
+                frequency: 'one-time',
+                notes: 'Update: DWP, HMRC, Council Tax, GP, dentist, Madison\'s health visitor.'
+              },
+              {
+                id: 7,
+                task: 'Complete move to Sheffield',
+                completed: false,
+                dueDate: '2025-12-01',
+                frequency: 'milestone',
+                notes: 'Moving day! Deep clean old property for deposit return.'
+              }
+            ],
+            tips: '🏡 Sheffield Family-Friendly Areas:\n\n• Crookes: £850-1000/month, excellent schools, parks, cafes\n• Walkley: £750-900/month, community feel, good transport\n• Nether Edge: £900-1100/month, Victorian properties, great schools\n• Hillsborough: £800-950/month, Hillsborough Park, good amenities\n\nAll have good access to city center and Rich\'s potential apprenticeship locations.',
+            resources: [
+              { name: 'Rightmove Sheffield', url: 'https://www.rightmove.co.uk/property-to-rent/Sheffield.html' },
+              { name: 'Sheffield Schools', url: 'https://www.sheffield.gov.uk/schools' },
+              { name: 'Sheffield City Council', url: 'https://www.sheffield.gov.uk/' }
+            ]
+          },
+          {
+            id: 4,
+            person: 'Madison',
+            category: 'Development',
+            title: 'UK Childhood Education Journey',
+            description: 'Support Madison through UK education system from nursery to secondary',
+            priority: 'high',
+            targetDate: '2036-09-01',
+            color: '#f59e0b',
+            icon: '👧',
+            steps: [
+              {
+                id: 1,
+                task: 'Madison\'s 1st birthday celebration',
+                completed: false,
+                dueDate: '2025-07-15',
+                frequency: 'milestone',
+                notes: 'Plan small family party. First birthday photos. Start memory book.'
+              },
+              {
+                id: 2,
+                task: 'Apply for 15 hours free childcare',
+                completed: false,
+                dueDate: '2026-06-01',
+                frequency: 'one-time',
+                notes: 'Madison eligible from term after 2nd birthday. 15 hours/week term-time. Apply via Childcare Choices.'
+              },
+              {
+                id: 3,
+                task: 'Start nursery (age 2)',
+                completed: false,
+                dueDate: '2026-07-15',
+                frequency: 'milestone',
+                notes: '15 hours free childcare begins. Choose nursery offering funded places.'
+              },
+              {
+                id: 4,
+                task: 'Apply for 30 hours childcare',
+                completed: false,
+                dueDate: '2027-06-01',
+                frequency: 'one-time',
+                notes: 'Eligible from term after 3rd birthday if both parents working (or one working, one disabled).'
+              },
+              {
+                id: 5,
+                task: 'Apply for primary school places',
+                completed: false,
+                dueDate: '2028-01-15',
+                frequency: 'one-time',
+                notes: 'CRITICAL DEADLINE: 15 January 2028 for September 2028 start. Apply for up to 6 schools via Sheffield Council.',
+                dayTasks: [
+                  { day: 1, task: 'Research top 6 schools near home', duration: 120 },
+                  { day: 2, task: 'Visit school open days', duration: 240 },
+                  { day: 3, task: 'Check catchment areas', duration: 60 },
+                  { day: 4, task: 'Complete application online', duration: 45 }
+                ]
+              },
+              {
+                id: 6,
+                task: 'Madison starts Reception (age 4)',
+                completed: false,
+                dueDate: '2028-09-01',
+                frequency: 'milestone',
+                notes: 'First day of school! Buy uniform, school shoes, book bag. Prepare for drop-off routine.'
+              },
+              {
+                id: 7,
+                task: 'Year 1 Phonics Screening Check',
+                completed: false,
+                dueDate: '2029-06-01',
+                frequency: 'milestone',
+                notes: 'National phonics test. Practice reading at home. No need to stress - it\'s to check school teaching.'
+              },
+              {
+                id: 8,
+                task: 'Key Stage 1 SATs (age 7)',
+                completed: false,
+                dueDate: '2031-05-01',
+                frequency: 'milestone',
+                notes: 'Reading, maths, grammar tests in May. Results not used for secondary school.'
+              },
+              {
+                id: 9,
+                task: 'Apply for secondary school',
+                completed: false,
+                dueDate: '2035-10-31',
+                frequency: 'one-time',
+                notes: 'Deadline: 31 October 2035 for September 2036 start. Visit open evenings.'
+              },
+              {
+                id: 10,
+                task: 'Madison starts secondary school (age 11)',
+                completed: false,
+                dueDate: '2035-09-01',
+                frequency: 'milestone',
+                notes: 'Big transition! New uniform, equipment, independence.'
+              }
+            ],
+            tips: '🎓 UK Education Timeline:\n\n• Age 2: 15 hours free childcare\n• Age 3: 30 hours free childcare (if eligible)\n• Age 4: Reception year (start of primary school)\n• Age 5-7: Key Stage 1 (Years 1-2)\n• Age 7-11: Key Stage 2 (Years 3-6)\n• Age 11: Secondary school starts (Year 7)\n• Age 16: GCSEs\n\nEducation is free in UK from age 4 (Reception) to age 18.',
+            resources: [
+              { name: 'Childcare Choices', url: 'https://www.childcarechoices.gov.uk/' },
+              { name: 'Sheffield Schools Admissions', url: 'https://www.sheffield.gov.uk/schools/admissions' },
+              { name: 'National Curriculum', url: 'https://www.gov.uk/national-curriculum' }
+            ]
+          }
+        ],
+        habits: [
+          { id: 1, person: 'Rich', task: 'Hoover house', frequency: 'daily', completed: false, streak: 0, icon: '🧹' },
+          { id: 2, person: 'Rich', task: 'Bath Madison', frequency: 'daily', completed: false, streak: 0, icon: '🛁' },
+          { id: 3, person: 'Rich', task: 'Wash clothes', frequency: 'daily', completed: false, streak: 0, icon: '👕' },
+          { id: 4, person: 'Rich', task: 'Cook dinner', frequency: 'daily', completed: false, streak: 0, icon: '🍳' },
+          { id: 5, person: 'Shawnie', task: 'Change Madison', frequency: 'daily', completed: false, streak: 0, icon: '👶' },
+          { id: 6, person: 'Shawnie', task: 'Family admin', frequency: 'daily', completed: false, streak: 0, icon: '📋' },
+          { id: 7, person: 'Shawnie', task: 'Budget review', frequency: 'weekly', completed: false, streak: 0, icon: '💰' },
+          { id: 8, person: 'Both', task: 'Deep clean kitchen', frequency: 'weekly', completed: false, streak: 0, icon: '✨' },
+          { id: 9, person: 'Both', task: 'Deep clean bathroom', frequency: 'weekly', completed: false, streak: 0, icon: '🚿' },
+          { id: 10, person: 'Family', task: 'Date night', frequency: 'weekly', completed: false, streak: 0, icon: '💕' },
+          { id: 11, person: 'Family', task: 'Board game night', frequency: 'weekly', completed: false, streak: 0, icon: '🎲' },
+          { id: 12, person: 'Both', task: 'Declutter session', frequency: 'monthly', completed: false, streak: 0, icon: '📦' },
+          { id: 13, person: 'Family', task: 'Hiking trip', frequency: 'monthly', completed: false, streak: 0, icon: '🥾' }
+        ],
+        moneyTips: [
+          { id: 1, title: 'Council Tax Reduction', tip: 'Apply for up to 100% council tax reduction in Sheffield. With PIP + ESA, you may qualify for maximum support. Apply online at sheffield.gov.uk/counciltax', category: 'benefits', icon: '🏛️' },
+          { id: 2, title: 'Healthy Start Vouchers', tip: 'Get £8.50/week for milk, fruit, vegetables. You qualify if on benefits with children under 4. Apply at healthystart.nhs.uk', category: 'benefits', icon: '🥛' },
+          { id: 3, title: 'Free NHS Prescriptions', tip: 'ESA recipients get free prescriptions. Also apply for HC2 certificate for free dental treatment and optical vouchers.', category: 'healthcare', icon: '💊' },
+          { id: 4, title: 'Meal Planning Saves £200/Month', tip: 'Plan weekly meals, shop with list only. Use Aldi/Lidl for basics. Batch cook on Sundays. Can save £200+ monthly vs ad-hoc shopping.', category: 'food', icon: '🍽️' },
+          { id: 5, title: 'Energy Bill Support', tip: 'Check Warm Home Discount (£150/year). Compare tariffs on uSwitch every 6 months. Could save £300-500/year.', category: 'bills', icon: '⚡' },
+          { id: 6, title: 'Baby Clothes Swap', tip: 'Join Sheffield Baby & Toddler Swap Shop on Facebook. Madison will grow fast - save £££ on clothes through swaps and bundles.', category: 'parenting', icon: '👶' },
+          { id: 7, title: 'Batch Cooking Saves Time & Money', tip: 'Cook 2-3x portions, freeze. Bulk buying saves 20-30%. Rich - make Monday\'s cooking count for Wednesday too!', category: 'food', icon: '🥘' },
+          { id: 8, title: 'Track Down Shawnie\'s Pension', tip: 'Use GOV.UK Pension Tracing Service. Could have £1000s sitting unclaimed. Takes 5 minutes to search.', category: 'pensions', icon: '🔍' },
+          { id: 9, title: 'Nursery Tax-Free Childcare', tip: 'When working, get £500 free for every £2000 spent on childcare (up to £2000/year). 20% savings!', category: 'childcare', icon: '🏫' },
+          { id: 10, title: 'Free Days Out', tip: 'Sheffield has FREE: Weston Park Museum, Millennium Gallery, Graves Park, Botanical Gardens. Save £££ on family activities.', category: 'lifestyle', icon: '🎨' }
+        ]
+      });
+
+      // Load data
+      useEffect(() => {
+        const load = async () => {
+          try {
+            const savedData = await window.storage.get('familyPlannerV3Data');
+            const savedConfig = await window.storage.get('familyPlannerV3Config');
+            if (savedData?.value) setData(JSON.parse(savedData.value));
+            if (savedConfig?.value) setConfig(JSON.parse(savedConfig.value));
+          } catch (e) {
+            console.error('Load error:', e);
+          }
+        };
+        load();
+      }, []);
+
+      // Save data
+      useEffect(() => {
+        window.storage.set('familyPlannerV3Data', JSON.stringify(data));
+      }, [data]);
+
+      useEffect(() => {
+        window.storage.set('familyPlannerV3Config', JSON.stringify(config));
+      }, [config]);
+
+      // Complete task
+      const completeTask = (goalId, stepId) => {
+        setData(prev => ({
+          ...prev,
+          goals: prev.goals.map(g =>
+            g.id === goalId ? {
+              ...g,
+              steps: g.steps.map(s =>
+                s.id === stepId ? { ...s, completed: !s.completed } : s
+              )
+            } : g
+          )
+        }));
+        if (!data.goals.find(g => g.id === goalId).steps.find(s => s.id === stepId).completed) {
+          celebrate();
+        }
+      };
+
+      // Complete habit
+      const completeHabit = (habitId) => {
+        setData(prev => ({
+          ...prev,
+          habits: prev.habits.map(h =>
+            h.id === habitId ? { ...h, completed: !h.completed, streak: h.completed ? h.streak : h.streak + 1 } : h
+          )
+        }));
+        celebrate();
+      };
+
+      // Celebration
+      const celebrate = () => {
+        setShowCelebration(true);
+        setTimeout(() => setShowCelebration(false), 2000);
+      };
+
+      // Calculate progress
+      const calculateProgress = () => {
+        const allSteps = data.goals.flatMap(g => g.steps);
+        if (allSteps.length === 0) return 0;
+        const completed = allSteps.filter(s => s.completed).length;
+        return Math.round((completed / allSteps.length) * 100);
+      };
+
+      // Get today's tasks
+      const getTodaysTasks = () => {
+        const now = new Date();
+        const tasks = [];
+        
+        // Get habits for today
+        data.habits.forEach(habit => {
+          if (habit.frequency === 'daily') {
+            tasks.push({
+              ...habit,
+              type: 'habit',
+              dueToday: true
+            });
+          }
+        });
+
+        // Get goal steps due soon
+        data.goals.forEach(goal => {
+          goal.steps.forEach(step => {
+            if (!step.completed && step.dueDate) {
+              const due = new Date(step.dueDate);
+              const daysUntil = Math.ceil((due - now) / 86400000);
+              if (daysUntil >= 0 && daysUntil <= 7) {
+                tasks.push({
+                  ...step,
+                  type: 'step',
+                  goal: goal.title,
+                  goalId: goal.id,
+                  person: goal.person,
+                  color: goal.color,
+                  priority: goal.priority,
+                  daysUntil
+                });
+              }
+            }
+          });
+        });
+
+        return tasks.sort((a, b) => {
+          if (a.type === 'habit' && b.type !== 'habit') return -1;
+          if (a.type !== 'habit' && b.type === 'habit') return 1;
+          return (a.daysUntil || 0) - (b.daysUntil || 0);
+        });
+      };
+
+      // Stats for hero
+      const daysSinceStart = Math.floor((new Date() - new Date(config.startDate)) / 86400000);
+      const tasksCompleted = data.goals.flatMap(g => g.steps).filter(s => s.completed).length;
+      const daysToMove = Math.ceil((new Date(config.moveDate) - new Date()) / 86400000);
+      const currentIncome = config.richIncome + config.shawnieIncome;
+
+      return (
+        <div className="app-wrapper">
+          {showCelebration && (
+            <div className="celebration">
+              <div className="celebration-content">
+                🎉 Amazing Progress! 🎉
+              </div>
+            </div>
+          )}
+
+          {/* HERO HEADER */}
+          <header className="hero-header">
+            <div className="hero-content">
+              <h1 className="hero-title">❤️ {config.familyName} Life Planner</h1>
+              <p className="hero-subtitle">Rich, Shawnie & Madison • Journey from Seaham to Sheffield • £0 to £95k</p>
+              
+              <div className="hero-stats">
+                <div className="hero-stat">
+                  <div className="hero-stat-value">{calculateProgress()}%</div>
+                  <div className="hero-stat-label">Overall Progress</div>
+                </div>
+                <div className="hero-stat">
+                  <div className="hero-stat-value">{daysSinceStart}</div>
+                  <div className="hero-stat-label">Days on Journey</div>
+                </div>
+                <div className="hero-stat">
+                  <div className="hero-stat-value">{tasksCompleted}</div>
+                  <div className="hero-stat-label">Tasks Completed</div>
+                </div>
+                <div className="hero-stat">
+                  <div className="hero-stat-value">£{currentIncome}k</div>
+                  <div className="hero-stat-label">Current Income</div>
+                </div>
+              </div>
+            </div>
+          </header>
+
+          {/* NAVIGATION */}
+          <div className="nav-container">
+            <nav className="nav">
+              {['Today', 'Goals', 'Calendar', 'Finances', 'Money Tips', 'Settings'].map(tab => (
+                <button
+                  key={tab}
+                  onClick={() => setActiveTab(tab.toLowerCase().replace(' ', '-'))}
+                  className={`nav-item ${activeTab === tab.toLowerCase().replace(' ', '-') ? 'active' : ''}`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </nav>
+          </div>
+
+          {/* MAIN CONTENT */}
+          <main className="main">
+            {activeTab === 'today' && (
+              <div>
+                <div className="card">
+                  <div className="card-header">
+                    <h2 className="card-title">
+                      📅 Today's Tasks - {new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+                    </h2>
+                  </div>
+                  
+                  <div className="today-grid">
+                    {getTodaysTasks().map((task, i) => (
+                      <div key={i} className={`task-card ${task.completed ? 'completed' : ''}`}>
+                        <div className="task-header">
+                          <input
+                            type="checkbox"
+                            className="task-checkbox"
+                            checked={task.completed || false}
+                            onChange={() => {
+                              if (task.type === 'habit') {
+                                completeHabit(task.id);
+                              } else {
+                                completeTask(task.goalId, task.id);
+                              }
+                            }}
+                          />
+                          <div className="task-content">
+                            <div className="task-title">
+                              {task.icon && <span style={{marginRight: '8px'}}>{task.icon}</span>}
+                              {task.type === 'habit' ? task.task : task.task}
+                            </div>
+                            {task.type === 'step' && (
+                              <div style={{fontSize: '0.875rem', color: '#6b7280', marginTop: '4px'}}>
+                                From: {task.goal}
+                              </div>
+                            )}
+                            {task.notes && (
+                              <div className="step-notes" style={{marginTop: '8px'}}>
+                                {task.notes}
+                              </div>
+                            )}
+                            <div className="task-meta">
+                              {task.person && (
+                                <span className={`task-badge badge-person-${task.person.toLowerCase()}`}>
+                                  {task.person}
+                                </span>
+                              )}
+                              {task.priority && (
+                                <span className={`task-badge badge-priority-${task.priority}`}>
+                                  {task.priority}
+                                </span>
+                              )}
+                              {task.daysUntil !== undefined && (
+                                <span className="task-badge badge-time">
+                                  {task.daysUntil === 0 ? 'Due Today!' : `${task.daysUntil} days`}
+                                </span>
+                              )}
+                              {task.estimatedHours && (
+                                <span className="task-badge badge-time">
+                                  {task.estimatedHours}h estimated
+                                </span>
+                              )}
+                              {task.streak > 0 && (
+                                <span className="task-badge" style={{background: '#f59e0b', color: 'white'}}>
+                                  🔥 {task.streak} day streak
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Quick Stats */}
+                <div className="card">
+                  <h2 className="card-title">📊 Quick Stats</h2>
+                  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginTop: '20px'}}>
+                    <div style={{textAlign: 'center', padding: '20px', background: 'linear-gradient(135deg, #dbeafe, #bfdbfe)', borderRadius: '16px'}}>
+                      <div style={{fontSize: '2rem', fontWeight: '700', color: '#1e40af'}}>{daysToMove > 0 ? daysToMove : 'Moved!'}</div>
+                      <div style={{color: '#1e3a8a', marginTop: '4px'}}>Days to Sheffield</div>
+                    </div>
+                    <div style={{textAlign: 'center', padding: '20px', background: 'linear-gradient(135deg, #fce7f3, #fbcfe8)', borderRadius: '16px'}}>
+                      <div style={{fontSize: '2rem', fontWeight: '700', color: '#9f1239'}}>£{(95000 - currentIncome).toLocaleString()}</div>
+                      <div style={{color: '#831843', marginTop: '4px'}}>To £95k Goal</div>
+                    </div>
+                    <div style={{textAlign: 'center', padding: '20px', background: 'linear-gradient(135deg, #d1fae5, #a7f3d0)', borderRadius: '16px'}}>
+                      <div style={{fontSize: '2rem', fontWeight: '700', color: '#065f46'}}>{data.habits.reduce((sum, h) => sum + (h.streak || 0), 0)}</div>
+                      <div style={{color: '#064e3b', marginTop: '4px'}}>Total Habit Streaks</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'goals' && (
+              <div>
+                {data.goals.map(goal => (
+                  <div key={goal.id} className="goal-card">
+                    <div className="goal-header">
+                      <div style={{flex: 1}}>
+                        <div className="goal-title">
+                          <span style={{fontSize: '1.75rem', marginRight: '8px'}}>{goal.icon}</span>
+                          {goal.title}
+                        </div>
+                        <div className="goal-description">{goal.description}</div>
+                        <div style={{display: 'flex', gap: '12px', marginTop: '12px', flexWrap: 'wrap'}}>
+                          <span className={`task-badge badge-person-${goal.person.toLowerCase()}`}>
+                            {goal.person}
+                          </span>
+                          <span className={`task-badge badge-priority-${goal.priority}`}>
+                            {goal.priority} priority
+                          </span>
+                          <span className="task-badge" style={{background: '#f3f4f6', color: '#374151'}}>
+                            Target: {new Date(goal.targetDate).toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Progress Bar */}
+                    <div className="goal-progress-bar">
+                      <div
+                        className="goal-progress-fill"
+                        style={{
+                          width: `${(goal.steps.filter(s => s.completed).length / goal.steps.length * 100) || 0}%`,
+                          background: `linear-gradient(90deg, ${goal.color}, ${goal.color}dd)`
+                        }}
+                      />
+                    </div>
+                    <div style={{textAlign: 'center', fontSize: '0.875rem', color: '#6b7280', marginTop: '4px'}}>
+                      {goal.steps.filter(s => s.completed).length} of {goal.steps.length} steps completed
+                    </div>
+
+                    {/* Tips */}
+                    {goal.tips && (
+                      <div className="tip-box">
+                        <div className="tip-icon">💡</div>
+                        <div className="tip-title">Pro Tips & Insights</div>
+                        <div className="tip-content" style={{whiteSpace: 'pre-line'}}>
+                          {goal.tips}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Resources */}
+                    {goal.resources && goal.resources.length > 0 && (
+                      <div style={{marginTop: '16px', padding: '16px', background: '#f0f9ff', borderRadius: '12px', borderLeft: '4px solid #3b82f6'}}>
+                        <div style={{fontWeight: '600', marginBottom: '8px', color: '#1e40af'}}>🔗 Useful Resources:</div>
+                        {goal.resources.map((res, i) => (
+                          <div key={i} style={{marginTop: '6px'}}>
+                            <a href={res.url} target="_blank" rel="noopener noreferrer" className="step-link">
+                              {res.name} →
+                            </a>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+
+                    {/* Steps */}
+                    <div style={{marginTop: '24px'}}>
+                      <h3 style={{fontSize: '1.25rem', fontWeight: '600', marginBottom: '16px'}}>Action Steps:</h3>
+                      {goal.steps.map(step => (
+                        <div key={step.id} className={`step-item ${step.completed ? 'completed' : ''}`}>
+                          <input
+                            type="checkbox"
+                            className="step-checkbox"
+                            checked={step.completed}
+                            onChange={() => completeTask(goal.id, step.id)}
+                          />
+                          <div className="step-content">
+                            <div className="step-title">{step.task}</div>
+                            
+                            {step.dueDate && (
+                              <div style={{fontSize: '0.875rem', color: '#6b7280', marginTop: '4px'}}>
+                                📅 Due: {new Date(step.dueDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                {step.estimatedHours && ` • ⏱️ ${step.estimatedHours}h estimated`}
+                              </div>
+                            )}
+                            
+                            {step.notes && (
+                              <div className="step-notes">
+                                📝 {step.notes}
+                              </div>
+                            )}
+
+                            {/* Day-by-day breakdown */}
+                            {step.dayTasks && step.dayTasks.length > 0 && !step.completed && (
+                              <div style={{marginTop: '12px', padding: '12px', background: 'white', borderRadius: '8px', border: '1px solid #e5e7eb'}}>
+                                <div style={{fontWeight: '600', fontSize: '0.875rem', marginBottom: '8px', color: '#374151'}}>
+                                  📋 Day-by-Day Breakdown:
+                                </div>
+                                {step.dayTasks.map((dt, i) => (
+                                  <div key={i} style={{fontSize: '0.875rem', padding: '6px 0', borderBottom: i < step.dayTasks.length - 1 ? '1px solid #f3f4f6' : 'none'}}>
+                                    <span style={{fontWeight: '600', color: goal.color}}>Day {dt.day}:</span> {dt.task} <span style={{color: '#6b7280'}}>({dt.duration}min)</span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                            
+                            {step.links && step.links.length > 0 && (
+                              <div className="step-links">
+                                {step.links.map((link, i) => (
+                                  <a key={i} href={link} target="_blank" rel="noopener noreferrer" className="step-link">
+                                    Open Link {i + 1} →
+                                  </a>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {activeTab === 'finances' && (
+              <div>
+                <div className="card">
+                  <h2 className="card-title">💰 Financial Dashboard</h2>
+                  
+                  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '20px', marginTop: '20px'}}>
+                    <div style={{padding: '24px', background: 'linear-gradient(135deg, #dbeafe, #bfdbfe)', borderRadius: '16px'}}>
+                      <div style={{fontSize: '0.875rem', color: '#1e40af', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Rich's Income</div>
+                      <div style={{fontSize: '2.5rem', fontWeight: '700', color: '#1e3a8a'}}>£{config.richIncome.toLocaleString()}</div>
+                      <input
+                        type="number"
+                        className="input"
+                        value={config.richIncome}
+                        onChange={(e) => setConfig({...config, richIncome: parseFloat(e.target.value) || 0})}
+                        style={{marginTop: '12px', fontSize: '0.95rem'}}
+                      />
+                    </div>
+                    
+                    <div style={{padding: '24px', background: 'linear-gradient(135deg, #fce7f3, #fbcfe8)', borderRadius: '16px'}}>
+                      <div style={{fontSize: '0.875rem', color: '#9f1239', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Shawnie's Income</div>
+                      <div style={{fontSize: '2.5rem', fontWeight: '700', color: '#831843'}}>£{config.shawnieIncome.toLocaleString()}</div>
+                      <input
+                        type="number"
+                        className="input"
+                        value={config.shawnieIncome}
+                        onChange={(e) => setConfig({...config, shawnieIncome: parseFloat(e.target.value) || 0})}
+                        style={{marginTop: '12px', fontSize: '0.95rem'}}
+                      />
+                    </div>
+                    
+                    <div style={{padding: '24px', background: 'linear-gradient(135deg, #d1fae5, #a7f3d0)', borderRadius: '16px'}}>
+                      <div style={{fontSize: '0.875rem', color: '#065f46', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Combined Income</div>
+                      <div style={{fontSize: '2.5rem', fontWeight: '700', color: '#064e3b'}}>£{currentIncome.toLocaleString()}</div>
+                      <div style={{fontSize: '0.875rem', color: '#065f46', marginTop: '8px'}}>
+                        £{((currentIncome) / 12).toFixed(0)}/month
+                      </div>
+                    </div>
+
+                    <div style={{padding: '24px', background: 'linear-gradient(135deg, #fef3c7, #fde68a)', borderRadius: '16px'}}>
+                      <div style={{fontSize: '0.875rem', color: '#92400e', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.5px'}}>Current Savings</div>
+                      <div style={{fontSize: '2.5rem', fontWeight: '700', color: '#78350f'}}>£{config.savings.toLocaleString()}</div>
+                      <input
+                        type="number"
+                        className="input"
+                        value={config.savings}
+                        onChange={(e) => setConfig({...config, savings: parseFloat(e.target.value) || 0})}
+                        style={{marginTop: '12px', fontSize: '0.95rem'}}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="card">
+                  <h2 className="card-title">🏦 Pensions</h2>
+                  <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px', marginTop: '20px'}}>
+                    <div>
+                      <label className="label">Rich's Pension</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        className="input"
+                        value={config.richPension}
+                        onChange={(e) => setConfig({...config, richPension: parseFloat(e.target.value) || 0})}
+                      />
+                      <div style={{fontSize: '1.5rem', fontWeight: '700', color: '#3b82f6', marginTop: '8px'}}>
+                        £{config.richPension.toLocaleString()}
+                      </div>
+                    </div>
+                    <div>
+                      <label className="label">Shawnie's Pension</label>
+                      <input
+                        type="number"
+                        step="0.01"
+                        className="input"
+                        value={config.shawniePension}
+                        onChange={(e) => setConfig({...config, shawniePension: parseFloat(e.target.value) || 0})}
+                      />
+                      <div style={{fontSize: '1.5rem', fontWeight: '700', color: '#ec4899', marginTop: '8px'}}>
+                        £{config.shawniePension.toLocaleString()}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="tip-box" style={{marginTop: '24px'}}>
+                    <div className="tip-title">🔍 Action Required</div>
+                    <div className="tip-content">
+                      Track down Shawnie's pension using the <a href="https://www.gov.uk/find-pension-contact-details" target="_blank" rel="noopener noreferrer" style={{color: '#92400e', fontWeight: '600', textDecoration: 'underline'}}>GOV.UK Pension Tracing Service</a>. Takes 5 minutes and could find thousands!
+                    </div>
+                  </div>
+                </div>
+
+                <div className="card">
+                  <h2 className="card-title">🎯 Path to £95k</h2>
+                  <div style={{marginTop: '20px'}}>
+                    <div style={{display: 'flex', justifyContent: 'space-between', marginBottom: '12px'}}>
+                      <span style={{fontSize: '1.1rem', fontWeight: '600'}}>Current: £{currentIncome}k</span>
+                      <span style={{fontSize: '1.1rem', fontWeight: '600'}}>Target: £95k</span>
+                    </div>
+                    <div className="goal-progress-bar" style={{height: '24px'}}>
+                      <div
+                        className="goal-progress-fill"
+                        style={{width: `${(currentIncome / 95000 * 100)}%`}}
+                      />
+                    </div>
+                    <div style={{marginTop: '20px', padding: '20px', background: '#f9fafb', borderRadius: '12px'}}>
+                      <div style={{display: 'grid', gap: '12px'}}>
+                        <div style={{display: 'flex', justifyContent: 'space-between', padding: '12px', background: 'white', borderRadius: '8px'}}>
+                          <span>Rich's Target (Qualified Electrician)</span>
+                          <span style={{fontWeight: '700', color: '#3b82f6'}}>£45k</span>
+                        </div>
+                        <div style={{display: 'flex', justifyContent: 'space-between', padding: '12px', background: 'white', borderRadius: '8px'}}>
+                          <span>Shawnie's Target (Senior PIP Assessor)</span>
+                          <span style={{fontWeight: '700', color: '#ec4899'}}>£50k</span>
+                        </div>
+                        <div style={{display: 'flex', justifyContent: 'space-between', padding: '12px', background: 'white', borderRadius: '8px', borderLeft: '4px solid #10b981'}}>
+                          <span style={{fontWeight: '600'}}>Combined Target</span>
+                          <span style={{fontWeight: '700', color: '#10b981'}}>£95k</span>
+                        </div>
+                        <div style={{display: 'flex', justifyContent: 'space-between', padding: '12px', background: '#fef3c7', borderRadius: '8px'}}>
+                          <span style={{fontWeight: '600'}}>Gap Remaining</span>
+                          <span style={{fontWeight: '700', color: '#92400e'}}>£{(95000 - currentIncome).toLocaleString()}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'money-tips' && (
+              <div>
+                <div className="card">
+                  <h2 className="card-title">💡 Money Tips & Life Hacks</h2>
+                  <p style={{color: '#6b7280', marginBottom: '24px'}}>
+                    Practical tips specifically for families on benefits, with young children, preparing for career changes.
+                  </p>
+                  
+                  <div style={{display: 'grid', gap: '16px'}}>
+                    {data.moneyTips.map(tip => (
+                      <div key={tip.id} className="tip-box">
+                        <div style={{fontSize: '1.5rem', marginBottom: '8px'}}>{tip.icon}</div>
+                        <div className="tip-title">{tip.title}</div>
+                        <div className="tip-content">{tip.tip}</div>
+                        <span className="task-badge" style={{marginTop: '12px', display: 'inline-block', background: '#fbbf24', color: 'white'}}>
+                          {tip.category}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {activeTab === 'calendar' && (
+              <div className="card">
+                <h2 className="card-title">📅 Upcoming Tasks Calendar</h2>
+                <p style={{color: '#6b7280', marginBottom: '20px'}}>All tasks with due dates in chronological order</p>
+                
+                {data.goals.map(goal => {
+                  const upcoming = goal.steps.filter(s => !s.completed && s.dueDate).sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate));
+                  if (upcoming.length === 0) return null;
+                  
+                  return (
+                    <div key={goal.id} style={{marginBottom: '32px'}}>
+                      <h3 style={{fontSize: '1.25rem', fontWeight: '600', marginBottom: '16px', color: goal.color}}>
+                        {goal.icon} {goal.title}
+                      </h3>
+                      <div style={{display: 'grid', gap: '12px'}}>
+                        {upcoming.map(step => (
+                          <div key={step.id} className="step-item">
+                            <input
+                              type="checkbox"
+                              className="step-checkbox"
+                              checked={false}
+                              onChange={() => completeTask(goal.id, step.id)}
+                            />
+                            <div className="step-content">
+                              <div className="step-title">{step.task}</div>
+                              <div style={{fontSize: '0.875rem', color: '#6b7280', marginTop: '4px'}}>
+                                📅 {new Date(step.dueDate).toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' })}
+                                {step.estimatedHours && ` • ⏱️ ${step.estimatedHours}h`}
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+            {activeTab === 'settings' && (
+              <div className="card">
+                <h2 className="card-title">⚙️ Settings</h2>
+                
+                <div style={{display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', marginTop: '24px'}}>
+                  <div className="form-group">
+                    <label className="label">Start Date</label>
+                    <input
+                      type="date"
+                      className="input"
+                      value={config.startDate}
+                      onChange={(e) => setConfig({...config, startDate: e.target.value})}
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label className="label">Current Location</label>
+                    <input
+                      type="text"
+                      className="input"
+                      value={config.location}
+                      onChange={(e) => setConfig({...config, location: e.target.value})}
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label className="label">Target Location</label>
+                    <input
+                      type="text"
+                      className="input"
+                      value={config.targetLocation}
+                      onChange={(e) => setConfig({...config, targetLocation: e.target.value})}
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label className="label">Planned Move Date</label>
+                    <input
+                      type="date"
+                      className="input"
+                      value={config.moveDate}
+                      onChange={(e) => setConfig({...config, moveDate: e.target.value})}
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label className="label">Shawnie Return to Work Date</label>
+                    <input
+                      type="date"
+                      className="input"
+                      value={config.shawnieReturnDate}
+                      onChange={(e) => setConfig({...config, shawnieReturnDate: e.target.value})}
+                    />
+                  </div>
+                  
+                  <div className="form-group">
+                    <label className="label">Shawnie Return Income</label>
+                    <input
+                      type="number"
+                      className="input"
+                      value={config.shawnieReturnIncome}
+                      onChange={(e) => setConfig({...config, shawnieReturnIncome: parseInt(e.target.value) || 0})}
+                    />
+                  </div>
+                </div>
+              </div>
+            )}
+          </main>
+
+          {/* FLOATING ACTION BUTTON */}
+          <button className="fab" onClick={() => setActiveTab('today')}>
+            +
+          </button>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<FamilyPlanner />);
+  </script>
+</body>
+</html>
