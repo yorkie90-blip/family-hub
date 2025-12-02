@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#e07a5f">
+  <title>Turnbull-Shaw Family Hub</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{--terracotta:#e07a5f;--terracotta-dark:#c65d42;--sage:#81b29a;--sage-light:#c8e6d4;--cream:#f4f1de;--cream-dark:#e8e4cc;--navy:#3d405b;--navy-light:#6b7280;--gold:#f2cc8f;--gold-dark:#d9b36c;--rich:#4a90a4;--rich-light:#b8d4de;--shawnie:#d4729b;--shawnie-light:#f0c4d6;--madison:#f2a65a;--madison-light:#fcd9b6;--family:#81b29a;--both:#9b8bb4;--critical:#dc2626;--high:#f59e0b;--medium:#3b82f6;--low:#6b7280;--shadow-sm:0 2px 8px rgba(61,64,91,0.08);--shadow-md:0 8px 24px rgba(61,64,91,0.12);--shadow-lg:0 16px 48px rgba(61,64,91,0.16);--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:24px}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--navy);min-height:100vh;line-height:1.6}
+    h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif;line-height:1.2}
+    .app{min-height:100vh;padding-bottom:80px}
+    .header{background:linear-gradient(135deg,var(--terracotta) 0%,var(--shawnie) 50%,var(--gold) 100%);color:white;padding:20px;position:relative}
+    .header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:24px;background:var(--cream);border-radius:24px 24px 0 0}
+    .header-content{max-width:1200px;margin:0 auto;position:relative;z-index:1;padding-bottom:12px}
+    .header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .logo{display:flex;align-items:center;gap:10px}
+    .logo-icon{width:42px;height:42px;background:rgba(255,255,255,0.95);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+    .logo-title{font-size:1.2rem;font-weight:700}
+    .logo-sub{font-size:0.7rem;opacity:0.9}
+    .header-btns{display:flex;gap:6px}
+    .icon-btn{width:34px;height:34px;border-radius:var(--radius-sm);border:none;background:rgba(255,255,255,0.2);color:white;font-size:0.95rem;cursor:pointer;transition:all 0.2s}
+    .icon-btn:hover{background:rgba(255,255,255,0.3)}
+    .mini-stats{display:flex;gap:8px;flex-wrap:wrap}
+    .mini-stat{background:rgba(255,255,255,0.95);border-radius:var(--radius-sm);padding:6px 12px;display:flex;align-items:center;gap:6px}
+    .mini-stat-val{font-family:'Fraunces',serif;font-size:1rem;font-weight:700;color:var(--terracotta)}
+    .mini-stat-val.negative{color:var(--critical)}
+    .mini-stat-val.positive{color:var(--sage)}
+    .mini-stat-lbl{font-size:0.6rem;color:var(--navy-light);text-transform:uppercase}
+    .nav-wrap{position:sticky;top:0;z-index:100;padding:8px 16px;background:var(--cream)}
+    .nav{max-width:1200px;margin:0 auto;background:white;border-radius:999px;padding:4px;display:flex;gap:2px;overflow-x:auto;box-shadow:var(--shadow-md)}
+    .nav::-webkit-scrollbar{display:none}
+    .nav-btn{flex:1;min-width:fit-content;padding:10px 16px;border:none;border-radius:999px;background:transparent;font-family:inherit;font-size:0.8rem;font-weight:600;color:var(--navy-light);cursor:pointer;transition:all 0.2s;white-space:nowrap}
+    .nav-btn:hover{background:var(--cream);color:var(--navy)}
+    .nav-btn.active{background:var(--terracotta);color:white}
+    .main{max-width:1200px;margin:0 auto;padding:0 16px}
+    .card{background:white;border-radius:var(--radius-xl);padding:20px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+    .card-title{font-size:1.1rem;display:flex;align-items:center;gap:8px;margin-bottom:16px}
+    .card-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--terracotta),var(--gold));border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1rem}
+    .overview-hero{background:linear-gradient(135deg,var(--terracotta) 0%,var(--shawnie) 50%,var(--sage) 100%);border-radius:var(--radius-xl);padding:24px;color:white;margin-bottom:16px;text-align:center}
+    .overview-countdown{font-size:0.85rem;opacity:0.9;margin-bottom:8px}
+    .overview-days{font-family:'Fraunces',serif;font-size:3.5rem;font-weight:700;line-height:1}
+    .overview-label{font-size:0.9rem;margin-top:4px;opacity:0.9}
+    .overview-date{font-size:0.8rem;margin-top:8px;opacity:0.8}
+    .overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
+    .overview-card{background:white;border-radius:var(--radius-lg);padding:16px;text-align:center;box-shadow:var(--shadow-sm);border-left:4px solid var(--terracotta)}
+    .overview-card.income{border-left-color:var(--sage)}
+    .overview-card.expense{border-left-color:var(--critical)}
+    .overview-card.gap{border-left-color:var(--high)}
+    .overview-card.goals{border-left-color:var(--medium)}
+    .overview-card.savings{border-left-color:var(--gold)}
+    .overview-card.pension{border-left-color:var(--shawnie)}
+    .overview-card-icon{font-size:1.5rem;margin-bottom:6px}
+    .overview-card-value{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:700;color:var(--navy)}
+    .overview-card-label{font-size:0.7rem;color:var(--navy-light);text-transform:uppercase}
+    .progress-section{margin-bottom:16px}
+    .progress-title{font-size:0.85rem;font-weight:600;margin-bottom:8px;display:flex;justify-content:space-between}
+    .progress-bar{height:12px;background:var(--cream-dark);border-radius:6px;overflow:hidden}
+    .progress-fill{height:100%;border-radius:6px;transition:width 0.3s}
+    .progress-fill.goals{background:linear-gradient(90deg,var(--terracotta),var(--gold))}
+    .progress-fill.savings{background:linear-gradient(90deg,var(--sage),var(--rich))}
+    .timeline-item{display:flex;gap:12px;padding:12px;background:var(--cream);border-radius:var(--radius-md);margin-bottom:8px}
+    .timeline-dot{width:12px;height:12px;border-radius:50%;margin-top:4px;flex-shrink:0}
+    .timeline-dot.past{background:var(--sage)}
+    .timeline-dot.current{background:var(--terracotta);box-shadow:0 0 0 4px rgba(224,122,95,0.3)}
+    .timeline-dot.future{background:var(--cream-dark);border:2px solid var(--navy-light)}
+    .timeline-content{flex:1}
+    .timeline-title{font-weight:600;font-size:0.9rem}
+    .timeline-date{font-size:0.75rem;color:var(--navy-light)}
+    .timeline-amount{font-family:'Fraunces',serif;font-weight:700;color:var(--sage)}
+    .btn{padding:8px 16px;border:none;border-radius:999px;font-family:inherit;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px}
+    .btn-primary{background:var(--terracotta);color:white}
+    .btn-secondary{background:var(--cream);color:var(--navy)}
+    .btn-sm{padding:6px 12px;font-size:0.75rem}
+    .form-group{margin-bottom:12px}
+    .form-label{display:block;font-size:0.8rem;font-weight:600;margin-bottom:4px;color:var(--navy)}
+    .form-input{width:100%;padding:10px 12px;border:2px solid var(--cream-dark);border-radius:var(--radius-sm);font-family:inherit;font-size:0.9rem}
+    .form-input:focus{outline:none;border-color:var(--terracotta)}
+    .budget-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+    .budget-section{background:var(--cream);border-radius:var(--radius-lg);padding:16px}
+    .budget-section-title{font-family:'Fraunces',serif;font-size:0.95rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+    .budget-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.5)}
+    .budget-row:last-child{border-bottom:none}
+    .budget-label{font-size:0.85rem}
+    .budget-input{width:90px;padding:6px 10px;border:2px solid var(--cream-dark);border-radius:var(--radius-sm);font-size:0.85rem;text-align:right;background:white}
+    .budget-input:focus{outline:none;border-color:var(--terracotta)}
+    .budget-total{background:white;border-radius:var(--radius-md);padding:12px;margin-top:12px;display:flex;justify-content:space-between;align-items:center}
+    .budget-total-label{font-weight:600}
+    .budget-total-value{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700}
+    .summary-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}
+    .summary-box{padding:14px;border-radius:var(--radius-md);text-align:center}
+    .summary-box.income{background:linear-gradient(135deg,#d1fae5,#a7f3d0)}
+    .summary-box.expense{background:linear-gradient(135deg,#fee2e2,#fecaca)}
+    .summary-box.saving{background:linear-gradient(135deg,#fef3c7,#fde68a)}
+    .summary-box.leftover{background:linear-gradient(135deg,#dbeafe,#bfdbfe)}
+    .summary-box.negative{background:linear-gradient(135deg,#fee2e2,#fecaca)}
+    .summary-label{font-size:0.6rem;text-transform:uppercase;font-weight:600;opacity:0.8}
+    .summary-value{font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700}
+    .tag{display:inline-flex;padding:2px 8px;border-radius:999px;font-size:0.65rem;font-weight:600}
+    .tag-rich{background:var(--rich-light);color:#1e4a5f}
+    .tag-shawnie{background:var(--shawnie-light);color:#6b2d4a}
+    .tag-both{background:#e0d8ec;color:#4a3d5c}
+    .tag-family{background:var(--sage-light);color:#2d5a4a}
+    .tag-madison{background:var(--madison-light);color:#7a4a1f}
+    .tag-critical{background:#fee2e2;color:#991b1b}
+    .tag-high{background:#fef3c7;color:#92400e}
+    .tag-medium{background:#dbeafe;color:#1e40af}
+    .tag-low{background:#f3f4f6;color:#4b5563}
+    .week-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:8px}
+    .day-tabs{display:flex;gap:4px;overflow-x:auto;flex:1;padding:4px 0}
+    .day-tab{padding:8px 10px;border:2px solid var(--cream-dark);border-radius:var(--radius-md);background:white;cursor:pointer;text-align:center;min-width:52px;transition:all 0.2s}
+    .day-tab:hover{border-color:var(--terracotta)}
+    .day-tab.active{background:var(--terracotta);border-color:var(--terracotta);color:white}
+    .day-tab.today{border-color:var(--gold);background:#fffbeb}
+    .day-tab.active.today{background:var(--terracotta);border-color:var(--terracotta)}
+    .day-name{font-size:0.65rem;font-weight:600}
+    .day-num{font-size:0.95rem;font-weight:700}
+    .time-section{margin-bottom:20px}
+    .time-header{display:flex;align-items:center;gap:8px;margin-bottom:10px;padding-bottom:8px;border-bottom:2px solid var(--cream-dark)}
+    .time-icon{font-size:1.1rem}
+    .time-title{font-weight:700;font-size:0.9rem}
+    .time-range{font-size:0.7rem;color:var(--navy-light);margin-left:auto}
+    .task-item{display:flex;align-items:flex-start;gap:10px;padding:10px;background:var(--cream);border-radius:var(--radius-md);margin-bottom:6px;cursor:pointer;transition:all 0.2s}
+    .task-item:hover{background:var(--cream-dark)}
+    .task-item.completed{opacity:0.5}
+    .task-item.completed .task-text{text-decoration:line-through}
+    .task-check{width:20px;height:20px;border:2px solid var(--navy-light);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:white}
+    .task-check.checked{background:var(--sage);border-color:var(--sage);color:white}
+    .task-content{flex:1}
+    .task-text{font-size:0.85rem;font-weight:500}
+    .task-meta{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+    .meal-card{background:linear-gradient(135deg,#fef3c7,#fde68a);border-radius:var(--radius-md);padding:12px;margin-bottom:8px}
+    .meal-header{display:flex;justify-content:space-between;align-items:center}
+    .meal-type{font-weight:700;color:#92400e;font-size:0.85rem}
+    .meal-cost{font-weight:700;color:#78350f;font-size:0.8rem}
+    .meal-name{font-size:0.9rem;color:#78350f;margin-top:4px}
+    .activity-card{background:linear-gradient(135deg,#eff6ff,#dbeafe);border-radius:var(--radius-md);padding:12px;margin-bottom:8px}
+    .activity-name{font-weight:600;color:#1e40af;font-size:0.85rem}
+    .activity-meta{font-size:0.75rem;color:#3b82f6;margin-top:2px}
+    .goal-focus{background:linear-gradient(135deg,#fdf4ff,#f3e8ff);border-radius:var(--radius-md);padding:12px;margin-bottom:8px;border-left:3px solid #a855f7}
+    .goal-focus-title{font-weight:700;color:#7c3aed;font-size:0.8rem;margin-bottom:4px}
+    .goal-focus-text{font-size:0.85rem;color:#6b21a8}
+    .goal-focus-time{font-size:0.7rem;color:#9333ea;margin-top:4px}
+    .goal-card{background:white;border-radius:var(--radius-lg);margin-bottom:10px;border-left:4px solid var(--medium);overflow:hidden;box-shadow:var(--shadow-sm)}
+    .goal-card.critical{border-left-color:var(--critical)}
+    .goal-card.high{border-left-color:var(--high)}
+    .goal-card.medium{border-left-color:var(--medium)}
+    .goal-card.low{border-left-color:var(--low)}
+    .goal-header{padding:14px;cursor:pointer;display:flex;align-items:center;gap:10px}
+    .goal-icon{font-size:1.3rem}
+    .goal-info{flex:1}
+    .goal-title{font-weight:700;font-size:0.9rem}
+    .goal-subtitle{font-size:0.75rem;color:var(--navy-light)}
+    .goal-progress{text-align:right}
+    .goal-pct{font-family:'Fraunces',serif;font-weight:700;font-size:1rem}
+    .goal-count{font-size:0.7rem;color:var(--navy-light)}
+    .goal-body{padding:0 14px 14px;display:none}
+    .goal-body.open{display:block}
+    .step-item{display:flex;gap:8px;padding:8px;background:var(--cream);border-radius:var(--radius-sm);margin-bottom:4px;cursor:pointer;font-size:0.85rem}
+    .step-item.completed{opacity:0.5}
+    .step-item.completed .step-text{text-decoration:line-through}
+    .step-check{width:18px;height:18px;border:2px solid var(--navy-light);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:white}
+    .step-check.checked{background:var(--sage);border-color:var(--sage);color:white}
+    .step-text{flex:1}
+    .step-date{font-size:0.7rem;color:var(--navy-light)}
+    .benefit-item{display:flex;align-items:center;gap:10px;padding:10px;background:var(--cream);border-radius:var(--radius-md);margin-bottom:6px}
+    .benefit-item.unclaimed{background:#fef3c7}
+    .benefit-check{width:20px;height:20px;border:2px solid var(--navy-light);border-radius:5px;display:flex;align-items:center;justify-content:center;background:white;cursor:pointer}
+    .benefit-check.checked{background:var(--sage);border-color:var(--sage);color:white}
+    .benefit-name{flex:1;font-size:0.9rem}
+    .benefit-saving{font-weight:700;color:var(--sage);font-size:0.85rem}
+    .tip-box{background:#fef3c7;border-left:3px solid var(--gold-dark);border-radius:var(--radius-sm);padding:12px;margin:12px 0;font-size:0.85rem;color:#78350f}
+    .celebration{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;pointer-events:none}
+    .celebration-box{background:linear-gradient(135deg,var(--gold),var(--terracotta));color:white;padding:16px 32px;border-radius:999px;font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700;box-shadow:var(--shadow-md);animation:pop 0.5s ease}
+    @keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+    .fab{position:fixed;bottom:20px;right:20px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--terracotta),var(--shawnie));color:white;border:none;font-size:1.2rem;cursor:pointer;box-shadow:var(--shadow-md);z-index:900}
+    @media(max-width:640px){.summary-row{grid-template-columns:repeat(2,1fr)}.overview-grid{grid-template-columns:repeat(2,1fr)}.day-tab{min-width:46px;padding:6px}}
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.23.5/babel.min.js"></script>
+  <script type="text/babel">
+const{useState,useEffect,useMemo}=React;
+const Check=()=><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>;
+const ChevronDown=()=><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>;
+
+const weeklyMeals={
+  0:{breakfast:{name:"Lazy Sunday pancakes",cost:1.20,prep:"25min",cook:"Rich"},lunch:{name:"Roast prep nibbles",cost:2.00,prep:"15min",cook:"Rich"},dinner:{name:"Sunday roast chicken",cost:8.00,prep:"2hr",cook:"Rich"}},
+  1:{breakfast:{name:"Porridge with honey",cost:0.40,prep:"10min",cook:"Rich"},lunch:{name:"Leftover roast sandwiches",cost:0.50,prep:"5min",cook:"Either"},dinner:{name:"Spaghetti Bolognese",cost:4.00,prep:"45min",cook:"Rich"}},
+  2:{breakfast:{name:"Scrambled eggs on toast",cost:0.80,prep:"10min",cook:"Rich"},lunch:{name:"Soup & crusty bread",cost:1.50,prep:"20min",cook:"Rich"},dinner:{name:"Chicken stir fry",cost:4.50,prep:"30min",cook:"Rich"}},
+  3:{breakfast:{name:"Yogurt, granola & fruit",cost:0.70,prep:"5min",cook:"Either"},lunch:{name:"Cheese toasties",cost:1.20,prep:"15min",cook:"Either"},dinner:{name:"Shepherd's pie",cost:4.00,prep:"1hr",cook:"Rich"}},
+  4:{breakfast:{name:"Beans on toast",cost:0.50,prep:"10min",cook:"Either"},lunch:{name:"Jacket potato & beans",cost:1.00,prep:"1hr",cook:"Rich"},dinner:{name:"Fish fingers & chips",cost:3.50,prep:"30min",cook:"Rich"}},
+  5:{breakfast:{name:"French toast",cost:0.60,prep:"15min",cook:"Rich"},lunch:{name:"BLT sandwiches",cost:2.00,prep:"10min",cook:"Either"},dinner:{name:"Homemade pizza",cost:3.50,prep:"45min",cook:"Rich"}},
+  6:{breakfast:{name:"Full English (budget)",cost:2.00,prep:"25min",cook:"Rich"},lunch:{name:"Pasta salad",cost:1.50,prep:"15min",cook:"Rich"},dinner:{name:"Curry & rice",cost:4.00,prep:"45min",cook:"Rich"}}
+};
+
+const weeklyActivities={
+  0:[{name:"Board game afternoon",icon:"🎲",person:"Family",cost:0,duration:"2hr"},{name:"Anime movie night",icon:"📺",person:"Both",cost:0,duration:"2hr"}],
+  1:[{name:"Library visit",icon:"📚",person:"Family",cost:0,duration:"1hr"},{name:"Lego building",icon:"🧱",person:"Family",cost:0,duration:"1hr"}],
+  2:[{name:"Seaham beach walk",icon:"🏖️",person:"Family",cost:0,duration:"2hr"},{name:"History documentary",icon:"🏛️",person:"Rich",cost:0,duration:"1hr"}],
+  3:[{name:"Soft play / park",icon:"🛝",person:"Madison",cost:0,duration:"2hr"},{name:"Cafe trip",icon:"☕",person:"Family",cost:8,duration:"1hr"}],
+  4:[{name:"Museum trip (free)",icon:"🏛️",person:"Family",cost:0,duration:"2hr"},{name:"Gaming session",icon:"🎮",person:"Both",cost:0,duration:"2hr"}],
+  5:[{name:"Local park adventure",icon:"🌳",person:"Family",cost:0,duration:"2hr"},{name:"Pizza making together",icon:"🍕",person:"Family",cost:0,duration:"1hr"}],
+  6:[{name:"Lie-in rotation",icon:"😴",person:"Both",cost:0,duration:"2hr"},{name:"Nature walk / hike",icon:"🥾",person:"Family",cost:0,duration:"2hr"}]
+};
+
+const dailyTasks={
+  fixed:[
+    {task:"Make beds",person:"Both",time:"morning",icon:"🛏️"},
+    {task:"Breakfast dishes",person:"Rich",time:"morning",icon:"🍽️"},
+    {task:"Kitchen wipe",person:"Rich",time:"morning",icon:"🧽"},
+    {task:"Madison morning routine",person:"Shawnie",time:"morning",icon:"👶"},
+    {task:"Laundry load",person:"Rich",time:"morning",icon:"👕"},
+    {task:"Lunch dishes",person:"Either",time:"afternoon",icon:"🍽️"},
+    {task:"Living room tidy",person:"Either",time:"afternoon",icon:"🛋️"},
+    {task:"Madison quiet time",person:"Both",time:"afternoon",icon:"😴"},
+    {task:"Cook dinner",person:"Rich",time:"evening",icon:"🍳"},
+    {task:"Dinner dishes",person:"Rich",time:"evening",icon:"🍽️"},
+    {task:"Bath Madison",person:"Rich",time:"evening",icon:"🛁"},
+    {task:"Bedtime routine",person:"Both",time:"evening",icon:"📖"},
+    {task:"Evening tidy (10min)",person:"Both",time:"evening",icon:"✨"},
+    {task:"Check finances",person:"Shawnie",time:"evening",icon:"💰"}
+  ],
+  weekly:{
+    0:[{task:"Hoover whole house",person:"Rich",icon:"🧹"},{task:"Meal plan for week",person:"Shawnie",icon:"📝"}],
+    1:[{task:"Clean bathroom",person:"Rich",icon:"🚿"},{task:"Mop kitchen floor",person:"Rich",icon:"🧹"}],
+    2:[{task:"Change bed sheets",person:"Both",icon:"🛏️"},{task:"Dust surfaces",person:"Either",icon:"✨"}],
+    3:[{task:"Deep clean kitchen",person:"Rich",icon:"✨"},{task:"Budget review",person:"Shawnie",icon:"📊"}],
+    4:[{task:"Hoover whole house",person:"Rich",icon:"🧹"},{task:"Clean mirrors/windows",person:"Either",icon:"🪟"}],
+    5:[{task:"Tidy/declutter session",person:"Both",icon:"📦"},{task:"Food shopping",person:"Both",icon:"🛒"}],
+    6:[{task:"Laundry catch-up",person:"Rich",icon:"👕"},{task:"Week prep",person:"Both",icon:"📋"}]
+  }
+};
+
+// Updated goals with Shawnie as Band 6 progressing to Band 7/8
+const defaultGoals=[
+  {id:1,icon:"⚡",title:"Become Qualified Electrician",subtitle:"Rich's career - 3 year path",person:"Rich",priority:"critical",
+    steps:[
+      {id:1,text:"Visit apprenticeships.gov.uk - search Sheffield",done:false,date:"Dec 2025",time:"30min"},
+      {id:2,text:"Contact Sheffield College: 0114 260 2600",done:false,date:"Dec 2025",time:"20min"},
+      {id:3,text:"Join Facebook: Sheffield Electricians group",done:false,date:"Dec 2025",time:"15min"},
+      {id:4,text:"Check Skills Bootcamp intakes",done:false,date:"Jan 2026",time:"30min"},
+      {id:5,text:"Apply to 3+ apprenticeship programs",done:false,date:"Jan 2026",time:"2hr"},
+      {id:6,text:"Check Advanced Learner Loan eligibility",done:false,date:"Jan 2026",time:"30min"},
+      {id:7,text:"Secure apprenticeship position",done:false,date:"Mar 2026",time:""},
+      {id:8,text:"Begin Level 2 Electrical Installation",done:false,date:"Sep 2026",time:""},
+      {id:9,text:"Complete Level 2",done:false,date:"Sep 2027",time:""},
+      {id:10,text:"Complete Level 3",done:false,date:"Sep 2028",time:""},
+      {id:11,text:"Pass 18th Edition (BS 7671)",done:false,date:"2028",time:""},
+      {id:12,text:"Pass AM2 Assessment",done:false,date:"2028",time:""},
+      {id:13,text:"Obtain JIB Gold Card",done:false,date:"2028",time:""},
+      {id:14,text:"Secure qualified position £40k+",done:false,date:"Dec 2028",time:""}
+    ]},
+  {id:2,icon:"💼",title:"Shawnie Career Progression",subtitle:"Band 6 → Band 7 → Band 8a",person:"Shawnie",priority:"critical",
+    steps:[
+      {id:1,text:"Research Sheffield PIP assessor vacancies",done:false,date:"Apr 2026",time:"1hr"},
+      {id:2,text:"Apply for Tax-Free Childcare account",done:false,date:"Apr 2026",time:"30min"},
+      {id:3,text:"Book Madison childcare place",done:false,date:"May 2026",time:"2hr"},
+      {id:4,text:"Confirm return to work with employer",done:false,date:"May 2026",time:"30min"},
+      {id:5,text:"Return to work (Band 6 - £40k)",done:false,date:"Jul 2026",time:""},
+      {id:6,text:"Research Band 7 requirements",done:false,date:"Sep 2026",time:"1hr"},
+      {id:7,text:"Identify training/CPD opportunities",done:false,date:"2026",time:"2hr"},
+      {id:8,text:"Apply for Band 7 Senior position (~£46-52k)",done:false,date:"Jul 2027",time:""},
+      {id:9,text:"Complete Band 7 transition",done:false,date:"2027",time:""},
+      {id:10,text:"Research Band 8a Team Lead roles",done:false,date:"2028",time:"1hr"},
+      {id:11,text:"Apply for Band 8a position (~£53-60k)",done:false,date:"2029",time:""},
+      {id:12,text:"Achieve Band 8a (~£55k+)",done:false,date:"2030",time:""}
+    ]},
+  {id:3,icon:"🚚",title:"Move to Sheffield",subtitle:"Relocate by late 2026",person:"Family",priority:"critical",
+    steps:[
+      {id:1,text:"Research areas: Crookes, Walkley, Hillsborough",done:false,date:"Dec 2025",time:"1hr"},
+      {id:2,text:"Set rental budget (£650-900/mo)",done:false,date:"Jan 2026",time:"30min"},
+      {id:3,text:"Day trip to explore Sheffield",done:false,date:"Mar 2026",time:"Full day"},
+      {id:4,text:"View 10+ rental properties",done:false,date:"Jun-Aug 2026",time:""},
+      {id:5,text:"Secure rental property",done:false,date:"Aug 2026",time:""},
+      {id:6,text:"Update addresses (DVLA, bank, GP)",done:false,date:"Oct 2026",time:"2hr"},
+      {id:7,text:"Moving day!",done:false,date:"Nov 2026",time:""}
+    ]},
+  {id:4,icon:"🏡",title:"Buy First Home",subtitle:"Sheffield homeowners by 2030",person:"Family",priority:"high",
+    steps:[
+      {id:1,text:"Check credit scores (ClearScore)",done:false,date:"2026",time:"20min"},
+      {id:2,text:"Get on electoral roll at new address",done:false,date:"Nov 2026",time:"10min"},
+      {id:3,text:"Open Lifetime ISAs (both) - 25% bonus",done:false,date:"2027",time:"1hr"},
+      {id:4,text:"Research First Homes scheme",done:false,date:"2029",time:"1hr"},
+      {id:5,text:"Build deposit to £25,000",done:false,date:"2029",time:""},
+      {id:6,text:"Get mortgage agreement in principle",done:false,date:"2029",time:"2hr"},
+      {id:7,text:"Start house hunting",done:false,date:"2029",time:""},
+      {id:8,text:"Complete purchase - HOMEOWNERS!",done:false,date:"2030",time:""}
+    ]},
+  {id:5,icon:"💰",title:"Financial Survival & Growth",subtitle:"Bridge the gap, then build wealth",person:"Family",priority:"critical",
+    steps:[
+      {id:1,text:"Apply for social broadband (save £20/mo)",done:false,date:"Dec 2025",time:"30min"},
+      {id:2,text:"Survive to July 2026",done:false,date:"Jul 2026",time:""},
+      {id:3,text:"Build £500 mini emergency fund",done:false,date:"Dec 2026",time:""},
+      {id:4,text:"Build £3,000 emergency fund",done:false,date:"Dec 2027",time:""},
+      {id:5,text:"Build £10,000 emergency fund",done:false,date:"2028",time:""},
+      {id:6,text:"Save £1,000+/month for deposit",done:false,date:"2028",time:""},
+      {id:7,text:"Reach £95k+ combined income",done:false,date:"2029",time:""}
+    ]},
+  {id:6,icon:"🎓",title:"Madison's Journey",subtitle:"Nursery → School milestones",person:"Madison",priority:"high",
+    steps:[
+      {id:1,text:"2-year health check",done:false,date:"Feb 2026",time:"1hr"},
+      {id:2,text:"Apply for 15hrs free childcare (age 2)",done:false,date:"Feb 2026",time:"30min"},
+      {id:3,text:"Start nursery",done:false,date:"Sep 2026",time:""},
+      {id:4,text:"Apply for 30hrs free childcare (age 3)",done:false,date:"Feb 2027",time:"30min"},
+      {id:5,text:"Research Sheffield primary schools",done:false,date:"2027",time:"2hr"},
+      {id:6,text:"Apply for Reception place",done:false,date:"Jan 2028",time:"1hr"},
+      {id:7,text:"Madison starts school!",done:false,date:"Sep 2028",time:""}
+    ]},
+  {id:7,icon:"💕",title:"Family Time & Wellbeing",subtitle:"Quality time together",person:"Family",priority:"medium",
+    steps:[
+      {id:1,text:"Weekly board game night",done:false,date:"Ongoing",time:"2hr/week"},
+      {id:2,text:"Monthly family day out",done:false,date:"Ongoing",time:""},
+      {id:3,text:"Weekly date night (after Madison sleeps)",done:false,date:"Ongoing",time:"2hr/week"},
+      {id:4,text:"Visit Harrogate friends quarterly",done:false,date:"Ongoing",time:""},
+      {id:5,text:"Visit Sheffield friends quarterly",done:false,date:"Ongoing",time:""},
+      {id:6,text:"Regular family visits",done:false,date:"Ongoing",time:""}
+    ]},
+  {id:8,icon:"👴",title:"Pensions & Protection",subtitle:"Long-term security",person:"Family",priority:"medium",
+    steps:[
+      {id:1,text:"Find Shawnie's existing pension",done:false,date:"Dec 2025",time:"1hr"},
+      {id:2,text:"Check apprenticeship pension options",done:false,date:"Sep 2026",time:"30min"},
+      {id:3,text:"Get life insurance quotes",done:false,date:"2027",time:"1hr"},
+      {id:4,text:"Shawnie maximize employer pension",done:false,date:"2026",time:""},
+      {id:5,text:"Open Junior ISA for Madison",done:false,date:"2027",time:"30min"},
+      {id:6,text:"Get income protection insurance",done:false,date:"2028",time:"1hr"}
+    ]}
+];
+
+// Benefits with user's claimed status
+const defaultBenefits=[
+  {id:'uc',name:'Universal Credit',claimed:true,saving:null},
+  {id:'cb',name:'Child Benefit (£25.60/wk)',claimed:true,saving:111},
+  {id:'ctReduction',name:'Council Tax Reduction',claimed:true,saving:null},
+  {id:'warmHome',name:'Warm Home Discount (£150/yr)',claimed:true,saving:150},
+  {id:'healthyStart',name:'Healthy Start Vouchers (£8.50/wk)',claimed:true,saving:442},
+  {id:'socialBroadband',name:'Social Broadband (save £20/mo)',claimed:false,saving:240},
+  {id:'waterSocial',name:'Water Social Tariff',claimed:true,saving:200},
+  {id:'freeDental',name:'Free NHS Dental (HC2)',claimed:true,saving:70},
+  {id:'freeEyeTest',name:'Free Eye Tests',claimed:true,saving:25}
+];
+
+// Full budget structure
+const defaultBudget={
+  income:{shawnieNet:0,richNet:0,childBenefit:108,universalCredit:1800,pip:0,other:200},
+  expenses:{
+    rent:700,councilTax:0,electric:120,gas:80,water:35,broadband:30,
+    phoneRich:15,phoneShawnie:15,carFinance:200,carInsurance:80,petrol:100,
+    groceries:400,childcare:0,subscriptions:40,insurance:30,other:50
+  },
+  savings:{emergency:0,houseDeposit:0,lisaRich:0,lisaShawnie:0,madisonJISA:0,pension:0}
+};
+
+const createDefaultData=()=>({
+  goals:defaultGoals,
+  benefits:defaultBenefits,
+  budget:defaultBudget,
+  completedTasks:{},
+  lastReset:new Date().toDateString()
+});
+
+const createDefaultConfig=()=>({
+  familyName:'Turnbull-Shaw',
+  location:'Seaham',
+  targetLocation:'Sheffield',
+  startDate:'2025-12-04',
+  shawnieReturnDate:'2026-07-01',
+  richPension:72766.58,
+  shawniePension:0,
+  emergencyFund:0,
+  houseDeposit:0
+});
+
+const App=()=>{
+  const[tab,setTab]=useState('overview');
+  const[data,setData]=useState(createDefaultData);
+  const[config,setConfig]=useState(createDefaultConfig);
+  const[selectedDate,setSelectedDate]=useState(new Date());
+  const[expandedGoals,setExpandedGoals]=useState({});
+  const[showCelebration,setShowCelebration]=useState(false);
+  const[celebrationText,setCelebrationText]=useState('');
+
+  useEffect(()=>{
+    try{
+      const savedData=localStorage.getItem('familyHubV7Data');
+      const savedConfig=localStorage.getItem('familyHubV7Config');
+      if(savedData)setData(JSON.parse(savedData));
+      if(savedConfig)setConfig(JSON.parse(savedConfig));
+    }catch(e){console.error(e)}
+  },[]);
+
+  useEffect(()=>{localStorage.setItem('familyHubV7Data',JSON.stringify(data))},[data]);
+  useEffect(()=>{localStorage.setItem('familyHubV7Config',JSON.stringify(config))},[config]);
+
+  useEffect(()=>{
+    const today=new Date().toDateString();
+    if(data.lastReset!==today){
+      const newCompleted={...data.completedTasks};
+      Object.keys(newCompleted).forEach(key=>{if(key.startsWith('daily-'))delete newCompleted[key]});
+      setData(prev=>({...prev,completedTasks:newCompleted,lastReset:today}));
+    }
+  },[]);
+
+  const celebrate=(text='🎉 Done!')=>{setCelebrationText(text);setShowCelebration(true);setTimeout(()=>setShowCelebration(false),1500)};
+
+  const toggleTask=(taskKey)=>{
+    const wasCompleted=data.completedTasks[taskKey];
+    if(!wasCompleted)celebrate('✅ Done!');
+    setData(prev=>({...prev,completedTasks:{...prev.completedTasks,[taskKey]:!wasCompleted}}));
+  };
+
+  const toggleGoalStep=(goalId,stepId)=>{
+    const goal=data.goals.find(g=>g.id===goalId);
+    const step=goal?.steps.find(s=>s.id===stepId);
+    if(step&&!step.done)celebrate('🎯 Progress!');
+    setData(prev=>({...prev,goals:prev.goals.map(g=>g.id===goalId?{...g,steps:g.steps.map(s=>s.id===stepId?{...s,done:!s.done}:s)}:g)}));
+  };
+
+  const toggleBenefit=(id)=>{setData(prev=>({...prev,benefits:prev.benefits.map(b=>b.id===id?{...b,claimed:!b.claimed}:b)}))};
+
+  const updateBudget=(cat,field,val)=>{setData(prev=>({...prev,budget:{...prev.budget,[cat]:{...prev.budget[cat],[field]:Number(val)||0}}}))};
+
+  // Calculations
+  const totalIncome=Object.values(data.budget.income).reduce((a,b)=>a+b,0);
+  const totalExpenses=Object.values(data.budget.expenses).reduce((a,b)=>a+b,0);
+  const totalSavings=Object.values(data.budget.savings).reduce((a,b)=>a+b,0);
+  const monthlyLeftover=totalIncome-totalExpenses-totalSavings;
+
+  const today=new Date();
+  const returnDate=new Date(config.shawnieReturnDate);
+  const daysUntilReturn=Math.max(0,Math.ceil((returnDate-today)/(1000*60*60*24)));
+  const monthsUntilReturn=Math.max(0,Math.ceil((returnDate-today)/(1000*60*60*24*30)));
+  const totalGapToBridge=monthlyLeftover<0?Math.abs(monthlyLeftover)*monthsUntilReturn:0;
+
+  const goalsProgress=useMemo(()=>{
+    let total=0,done=0;
+    data.goals.forEach(g=>{total+=g.steps.length;done+=g.steps.filter(s=>s.done).length});
+    return{total,done,pct:total?Math.round((done/total)*100):0};
+  },[data.goals]);
+
+  const potentialSavings=data.benefits.filter(b=>!b.claimed&&b.saving).reduce((sum,b)=>sum+(b.saving||0),0);
+  const totalSaved=config.emergencyFund+config.houseDeposit;
+
+  // Week navigation
+  const getWeekDates=()=>{
+    const start=new Date(selectedDate);
+    const day=start.getDay();
+    start.setDate(start.getDate()-day+(day===0?-6:1));
+    return Array.from({length:7},(_,i)=>{const d=new Date(start);d.setDate(start.getDate()+i);return d});
+  };
+  const weekDates=getWeekDates();
+  const dayOfWeek=selectedDate.getDay();
+  const dayMeals=weeklyMeals[dayOfWeek];
+  const dayActivities=weeklyActivities[dayOfWeek]||[];
+  const dayWeeklyTasks=dailyTasks.weekly[dayOfWeek]||[];
+  const dailyMealCost=(dayMeals.breakfast.cost+dayMeals.lunch.cost+dayMeals.dinner.cost).toFixed(2);
+  const dateKey=selectedDate.toISOString().split('T')[0];
+  const isToday=(d)=>d.toDateString()===new Date().toDateString();
+  const isSelected=(d)=>d.toDateString()===selectedDate.toDateString();
+
+  // Get current/upcoming goal steps for calendar
+  const currentGoalSteps=useMemo(()=>{
+    const now=new Date();
+    const currentMonth=now.toLocaleDateString('en-GB',{month:'short',year:'numeric'});
+    const steps=[];
+    data.goals.forEach(g=>{
+      g.steps.filter(s=>!s.done).slice(0,2).forEach(s=>{
+        if(s.date.includes('Dec 2025')||s.date.includes('Jan 2026')||s.date.includes('Ongoing')||s.date.includes('2025')){
+          steps.push({...s,goalTitle:g.title,goalIcon:g.icon,person:g.person});
+        }
+      });
+    });
+    return steps.slice(0,4);
+  },[data.goals]);
+
+  const exportData=()=>{
+    const blob=new Blob([JSON.stringify({config,data,exportDate:new Date().toISOString()},null,2)],{type:'application/json'});
+    const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;
+    a.download=`family-hub-${new Date().toISOString().split('T')[0]}.json`;a.click();
+  };
+
+  const importData=(e)=>{
+    const file=e.target.files[0];if(!file)return;
+    const reader=new FileReader();
+    reader.onload=(ev)=>{try{const imp=JSON.parse(ev.target.result);if(imp.config)setConfig(imp.config);if(imp.data)setData(imp.data);alert('Imported!')}catch{alert('Error')}};
+    reader.readAsText(file);
+  };
+
+  const renderTag=(p)=><span className={`tag tag-${p.toLowerCase()}`}>{p}</span>;
+
+  const incomeLabels={shawnieNet:"Shawnie Net",richNet:"Rich Net",childBenefit:"Child Benefit",universalCredit:"Universal Credit",pip:"PIP",other:"Other"};
+  const expenseLabels={rent:"Rent/Mortgage",councilTax:"Council Tax",electric:"Electric",gas:"Gas",water:"Water",broadband:"Broadband",phoneRich:"Phone Rich",phoneShawnie:"Phone Shawnie",carFinance:"Car Finance",carInsurance:"Car Insurance",petrol:"Petrol",groceries:"Groceries",childcare:"Childcare",subscriptions:"Subscriptions",insurance:"Insurance",other:"Other"};
+  const savingsLabels={emergency:"Emergency Fund",houseDeposit:"House Deposit",lisaRich:"LISA Rich",lisaShawnie:"LISA Shawnie",madisonJISA:"Madison JISA",pension:"Extra Pension"};
+
+  return(
+    <div className="app">
+      {showCelebration&&<div className="celebration"><div className="celebration-box">{celebrationText}</div></div>}
+
+      <header className="header"><div className="header-content">
+        <div className="header-top">
+          <div className="logo"><div className="logo-icon">🏠</div><div><div className="logo-title">{config.familyName}</div><div className="logo-sub">{config.location} → {config.targetLocation}</div></div></div>
+          <div className="header-btns">
+            <button className="icon-btn" onClick={exportData}>💾</button>
+            <label className="icon-btn">📂<input type="file" accept=".json" onChange={importData} style={{display:'none'}}/></label>
+          </div>
+        </div>
+        <div className="mini-stats">
+          <div className="mini-stat"><div className={`mini-stat-val ${monthlyLeftover<0?'negative':'positive'}`}>£{monthlyLeftover}</div><div className="mini-stat-lbl">/mo</div></div>
+          <div className="mini-stat"><div className="mini-stat-val">{daysUntilReturn}</div><div className="mini-stat-lbl">days</div></div>
+          <div className="mini-stat"><div className="mini-stat-val">{goalsProgress.pct}%</div><div className="mini-stat-lbl">goals</div></div>
+        </div>
+      </div></header>
+
+      <div className="nav-wrap"><nav className="nav">
+        {[{id:'overview',label:'🏠 Overview'},{id:'calendar',label:'📅 Calendar'},{id:'goals',label:'🎯 Goals'},{id:'budget',label:'💰 Budget'},{id:'benefits',label:'✅ Benefits'},{id:'settings',label:'⚙️'}].map(t=>
+          <button key={t.id} className={`nav-btn ${tab===t.id?'active':''}`} onClick={()=>setTab(t.id)}>{t.label}</button>
+        )}
+      </nav></div>
+
+      <main className="main">
+        {/* OVERVIEW TAB */}
+        {tab==='overview'&&<>
+          <div className="overview-hero">
+            <div className="overview-countdown">🎯 Days Until Shawnie Returns to Work</div>
+            <div className="overview-days">{daysUntilReturn}</div>
+            <div className="overview-label">The countdown is on!</div>
+            <div className="overview-date">{returnDate.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
+          </div>
+
+          <div className="overview-grid">
+            <div className="overview-card income"><div className="overview-card-icon">💚</div><div className="overview-card-value">£{totalIncome}</div><div className="overview-card-label">Monthly Income</div></div>
+            <div className="overview-card expense"><div className="overview-card-icon">💸</div><div className="overview-card-value">£{totalExpenses}</div><div className="overview-card-label">Monthly Expenses</div></div>
+            <div className="overview-card gap"><div className="overview-card-icon">{monthlyLeftover>=0?'✨':'⚠️'}</div><div className="overview-card-value" style={{color:monthlyLeftover>=0?'var(--sage)':'var(--critical)'}}>£{monthlyLeftover}</div><div className="overview-card-label">Monthly Leftover</div></div>
+            <div className="overview-card goals"><div className="overview-card-icon">🎯</div><div className="overview-card-value">{goalsProgress.pct}%</div><div className="overview-card-label">Goals Complete</div></div>
+            <div className="overview-card savings"><div className="overview-card-icon">💎</div><div className="overview-card-value">£{totalSaved.toLocaleString()}</div><div className="overview-card-label">Total Saved</div></div>
+            <div className="overview-card pension"><div className="overview-card-icon">👴</div><div className="overview-card-value">£{Math.round(config.richPension/1000)}k</div><div className="overview-card-label">Pension</div></div>
+          </div>
+
+          <div className="card">
+            <h3 className="card-title"><span className="card-icon">📊</span>Progress</h3>
+            <div className="progress-section">
+              <div className="progress-title"><span>Goals Progress</span><span>{goalsProgress.done}/{goalsProgress.total}</span></div>
+              <div className="progress-bar"><div className="progress-fill goals" style={{width:`${goalsProgress.pct}%`}}/></div>
+            </div>
+            {config.houseDeposit>0&&<div className="progress-section">
+              <div className="progress-title"><span>House Deposit</span><span>£{config.houseDeposit.toLocaleString()} / £25,000</span></div>
+              <div className="progress-bar"><div className="progress-fill savings" style={{width:`${Math.min(100,(config.houseDeposit/25000)*100)}%`}}/></div>
+            </div>}
+          </div>
+
+          <div className="card">
+            <h3 className="card-title"><span className="card-icon">🚀</span>Your Journey</h3>
+            <div className="timeline-item"><div className="timeline-dot current"/><div className="timeline-content"><div className="timeline-title">Now - Building foundations</div><div className="timeline-date">Benefits period • £{totalIncome}/mo</div></div></div>
+            <div className="timeline-item"><div className="timeline-dot future"/><div className="timeline-content"><div className="timeline-title">July 2026 - Shawnie returns</div><div className="timeline-date">Band 6 PIP Assessor</div><div className="timeline-amount">+£2,600/mo</div></div></div>
+            <div className="timeline-item"><div className="timeline-dot future"/><div className="timeline-content"><div className="timeline-title">Sep 2026 - Rich starts apprenticeship</div><div className="timeline-date">Electrical training begins</div><div className="timeline-amount">+£1,000/mo</div></div></div>
+            <div className="timeline-item"><div className="timeline-dot future"/><div className="timeline-content"><div className="timeline-title">2027 - Shawnie Band 7</div><div className="timeline-date">Senior position (~£50k)</div><div className="timeline-amount">+£400/mo</div></div></div>
+            <div className="timeline-item"><div className="timeline-dot future"/><div className="timeline-content"><div className="timeline-title">2028 - Rich Qualified</div><div className="timeline-date">JIB Gold Card • £40k+</div><div className="timeline-amount">Combined £90k+</div></div></div>
+            <div className="timeline-item"><div className="timeline-dot future"/><div className="timeline-content"><div className="timeline-title">2029-30 - Homeowners!</div><div className="timeline-date">Sheffield property purchase</div><div className="timeline-amount">Target £95k+</div></div></div>
+          </div>
+
+          {potentialSavings>0&&<div className="tip-box">💡 <strong>Unclaimed benefit:</strong> Social broadband could save £{Math.round(potentialSavings/12)}/month. <button className="btn btn-sm btn-secondary" onClick={()=>setTab('benefits')}>Check Benefits →</button></div>}
+
+          <div className="card">
+            <h3 className="card-title"><span className="card-icon">⚡</span>Next Actions</h3>
+            {currentGoalSteps.map((s,i)=>(
+              <div key={i} className="goal-focus">
+                <div className="goal-focus-title">{s.goalIcon} {s.goalTitle}</div>
+                <div className="goal-focus-text">{s.text}</div>
+                {s.time&&<div className="goal-focus-time">⏱️ {s.time} • {renderTag(s.person)}</div>}
+              </div>
+            ))}
+            <button className="btn btn-primary" onClick={()=>setTab('goals')}>View All Goals →</button>
+          </div>
+        </>}
+
+        {/* CALENDAR TAB */}
+        {tab==='calendar'&&<>
+          <div className="week-nav">
+            <button className="btn btn-secondary btn-sm" onClick={()=>{const d=new Date(selectedDate);d.setDate(d.getDate()-7);setSelectedDate(d)}}>←</button>
+            <div className="day-tabs">
+              {weekDates.map(d=>(
+                <div key={d.toISOString()} className={`day-tab ${isSelected(d)?'active':''} ${isToday(d)?'today':''}`} onClick={()=>setSelectedDate(d)}>
+                  <div className="day-name">{d.toLocaleDateString('en-GB',{weekday:'short'})}</div>
+                  <div className="day-num">{d.getDate()}</div>
+                </div>
+              ))}
+            </div>
+            <button className="btn btn-secondary btn-sm" onClick={()=>{const d=new Date(selectedDate);d.setDate(d.getDate()+7);setSelectedDate(d)}}>→</button>
+          </div>
+
+          {/* Goals for today */}
+          {currentGoalSteps.length>0&&<div className="card" style={{background:'linear-gradient(135deg,#fdf4ff,#f3e8ff)',border:'2px solid #a855f7'}}>
+            <h3 className="card-title" style={{color:'#7c3aed'}}>🎯 Today's Goal Focus</h3>
+            {currentGoalSteps.map((s,i)=>(
+              <div key={i} className="goal-focus">
+                <div className="goal-focus-title">{s.goalIcon} {s.goalTitle}</div>
+                <div className="goal-focus-text">{s.text}</div>
+                {s.time&&<div className="goal-focus-time">⏱️ Expected: {s.time} • {renderTag(s.person)}</div>}
+              </div>
+            ))}
+          </div>}
+
+          <div className="card">
+            <h3 className="card-title">📅 {selectedDate.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</h3>
+            
+            {/* MORNING */}
+            <div className="time-section">
+              <div className="time-header"><span className="time-icon">🌅</span><span className="time-title">Morning</span><span className="time-range">6am - 12pm</span></div>
+              <div className="meal-card">
+                <div className="meal-header"><span className="meal-type">🍳 Breakfast</span><span className="meal-cost">£{dayMeals.breakfast.cost.toFixed(2)}</span></div>
+                <div className="meal-name">{dayMeals.breakfast.name}</div>
+              </div>
+              {dailyTasks.fixed.filter(t=>t.time==='morning').map((task,i)=>{
+                const key=`daily-${dateKey}-${task.task}`;
+                const done=data.completedTasks[key];
+                return<div key={i} className={`task-item ${done?'completed':''}`} onClick={()=>toggleTask(key)}>
+                  <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
+                  <div className="task-content"><div className="task-text">{task.icon} {task.task}</div><div className="task-meta">{renderTag(task.person)}</div></div>
+                </div>
+              })}
+            </div>
+
+            {/* AFTERNOON */}
+            <div className="time-section">
+              <div className="time-header"><span className="time-icon">☀️</span><span className="time-title">Afternoon</span><span className="time-range">12pm - 6pm</span></div>
+              <div className="meal-card">
+                <div className="meal-header"><span className="meal-type">🥪 Lunch</span><span className="meal-cost">£{dayMeals.lunch.cost.toFixed(2)}</span></div>
+                <div className="meal-name">{dayMeals.lunch.name}</div>
+              </div>
+              {dailyTasks.fixed.filter(t=>t.time==='afternoon').map((task,i)=>{
+                const key=`daily-${dateKey}-${task.task}`;
+                const done=data.completedTasks[key];
+                return<div key={i} className={`task-item ${done?'completed':''}`} onClick={()=>toggleTask(key)}>
+                  <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
+                  <div className="task-content"><div className="task-text">{task.icon} {task.task}</div><div className="task-meta">{renderTag(task.person)}</div></div>
+                </div>
+              })}
+              {dayActivities.slice(0,1).map((act,i)=>(
+                <div key={i} className="activity-card">
+                  <div className="activity-name">{act.icon} {act.name}{act.cost>0&&` - £${act.cost}`}</div>
+                  <div className="activity-meta">{act.duration} • {act.person}{act.cost===0&&' • FREE'}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* EVENING */}
+            <div className="time-section">
+              <div className="time-header"><span className="time-icon">🌙</span><span className="time-title">Evening</span><span className="time-range">6pm - 10pm</span></div>
+              <div className="meal-card">
+                <div className="meal-header"><span className="meal-type">🍽️ Dinner</span><span className="meal-cost">£{dayMeals.dinner.cost.toFixed(2)}</span></div>
+                <div className="meal-name">{dayMeals.dinner.name} ({dayMeals.dinner.prep})</div>
+              </div>
+              {dailyTasks.fixed.filter(t=>t.time==='evening').map((task,i)=>{
+                const key=`daily-${dateKey}-${task.task}`;
+                const done=data.completedTasks[key];
+                return<div key={i} className={`task-item ${done?'completed':''}`} onClick={()=>toggleTask(key)}>
+                  <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
+                  <div className="task-content"><div className="task-text">{task.icon} {task.task}</div><div className="task-meta">{renderTag(task.person)}</div></div>
+                </div>
+              })}
+              {dayActivities.slice(1).map((act,i)=>(
+                <div key={i} className="activity-card">
+                  <div className="activity-name">{act.icon} {act.name}{act.cost>0&&` - £${act.cost}`}</div>
+                  <div className="activity-meta">{act.duration} • {act.person}{act.cost===0&&' • FREE'}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* WEEKLY CLEANING */}
+            {dayWeeklyTasks.length>0&&<div className="time-section">
+              <div className="time-header"><span className="time-icon">🧹</span><span className="time-title">Weekly Cleaning ({['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dayOfWeek]})</span></div>
+              {dayWeeklyTasks.map((task,i)=>{
+                const key=`weekly-${dateKey}-${task.task}`;
+                const done=data.completedTasks[key];
+                return<div key={i} className={`task-item ${done?'completed':''}`} onClick={()=>toggleTask(key)}>
+                  <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
+                  <div className="task-content"><div className="task-text">{task.icon} {task.task}</div><div className="task-meta">{renderTag(task.person)}<span className="tag tag-high">Weekly</span></div></div>
+                </div>
+              })}
+            </div>}
+          </div>
+
+          <div className="tip-box">🍽️ <strong>Today's food:</strong> £{dailyMealCost} | <strong>Weekly average:</strong> ~£45-50</div>
+        </>}
+
+        {/* GOALS TAB */}
+        {tab==='goals'&&<>
+          <div className="summary-row">
+            <div className="summary-box income"><div className="summary-label">Complete</div><div className="summary-value">{goalsProgress.done}</div></div>
+            <div className="summary-box expense"><div className="summary-label">Remaining</div><div className="summary-value">{goalsProgress.total-goalsProgress.done}</div></div>
+            <div className="summary-box saving"><div className="summary-label">Progress</div><div className="summary-value">{goalsProgress.pct}%</div></div>
+            <div className="summary-box leftover"><div className="summary-label">Total</div><div className="summary-value">{goalsProgress.total}</div></div>
+          </div>
+
+          {data.goals.map(goal=>{
+            const done=goal.steps.filter(s=>s.done).length;
+            const total=goal.steps.length;
+            const pct=total?Math.round((done/total)*100):0;
+            const isOpen=expandedGoals[goal.id];
+            return<div key={goal.id} className={`goal-card ${goal.priority}`}>
+              <div className="goal-header" onClick={()=>setExpandedGoals(prev=>({...prev,[goal.id]:!prev[goal.id]}))}>
+                <div className="goal-icon">{goal.icon}</div>
+                <div className="goal-info">
+                  <div className="goal-title">{goal.title}</div>
+                  <div className="goal-subtitle">{goal.subtitle}</div>
+                  <div style={{display:'flex',gap:4,marginTop:4}}>{renderTag(goal.person)}<span className={`tag tag-${goal.priority}`}>{goal.priority}</span></div>
+                </div>
+                <div className="goal-progress"><div className="goal-pct">{pct}%</div><div className="goal-count">{done}/{total}</div></div>
+                <div style={{transform:isOpen?'rotate(180deg)':'none',transition:'0.2s'}}><ChevronDown/></div>
+              </div>
+              <div className={`goal-body ${isOpen?'open':''}`}>
+                {goal.steps.map(step=>(
+                  <div key={step.id} className={`step-item ${step.done?'completed':''}`} onClick={()=>toggleGoalStep(goal.id,step.id)}>
+                    <div className={`step-check ${step.done?'checked':''}`}>{step.done&&<Check/>}</div>
+                    <div className="step-text">{step.text}</div>
+                    <div className="step-date">{step.time&&`⏱️${step.time} • `}{step.date}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          })}
+        </>}
+
+        {/* BUDGET TAB */}
+        {tab==='budget'&&<>
+          <div className="summary-row">
+            <div className="summary-box income"><div className="summary-label">Income</div><div className="summary-value">£{totalIncome}</div></div>
+            <div className="summary-box expense"><div className="summary-label">Expenses</div><div className="summary-value">£{totalExpenses}</div></div>
+            <div className="summary-box saving"><div className="summary-label">Saving</div><div className="summary-value">£{totalSavings}</div></div>
+            <div className={`summary-box ${monthlyLeftover>=0?'leftover':'negative'}`}><div className="summary-label">Leftover</div><div className="summary-value">£{monthlyLeftover}</div></div>
+          </div>
+
+          {monthlyLeftover<0&&<div className="tip-box" style={{background:'#fee2e2',borderColor:'#dc2626',color:'#991b1b'}}>⚠️ <strong>Monthly shortfall:</strong> £{Math.abs(monthlyLeftover)} | {monthsUntilReturn} months to go | Total gap: £{totalGapToBridge.toLocaleString()}</div>}
+
+          <div className="budget-grid">
+            <div className="budget-section">
+              <div className="budget-section-title">💚 Income</div>
+              {Object.entries(incomeLabels).map(([key,label])=>
+                <div key={key} className="budget-row"><span className="budget-label">{label}</span><input type="number" className="budget-input" value={data.budget.income[key]||''} placeholder="0" onChange={e=>updateBudget('income',key,e.target.value)}/></div>
+              )}
+              <div className="budget-total"><span className="budget-total-label">Total Income</span><span className="budget-total-value" style={{color:'#059669'}}>£{totalIncome}</span></div>
+            </div>
+
+            <div className="budget-section">
+              <div className="budget-section-title">🏠 Housing & Utilities</div>
+              {Object.entries(expenseLabels).slice(0,6).map(([key,label])=>
+                <div key={key} className="budget-row"><span className="budget-label">{label}</span><input type="number" className="budget-input" value={data.budget.expenses[key]||''} placeholder="0" onChange={e=>updateBudget('expenses',key,e.target.value)}/></div>
+              )}
+            </div>
+
+            <div className="budget-section">
+              <div className="budget-section-title">🚗 Transport & Living</div>
+              {Object.entries(expenseLabels).slice(6,12).map(([key,label])=>
+                <div key={key} className="budget-row"><span className="budget-label">{label}</span><input type="number" className="budget-input" value={data.budget.expenses[key]||''} placeholder="0" onChange={e=>updateBudget('expenses',key,e.target.value)}/></div>
+              )}
+            </div>
+
+            <div className="budget-section">
+              <div className="budget-section-title">📦 Other Expenses</div>
+              {Object.entries(expenseLabels).slice(12).map(([key,label])=>
+                <div key={key} className="budget-row"><span className="budget-label">{label}</span><input type="number" className="budget-input" value={data.budget.expenses[key]||''} placeholder="0" onChange={e=>updateBudget('expenses',key,e.target.value)}/></div>
+              )}
+              <div className="budget-total"><span className="budget-total-label">Total Expenses</span><span className="budget-total-value" style={{color:'#dc2626'}}>£{totalExpenses}</span></div>
+            </div>
+
+            <div className="budget-section">
+              <div className="budget-section-title">💰 Monthly Savings</div>
+              {Object.entries(savingsLabels).map(([key,label])=>
+                <div key={key} className="budget-row"><span className="budget-label">{label}</span><input type="number" className="budget-input" value={data.budget.savings[key]||''} placeholder="0" onChange={e=>updateBudget('savings',key,e.target.value)}/></div>
+              )}
+              <div className="budget-total"><span className="budget-total-label">Total Savings</span><span className="budget-total-value" style={{color:'#0284c7'}}>£{totalSavings}</span></div>
+            </div>
+
+            <div className="budget-section">
+              <div className="budget-section-title">💎 Savings Pots</div>
+              <div className="budget-row"><span className="budget-label">Emergency Fund</span><input type="number" className="budget-input" value={config.emergencyFund||''} placeholder="0" onChange={e=>setConfig(c=>({...c,emergencyFund:Number(e.target.value)||0}))}/></div>
+              <div className="budget-row"><span className="budget-label">House Deposit</span><input type="number" className="budget-input" value={config.houseDeposit||''} placeholder="0" onChange={e=>setConfig(c=>({...c,houseDeposit:Number(e.target.value)||0}))}/></div>
+              <div className="budget-total"><span className="budget-total-label">Total Saved</span><span className="budget-total-value" style={{color:'#d97706'}}>£{totalSaved.toLocaleString()}</span></div>
+            </div>
+          </div>
+
+          <div className="card" style={{marginTop:16}}>
+            <h3 className="card-title">👴 Pensions</h3>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+              <div><label className="form-label">Rich's Pension</label><input type="number" className="form-input" value={config.richPension||''} onChange={e=>setConfig(c=>({...c,richPension:Number(e.target.value)||0}))}/></div>
+              <div><label className="form-label">Shawnie's Pension</label><input type="number" className="form-input" value={config.shawniePension||''} onChange={e=>setConfig(c=>({...c,shawniePension:Number(e.target.value)||0}))}/></div>
+            </div>
+            <div className="tip-box">Combined Pensions: <strong>£{(config.richPension+config.shawniePension).toLocaleString()}</strong></div>
+          </div>
+        </>}
+
+        {/* BENEFITS TAB */}
+        {tab==='benefits'&&<>
+          <div className="summary-row">
+            <div className="summary-box income"><div className="summary-label">Claimed</div><div className="summary-value">{data.benefits.filter(b=>b.claimed).length}</div></div>
+            <div className="summary-box expense"><div className="summary-label">Unclaimed</div><div className="summary-value">{data.benefits.filter(b=>!b.claimed).length}</div></div>
+            <div className="summary-box saving"><div className="summary-label">Potential Save</div><div className="summary-value">£{potentialSavings}/yr</div></div>
+            <div className="summary-box leftover"><div className="summary-label">Per Month</div><div className="summary-value">£{Math.round(potentialSavings/12)}</div></div>
+          </div>
+
+          {potentialSavings>0&&<div className="tip-box">⚠️ <strong>Action needed!</strong> Claiming unclaimed benefits could reduce your gap by £{Math.round(potentialSavings/12)}/month!</div>}
+
+          <div className="card">
+            <h3 className="card-title">✅ Benefits Checklist</h3>
+            {data.benefits.map(b=>(
+              <div key={b.id} className={`benefit-item ${!b.claimed&&b.saving?'unclaimed':''}`}>
+                <div className={`benefit-check ${b.claimed?'checked':''}`} onClick={()=>toggleBenefit(b.id)}>{b.claimed&&<Check/>}</div>
+                <div className="benefit-name">{b.name}</div>
+                {b.saving&&!b.claimed&&<div className="benefit-saving">Save £{b.saving}/yr</div>}
+                {b.claimed&&<span className="tag tag-family">Claimed ✓</span>}
+              </div>
+            ))}
+          </div>
+
+          <div className="tip-box">
+            <strong>🔗 Quick Links:</strong><br/>
+            • <a href="https://www.ofcom.org.uk/phones-and-broadband/saving-money/social-tariffs" target="_blank">Social Broadband</a> • <a href="https://www.ccwater.org.uk/households/help-with-my-bills/" target="_blank">Water Social Tariff</a> • <a href="https://benefits-calculator.turn2us.org.uk/" target="_blank">Turn2Us Calculator</a>
+          </div>
+        </>}
+
+        {/* SETTINGS TAB */}
+        {tab==='settings'&&<div className="card">
+          <h3 className="card-title">⚙️ Settings</h3>
+          <div style={{display:'grid',gap:12}}>
+            <div><label className="form-label">Family Name</label><input type="text" className="form-input" value={config.familyName} onChange={e=>setConfig(c=>({...c,familyName:e.target.value}))}/></div>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+              <div><label className="form-label">Current Location</label><input type="text" className="form-input" value={config.location} onChange={e=>setConfig(c=>({...c,location:e.target.value}))}/></div>
+              <div><label className="form-label">Target Location</label><input type="text" className="form-input" value={config.targetLocation} onChange={e=>setConfig(c=>({...c,targetLocation:e.target.value}))}/></div>
+            </div>
+            <div><label className="form-label">Shawnie Return Date</label><input type="date" className="form-input" value={config.shawnieReturnDate} onChange={e=>setConfig(c=>({...c,shawnieReturnDate:e.target.value}))}/></div>
+          </div>
+          <div style={{marginTop:20,display:'flex',gap:10,flexWrap:'wrap'}}>
+            <button className="btn btn-secondary" onClick={exportData}>💾 Export</button>
+            <label className="btn btn-secondary" style={{cursor:'pointer'}}>📂 Import<input type="file" accept=".json" onChange={importData} style={{display:'none'}}/></label>
+            <button className="btn btn-primary" style={{background:'#dc2626'}} onClick={()=>{if(confirm('Reset everything?')){localStorage.clear();window.location.reload()}}}>🔄 Reset All</button>
+          </div>
+        </div>}
+      </main>
+      <button className="fab" onClick={()=>setTab('overview')}>🏠</button>
+    </div>
+  );
+};
+
+const root=ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App/>);
+  </script>
+</body>
+</html>
