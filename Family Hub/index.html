@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="theme-color" content="#e07a5f">
@@ -220,9 +221,25 @@
     .modal-textarea{width:100%;padding:12px;border:2px solid var(--cream-dark);border-radius:var(--radius-md);font-family:inherit;font-size:0.9rem;min-height:120px;resize:vertical}
     .modal-textarea:focus{outline:none;border-color:var(--terracotta)}
     .modal-footer{padding:16px 20px;border-top:2px solid var(--cream);display:flex;justify-content:flex-end;gap:8px}
-    @media(max-width:640px){.summary-row{grid-template-columns:repeat(2,1fr)}.overview-grid{grid-template-columns:repeat(2,1fr)}.day-tab{min-width:46px;padding:6px}.milestone-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}}
-  </style>
-</head>
+    @media(max-width:640px){.summary-row{grid-template-columns:repeat(2,1fr)}.overview-grid{grid-template-columns:repeat(2,1fr)}.day-tab{min-width:60px;padding:10px 12px}.milestone-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}}
+    body.dark{--cream:#1f2937;--cream-dark:#374151;--navy:#f9fafb;--navy-light:#d1d5db;background:#111827;color:#f9fafb}
+    body.dark .card,body.dark .nav,body.dark .modal-content{background:#1f2937;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+    body.dark .budget-section{background:#374151}
+    body.dark .form-input,body.dark .budget-input,body.dark .modal-textarea{background:#374151;border-color:#4b5563;color:#f9fafb}
+    body.dark .task-item,body.dark .step-item,body.dark .benefit-item{background:#374151}
+    body.dark .meal-card{background:linear-gradient(135deg,#92400e,#78350f)}
+    body.dark .activity-card{background:linear-gradient(135deg,#1e40af,#1e3a8a)}
+    body.dark .note-card{background:#78350f}
+    body.dark .event-card{background:linear-gradient(135deg,#0c4a6e,#075985)}
+    body.dark .day-tab{background:#374151;border-color:#4b5563}
+    body.dark .day-tab.active{background:var(--terracotta);border-color:var(--terracotta)}
+    body.dark .overview-card,body.dark .milestone-card{background:#374151;border-color:#4b5563}
+    .photo-date{position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.8);color:white;padding:4px 8px;border-radius:6px;font-size:0.7rem;font-weight:600}
+    .achievement-badge{position:absolute;top:8px;left:8px;background:var(--sage);color:white;padding:6px 12px;border-radius:12px;font-size:0.7rem;font-weight:700;box-shadow:0 2px 4px rgba(0,0,0,0.2)}
+    .milestone-notes{font-size:0.8rem;color:var(--navy-light);font-style:italic;margin:8px 0;line-height:1.4;padding:8px;background:var(--cream);border-radius:6px}
+    body.dark .milestone-notes{background:#4b5563;color:#d1d5db}
+    .chart-container{position:relative;height:280px;margin-top:16px}
+  </style></head>
 <body>
   <div id="root"></div>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
@@ -398,22 +415,22 @@ const defaultBudget={
 };
 
 const defaultMilestones=[
-  {id:'first-words',title:'First Words',date:'2026-03',icon:'💬',achieved:false,photo:null},
-  {id:'first-steps',title:'First Steps',date:'2026-06',icon:'👣',achieved:false,photo:null},
-  {id:'potty-trained',title:'Potty Trained',date:'2026',icon:'🚽',achieved:false,photo:null},
-  {id:'first-day-nursery',title:'First Day Nursery',date:'2026',icon:'🏫',achieved:false,photo:null},
-  {id:'first-bike',title:'First Bike Ride',date:'2027',icon:'🚲',achieved:false,photo:null},
-  {id:'first-school-day',title:'First Day School',date:'2028',icon:'🎒',achieved:false,photo:null},
-  {id:'first-holiday',title:'First Family Holiday',date:'2025',icon:'🏖️',achieved:false,photo:null},
-  {id:'first-christmas',title:'First Christmas',date:'2025-12',icon:'🎄',achieved:false,photo:null},
-  {id:'first-tooth-lost',title:'First Tooth Lost',date:'2027',icon:'🦷',achieved:false,photo:null},
-  {id:'first-swim',title:'First Swim',date:'2026',icon:'🏊',achieved:false,photo:null},
-  {id:'first-smile',title:'First Smile',date:'2025-12',icon:'😊',achieved:false,photo:null},
-  {id:'first-laugh',title:'First Laugh',date:'2025-12',icon:'�',achieved:false,photo:null},
-  {id:'rolling-over',title:'Rolling Over',date:'2025-12',icon:'😊',achieved:false,photo:null},
-  {id:'first-crawl',title:'First Crawl',date:'2025-12',icon:'😊',achieved:false,photo:null},
-  {id:'first-birthday',title:'First Birthday',date:'2025-12',icon:'😊',achieved:false,photo:null},
-  {id:'first-unassisted-sit',title:'First Unassisted Sit',date:'2025-12',icon:'😊',achieved:false,photo:null}
+  {id:'first-words',title:'First Words',date:'2026-03',icon:'💬',achieved:false,photo:null,notes:''},
+  {id:'first-steps',title:'First Steps',date:'2026-06',icon:'👣',achieved:false,photo:null,notes:''},
+  {id:'potty-trained',title:'Potty Trained',date:'2026',icon:'🚽',achieved:false,photo:null,notes:''},
+  {id:'first-day-nursery',title:'First Day Nursery',date:'2026',icon:'🏫',achieved:false,photo:null,notes:''},
+  {id:'first-bike',title:'First Bike Ride',date:'2027',icon:'🚲',achieved:false,photo:null,notes:''},
+  {id:'first-school-day',title:'First Day School',date:'2028',icon:'🎒',achieved:false,photo:null,notes:''},
+  {id:'first-holiday',title:'First Family Holiday',date:'2025',icon:'🏖️',achieved:false,photo:null,notes:''},
+  {id:'first-christmas',title:'First Christmas',date:'2025-12',icon:'🎄',achieved:false,photo:null,notes:''},
+  {id:'first-tooth-lost',title:'First Tooth Lost',date:'2027',icon:'🦷',achieved:false,photo:null,notes:''},
+  {id:'first-swim',title:'First Swim',date:'2026',icon:'🏊',achieved:false,photo:null,notes:''},
+  {id:'first-smile',title:'First Smile',date:'2025-12',icon:'😊',achieved:false,photo:null,notes:''},
+  {id:'first-laugh',title:'First Laugh',date:'2025-12',icon:'😄',achieved:false,photo:null,notes:''},
+  {id:'rolling-over',title:'Rolling Over',date:'2025-12',icon:'🔄',achieved:false,photo:null,notes:''},
+  {id:'first-crawl',title:'First Crawl',date:'2025-12',icon:'👶',achieved:false,photo:null,notes:''},
+  {id:'first-birthday',title:'First Birthday',date:'2025-12',icon:'🎂',achieved:false,photo:null,notes:''},
+  {id:'first-unassisted-sit',title:'First Unassisted Sit',date:'2025-12',icon:'🪑',achieved:false,photo:null,notes:''}
 ];
 
 const createDefaultData=()=>({
@@ -443,6 +460,7 @@ const App=()=>{
   const[tab,setTab]=useState('overview');
   const[data,setData]=useState(createDefaultData);
   const[config,setConfig]=useState(createDefaultConfig);
+  const[darkMode,setDarkMode]=useState(()=>localStorage.getItem('darkMode')==='true');
   const[selectedDate,setSelectedDate]=useState(new Date());
   const[expandedGoals,setExpandedGoals]=useState({});
   const[showCelebration,setShowCelebration]=useState(false);
@@ -509,9 +527,14 @@ const App=()=>{
     };
     window.addEventListener('keydown',handleKeyDown);
     return()=>window.removeEventListener('keydown',handleKeyDown);
-  },[showNoteModal,showEventModal,tab,selectedDate]);
+},[showNoteModal,showEventModal,tab,selectedDate]);
+  
+  useEffect(()=>{
+    localStorage.setItem('darkMode',darkMode);
+    document.body.classList.toggle('dark',darkMode);
+  },[darkMode]);
+  
   const celebrate=(text='🎉 Done!')=>{setCelebrationText(text);setShowCelebration(true);setTimeout(()=>setShowCelebration(false),1500)};
-
   const toggleTask=(taskKey)=>{
     const wasCompleted=data.completedTasks[taskKey];
     if(!wasCompleted)celebrate('✅ Done!');
@@ -666,10 +689,54 @@ const App=()=>{
       });
     });
     return steps.slice(0,4);
-  },[data.goals]);
+},[data.goals]);
 
-  const exportData=()=>{
-    const blob=new Blob([JSON.stringify({config,data,exportDate:new Date().toISOString()},null,2)],{type:'application/json'});
+  useEffect(()=>{
+    if(tab==='budget'){
+      const ctx=document.getElementById('budgetChart');
+      if(ctx){
+        const existingChart=Chart.getChart(ctx);
+        if(existingChart){existingChart.destroy();}
+        
+        new Chart(ctx,{
+          type:'doughnut',
+          data:{
+            labels:['Income','Expenses','Savings',monthlyLeftover>=0?'Leftover':'Shortfall'],
+            datasets:[{
+              data:[totalIncome,totalExpenses,totalSavings,Math.abs(monthlyLeftover)],
+              backgroundColor:['#81b29a','#dc2626','#f2cc8f',monthlyLeftover>=0?'#3b82f6':'#f59e0b'],
+              borderWidth:0
+            }]
+          },
+          options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+              legend:{
+                position:'bottom',
+                labels:{
+                  font:{family:'DM Sans',size:13},
+                  padding:15,
+                  color:darkMode?'#f9fafb':'#3d405b'
+                }
+              },
+              tooltip:{
+                callbacks:{
+                  label:(context)=>{
+                    const label=context.label||'';
+                    const value=context.parsed||0;
+                    return `${label}: £${value}`;
+                  }
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+  },[tab,totalIncome,totalExpenses,totalSavings,monthlyLeftover,darkMode]);
+
+  const exportData=()=>{    const blob=new Blob([JSON.stringify({config,data,exportDate:new Date().toISOString()},null,2)],{type:'application/json'});
     const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;
     a.download=`family-hub-${new Date().toISOString().split('T')[0]}.json`;a.click();
   };
@@ -726,10 +793,13 @@ const App=()=>{
         <div className="header-top">
           <div className="logo"><div className="logo-icon">🏠</div><div><div className="logo-title">{config.familyName}</div><div className="logo-sub">{config.location} → {config.targetLocation}</div></div></div>
           <div className="header-btns">
-            <button className="icon-btn" onClick={exportData} aria-label="Export data">💾</button>
-            <label className="icon-btn" aria-label="Import data">📂<input type="file" accept=".json" onChange={importData} style={{display:'none'}}/></label>
+            <button className="icon-btn" onClick={()=>setDarkMode(!darkMode)} aria-label="Toggle dark mode" title={darkMode?'Light mode':'Dark mode'}>
+              {darkMode?'☀️':'🌙'}
+            </button>
+            <button className="icon-btn" onClick={exportData} aria-label="Export data" title="Export data">💾</button>
+            <label className="icon-btn" aria-label="Import data" title="Import data">📂<input type="file" accept=".json" onChange={importData} style={{display:'none'}}/></label>
           </div>
-          
+
         <div className="mini-stats">
           <div className="mini-stat"><div className={`mini-stat-val ${monthlyLeftover<0?'negative':'positive'}`}>£{monthlyLeftover}</div><div className="mini-stat-lbl">/mo</div></div>
           <div className="mini-stat"><div className="mini-stat-val">{daysUntilReturn}</div><div className="mini-stat-lbl">days</div></div>
@@ -971,10 +1041,16 @@ const App=()=>{
             <div className={`summary-box ${monthlyLeftover>=0?'leftover':'negative'}`}><div className="summary-label">Leftover</div><div className="summary-value">£{monthlyLeftover}</div></div>
           </div>
 
-          {monthlyLeftover<0&&<div className="tip-box" style={{background:'#fee2e2',borderColor:'#dc2626',color:'#991b1b'}}>⚠️ <strong>Monthly shortfall:</strong> £{Math.abs(monthlyLeftover)} | {monthsUntilReturn} months to go | Total gap: £{totalGapToBridge.toLocaleString()}</div>}
+           {monthlyLeftover<0&&<div className="tip-box" style={{background:'#fee2e2',borderColor:'#dc2626',color:'#991b1b'}}>⚠️ <strong>Monthly shortfall:</strong> £{Math.abs(monthlyLeftover)} | {monthsUntilReturn} months to go | Total gap: £{totalGapToBridge.toLocaleString()}</div>}
 
-          <div className="budget-grid">
-            <div className="budget-section">
+          <div className="card">
+            <h3 className="card-title"><span className="card-icon">📊</span>Budget Breakdown</h3>
+            <div className="chart-container">
+              <canvas id="budgetChart"></canvas>
+            </div>
+          </div>
+
+          <div className="budget-grid">            <div className="budget-section">
               <div className="budget-section-title">💚 Income</div>
               {Object.entries(incomeLabels).map(([key,label])=>
                 <div key={key} className="budget-row"><span className="budget-label">{label}</span><input type="number" className="budget-input" value={data.budget.income[key]||''} placeholder="0" onChange={e=>updateBudget('income',key,e.target.value)}/></div>
@@ -1080,7 +1156,13 @@ const App=()=>{
               {data.milestones.map(m=>(
                 <div key={m.id} className={`milestone-card ${m.achieved?'achieved':''}`}>
                   <div className={`milestone-photo ${m.photo?'has-photo':''}`}>
-                    {m.photo?<img src={m.photo} alt={m.title}/>:m.icon}
+                    {m.photo?(
+                      <>
+                        <img src={m.photo} alt={m.title}/>
+                        <div className="photo-date">{new Date(m.date).toLocaleDateString('en-GB',{month:'short',year:'numeric'})}</div>
+                      </>
+                    ):m.icon}
+                    {m.achieved&&<div className="achievement-badge">✓ Achieved!</div>}
                     <label className="milestone-upload">
                       📷
                       <input type="file" accept="image/*" onChange={e=>e.target.files[0]&&uploadMilestonePhoto(m.id,e.target.files[0])}/>
@@ -1089,16 +1171,22 @@ const App=()=>{
                   <div className="milestone-content">
                     <div className="milestone-title">{m.title}</div>
                     <div style={{fontSize:'0.75rem',color:'var(--navy-light)',marginBottom:'8px'}}>{m.date}</div>
+                    {m.notes&&<div className="milestone-notes">"{m.notes}"</div>}
+                    <button className="btn btn-sm btn-secondary" style={{width:'100%',marginBottom:'8px'}} onClick={(e)=>{
+                      e.stopPropagation();
+                      const notes=prompt('Add a note about this milestone:',m.notes||'');
+                      if(notes!==null){
+                        setData(prev=>({...prev,milestones:prev.milestones.map(ms=>ms.id===m.id?{...ms,notes}:ms)}));
+                      }
+                    }}>
+                      {m.notes?'✏️ Edit Note':'+ Add Note'}
+                    </button>
                     <div className={`benefit-check ${m.achieved?'checked':''}`} onClick={()=>toggleMilestone(m.id)} style={{margin:'0 auto',cursor:'pointer'}}>
                       {m.achieved&&<Check/>}
                     </div>
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-        </>}
-
         {/* WEEK OVERVIEW TAB */}
         {tab==='week'&&<>
           <div className="card week-overview-card">
@@ -1137,9 +1225,30 @@ const App=()=>{
             <div><label className="form-label">Shawnie Return Date</label><input type="date" className="form-input" value={config.shawnieReturnDate} onChange={e=>setConfig(c=>({...c,shawnieReturnDate:e.target.value}))}/></div>
           </div>
           <div style={{marginTop:20,display:'flex',gap:10,flexWrap:'wrap'}}>
-            <button className="btn btn-primary" style={{background:'#dc2626'}} onClick={()=>{if(confirm('Reset everything?')){localStorage.clear();window.location.reload()}}}>🔄 Reset All</button>
-          </div>
-        </div>}
+            <button className="btn btn-secondary" onClick={exportData} title="Backup your family data">
+              💾 Export Data
+            </button>
+            <label className="btn btn-secondary" style={{cursor:'pointer'}} title="Restore from backup">
+              📂 Import Data
+              <input type="file" accept=".json" onChange={importData} style={{display:'none'}}/>
+            </label>
+            <button className="btn btn-secondary" onClick={()=>{
+              if(confirm('Clear all milestone photos? This cannot be undone.')){
+                setData(prev=>({...prev,milestones:prev.milestones.map(m=>({...m,photo:null}))}));
+                celebrate('Photos Cleared! 🗑️');
+              }
+            }} title="Free up storage space">
+              🗑️ Clear Photos
+            </button>
+            <button className="btn btn-primary" style={{background:'#dc2626'}} onClick={()=>{
+              if(confirm('⚠️ Reset EVERYTHING? This will delete all your family data, tasks, notes, and photos. This cannot be undone!')){
+                localStorage.clear();
+                window.location.reload();
+              }
+            }} title="Start fresh">
+              🔄 Reset All
+            </button>
+          </div>        </div>}
       </main>
       <button className="fab" onClick={()=>setTab('overview')}>🏠</button>
     </div>
