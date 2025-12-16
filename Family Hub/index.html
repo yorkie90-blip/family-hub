@@ -458,11 +458,28 @@ const App=()=>{
       const savedConfig=JSON.parse(localStorage.getItem('familyHubV12Config')||'null');
       if(savedData)setData({...createDefaultData(),...savedData});
       if(savedConfig)setConfig({...createDefaultConfig(),...savedConfig});
-    }catch(e){console.error(e)}
+    }catch(e){
+      console.error('Failed to load saved data:',e);
+      alert('Error loading saved data. Starting fresh.');
+    }
   },[]);
 
-  useEffect(()=>{localStorage.setItem('familyHubV12Data',JSON.stringify(data))},[data]);
-  useEffect(()=>{localStorage.setItem('familyHubV12Config',JSON.stringify(config))},[config]);
+  useEffect(()=>{
+    try{
+      localStorage.setItem('familyHubV12Data',JSON.stringify(data));
+    }catch(e){
+      console.error('Failed to save data:',e);
+      if(e.name==='QuotaExceededError')alert('Storage full! Clear old photos in Settings.');
+    }
+  },[data]);
+  
+  useEffect(()=>{
+    try{
+      localStorage.setItem('familyHubV12Config',JSON.stringify(config));
+    }catch(e){
+      console.error('Failed to save config:',e);
+    }
+  },[config]);
 
   useEffect(()=>{
     const today=new Date().toDateString();
@@ -472,7 +489,27 @@ const App=()=>{
       setData(prev=>({...prev,completedTasks:newCompleted,lastReset:today}));
     }
   },[]);
-
+  
+  useEffect(()=>{
+    const handleKeyDown=(e)=>{
+      if(e.key==='Escape'){
+        if(showNoteModal)setShowNoteModal(false);
+        if(showEventModal)setShowEventModal(false);
+      }
+      if(e.key==='ArrowLeft'&&tab==='calendar'){
+        const d=new Date(selectedDate);
+        d.setDate(d.getDate()-1);
+        setSelectedDate(d);
+      }
+      if(e.key==='ArrowRight'&&tab==='calendar'){
+        const d=new Date(selectedDate);
+        d.setDate(d.getDate()+1);
+        setSelectedDate(d);
+      }
+    };
+    window.addEventListener('keydown',handleKeyDown);
+    return()=>window.removeEventListener('keydown',handleKeyDown);
+  },[showNoteModal,showEventModal,tab,selectedDate]);
   const celebrate=(text='🎉 Done!')=>{setCelebrationText(text);setShowCelebration(true);setTimeout(()=>setShowCelebration(false),1500)};
 
   const toggleTask=(taskKey)=>{
@@ -490,7 +527,11 @@ const App=()=>{
 
   const toggleBenefit=(id)=>{setData(prev=>({...prev,benefits:prev.benefits.map(b=>b.id===id?{...b,claimed:!b.claimed}:b)}))};
 
-  const updateBudget=(cat,field,val)=>{setData(prev=>({...prev,budget:{...prev.budget,[cat]:{...prev.budget[cat],[field]:Number(val)||0}}}))};
+  const updateBudget=(cat,field,val)=>{
+    const numVal=Number(val);
+    if(isNaN(numVal)||numVal<0)return;
+    setData(prev=>({...prev,budget:{...prev.budget,[cat]:{...prev.budget[cat],[field]:numVal}}}));
+  };
 
   const toggleMilestone=(id)=>{
     const m=data.milestones.find(ms=>ms.id===id);
@@ -499,11 +540,55 @@ const App=()=>{
   };
 
   const uploadMilestonePhoto=(id,file)=>{
+    if(file.size>5*1024*1024){
+      alert('Image too large! Max 5MB');
+      return;
+    }
     const reader=new FileReader();
     reader.onload=(e)=>{
-      setData(prev=>({...prev,milestones:prev.milestones.map(ms=>ms.id===id?{...ms,photo:e.target.result}:ms)}));
+      const img=new Image();
+      img.onload=()=>{
+        const canvas=document.createElement('canvas');
+        let width=img.width;
+        let height=img.height;
+        const maxSize=800;
+        if(width>height&&width>maxSize){
+          height*=maxSize/width;
+          width=maxSize;
+        }else if(height>maxSize){
+          width*=maxSize/height;
+          height=maxSize;
+        }
+        canvas.width=width;
+        canvas.height=height;
+        const ctx=canvas.getContext('2d');
+        ctx.drawImage(img,0,0,width,height);
+        const compressed=canvas.toDataURL('image/jpeg',0.7);
+        if(compressed.length>500*1024){
+          alert('Image still too large after compression. Try a smaller photo.');
+          return;
+        }
+        setData(prev=>({...prev,milestones:prev.milestones.map(ms=>ms.id===id?{...ms,photo:compressed}:ms)}));
+        checkStorageUsage();
+      };
+      img.src=e.target.result;
     };
     reader.readAsDataURL(file);
+  };
+
+  const checkStorageUsage=()=>{
+    try{
+      let used=0;
+      for(let key in localStorage){
+        if(localStorage.hasOwnProperty(key)){
+          used+=localStorage[key].length+key.length;
+        }
+      }
+      const limit=5*1024*1024;
+      if(used>limit*0.8){
+        alert(`Storage ${Math.round((used/limit)*100)}% full - consider clearing old photos in Settings`);
+      }
+    }catch(e){console.error(e)}
   };
 
   const addNote=()=>{
@@ -533,16 +618,16 @@ const App=()=>{
     setData(prev=>({...prev,events:{...prev.events,[dateKey]:prev.events[dateKey].filter(e=>e.id!==eventId)}}));
   };
 
-  const totalIncome=Object.values(data.budget.income).reduce((a,b)=>a+b,0);
-  const totalExpenses=Object.values(data.budget.expenses).reduce((a,b)=>a+b,0);
-  const totalSavings=Object.values(data.budget.savings).reduce((a,b)=>a+b,0);
-  const monthlyLeftover=totalIncome-totalExpenses-totalSavings;
+  const totalIncome=useMemo(()=>Object.values(data.budget.income).reduce((a,b)=>a+b,0),[data.budget.income]);
+  const totalExpenses=useMemo(()=>Object.values(data.budget.expenses).reduce((a,b)=>a+b,0),[data.budget.expenses]);
+  const totalSavings=useMemo(()=>Object.values(data.budget.savings).reduce((a,b)=>a+b,0),[data.budget.savings]);
+  const monthlyLeftover=useMemo(()=>totalIncome-totalExpenses-totalSavings,[totalIncome,totalExpenses,totalSavings]);
 
-  const today=new Date();
-  const returnDate=new Date(config.shawnieReturnDate);
-  const daysUntilReturn=Math.max(0,Math.ceil((returnDate-today)/(1000*60*60*24)));
-  const monthsUntilReturn=Math.max(0,Math.ceil((returnDate-today)/(1000*60*60*24*30)));
-  const totalGapToBridge=monthlyLeftover<0?Math.abs(monthlyLeftover)*monthsUntilReturn:0;
+  const today=useMemo(()=>new Date(),[]);
+  const returnDate=useMemo(()=>new Date(config.shawnieReturnDate),[config.shawnieReturnDate]);
+  const daysUntilReturn=useMemo(()=>Math.max(0,Math.ceil((returnDate-today)/(1000*60*60*24))),[returnDate,today]);
+  const monthsUntilReturn=useMemo(()=>Math.max(0,Math.ceil((returnDate-today)/(1000*60*60*24*30))),[returnDate,today]);
+  const totalGapToBridge=useMemo(()=>monthlyLeftover<0?Math.abs(monthlyLeftover)*monthsUntilReturn:0,[monthlyLeftover,monthsUntilReturn]);
 
   const goalsProgress=useMemo(()=>{
     let total=0,done=0;
@@ -561,7 +646,7 @@ const App=()=>{
   };
   const weekDates=getWeekDates();
   const dayOfWeek=selectedDate.getDay();
-  const dayMeals=weeklyMeals[dayOfWeek];
+  const dayMeals=weeklyMeals[dayOfWeek]||{breakfast:{name:"TBD",cost:0,prep:"",cook:""},lunch:{name:"TBD",cost:0,prep:"",cook:""},dinner:{name:"TBD",cost:0,prep:"",cook:""}};
   const dayActivities=weeklyActivities[dayOfWeek]||[];
   const dayWeeklyTasks=dailyTasks.weekly[dayOfWeek]||[];
   const dailyMealCost=(dayMeals.breakfast.cost+dayMeals.lunch.cost+dayMeals.dinner.cost).toFixed(2);
@@ -607,9 +692,9 @@ const App=()=>{
       {showCelebration&&<div className="celebration"><div className="celebration-box">{celebrationText}</div></div>}
 
       {/* Note Modal */}
-      <div className={`modal ${showNoteModal?'show':''}`} onClick={()=>setShowNoteModal(false)}>
+      <div className={`modal ${showNoteModal?'show':''}`} onClick={()=>setShowNoteModal(false)} role="dialog" aria-modal="true" aria-labelledby="note-modal-title">
         <div className="modal-content" onClick={e=>e.stopPropagation()}>
-          <div className="modal-header"><h3>Add Family Note</h3><button className="modal-close" onClick={()=>setShowNoteModal(false)}>×</button></div>
+          <div className="modal-header"><h3 id="note-modal-title">Add Family Note</h3><button className="modal-close" onClick={()=>setShowNoteModal(false)} aria-label="Close modal">×</button></div>
           <div className="modal-body">
             <textarea className="modal-textarea" value={noteText} onChange={e=>setNoteText(e.target.value)} placeholder="What's on your mind?"/>
           </div>
@@ -621,9 +706,9 @@ const App=()=>{
       </div>
 
       {/* Event Modal */}
-      <div className={`modal ${showEventModal?'show':''}`} onClick={()=>setShowEventModal(false)}>
+      <div className={`modal ${showEventModal?'show':''}`} onClick={()=>setShowEventModal(false)} role="dialog" aria-modal="true" aria-labelledby="event-modal-title">
         <div className="modal-content" onClick={e=>e.stopPropagation()}>
-          <div className="modal-header"><h3>Add Event</h3><button className="modal-close" onClick={()=>setShowEventModal(false)}>×</button></div>
+          <div className="modal-header"><h3 id="event-modal-title">Add Event</h3><button className="modal-close" onClick={()=>setShowEventModal(false)} aria-label="Close modal">×</button></div>
           <div className="modal-body">
             <div className="form-group"><label className="form-label">Time</label><input type="time" className="form-input" value={eventForm.time} onChange={e=>setEventForm({...eventForm,time:e.target.value})}/></div>
             <div className="form-group"><label className="form-label">Title</label><input type="text" className="form-input" value={eventForm.title} onChange={e=>setEventForm({...eventForm,title:e.target.value})} placeholder="Event name"/></div>
@@ -641,10 +726,10 @@ const App=()=>{
         <div className="header-top">
           <div className="logo"><div className="logo-icon">🏠</div><div><div className="logo-title">{config.familyName}</div><div className="logo-sub">{config.location} → {config.targetLocation}</div></div></div>
           <div className="header-btns">
-            <button className="icon-btn" onClick={exportData}>💾</button>
-            <label className="icon-btn">📂<input type="file" accept=".json" onChange={importData} style={{display:'none'}}/></label>
+            <button className="icon-btn" onClick={exportData} aria-label="Export data">💾</button>
+            <label className="icon-btn" aria-label="Import data">📂<input type="file" accept=".json" onChange={importData} style={{display:'none'}}/></label>
           </div>
-        </div>
+          
         <div className="mini-stats">
           <div className="mini-stat"><div className={`mini-stat-val ${monthlyLeftover<0?'negative':'positive'}`}>£{monthlyLeftover}</div><div className="mini-stat-lbl">/mo</div></div>
           <div className="mini-stat"><div className="mini-stat-val">{daysUntilReturn}</div><div className="mini-stat-lbl">days</div></div>
@@ -1052,8 +1137,6 @@ const App=()=>{
             <div><label className="form-label">Shawnie Return Date</label><input type="date" className="form-input" value={config.shawnieReturnDate} onChange={e=>setConfig(c=>({...c,shawnieReturnDate:e.target.value}))}/></div>
           </div>
           <div style={{marginTop:20,display:'flex',gap:10,flexWrap:'wrap'}}>
-            <button className="btn btn-secondary" onClick={exportData}>💾 Export</button>
-            <label className="btn btn-secondary" style={{cursor:'pointer'}}>📂 Import<input type="file" accept=".json" onChange={importData} style={{display:'none'}}/></label>
             <button className="btn btn-primary" style={{background:'#dc2626'}} onClick={()=>{if(confirm('Reset everything?')){localStorage.clear();window.location.reload()}}}>🔄 Reset All</button>
           </div>
         </div>}
