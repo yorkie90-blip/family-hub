@@ -13,8 +13,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-    :root{--terracotta:#e07a5f;--terracotta-dark:#c65d42;--sage:#81b29a;--sage-light:#c8e6d4;--cream:#f4f1de;--cream-dark:#e8e4cc;--navy:#3d405b;--navy-light:#6b7280;--gold:#f2cc8f;--gold-dark:#d9b36c;--rich:#4a90a4;--rich-light:#b8d4de;--shawnie:#d4729b;--shawnie-light:#f0c4d6;--madison:#f2a65a;--madison-light:#fcd9b6;--family:#81b29a;--both:#9b8bb4;--critical:#dc2626;--high:#f59e0b;--medium:#3b82f6;--low:#6b7280;--shadow-sm:0 2px 8px rgba(61,64,91,0.08);--shadow-md:0 8px 24px rgba(61,64,91,0.12);--shadow-lg:0 16px 48px rgba(61,64,91,0.16);--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:24px}
-    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--navy);min-height:100vh;line-height:1.6}
+    :root{--terracotta:#e07a5f;--terracotta-dark:#c65d42;--sage:#81b29a;--sage-light:#c8e6d4;--cream:#f4f1de;--cream-dark:#e8e4cc;--navy:#3d405b;--navy-light:#6b7280;--gold:#f2cc8f;--gold-dark:#d9b36c;--rich:#4a90a4;--rich-light:#b8d4de;--shawnie:#d4729b;--shawnie-light:#f0c4d6;--madison:#f2a65a;--madison-light:#fcd9b6;--family:#81b29a;--both:#9b8bb4;--critical:#dc2626;--high:#f59e0b;--medium:#3b82f6;--low:#6b7280;--shadow-sm:0 2px 8px rgba(61,64,91,0.08);--shadow-md:0 8px 24px rgba(61,64,91,0.12);--shadow-lg:0 16px 48px rgba(61,64,91,0.16);--radius-sm:8px;--radius-md:12px;--radius-lg:16px;--radius-xl:24px;--transition-fast:0.15s ease;--transition-normal:0.3s ease;--transition-slow:0.5s ease}
+    body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--navy);min-height:100vh;line-height:1.6;transition:background-color var(--transition-normal),color var(--transition-normal)}
     h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif;line-height:1.2}
     .app{min-height:100vh;padding-bottom:80px}
     .header{background:linear-gradient(135deg,var(--terracotta) 0%,var(--shawnie) 50%,var(--gold) 100%);color:white;padding:20px;position:relative}
@@ -41,7 +41,8 @@
     .nav-btn:hover{background:var(--cream);color:var(--navy)}
     .nav-btn.active{background:var(--terracotta);color:white}
     .main{max-width:1200px;margin:0 auto;padding:0 16px}
-    .card{background:white;border-radius:var(--radius-xl);padding:20px;margin-bottom:16px;box-shadow:var(--shadow-sm)}
+    .card{background:white;border-radius:var(--radius-xl);padding:20px;margin-bottom:16px;box-shadow:var(--shadow-sm);transition:transform var(--transition-fast),box-shadow var(--transition-fast),background-color var(--transition-normal)}
+    .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
     .card-title{font-size:1.1rem;display:flex;align-items:center;gap:8px;margin-bottom:16px}
     .card-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--terracotta),var(--gold));border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1rem}
     .overview-hero{background:linear-gradient(135deg,var(--terracotta) 0%,var(--shawnie) 50%,var(--sage) 100%);border-radius:var(--radius-xl);padding:24px;color:white;margin-bottom:16px;text-align:center}
@@ -50,7 +51,8 @@
     .overview-label{font-size:0.9rem;margin-top:4px;opacity:0.9}
     .overview-date{font-size:0.8rem;margin-top:8px;opacity:0.8}
     .overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
-    .overview-card{background:white;border-radius:var(--radius-lg);padding:16px;text-align:center;box-shadow:var(--shadow-sm);border-left:4px solid var(--terracotta)}
+    .overview-card{background:white;border-radius:var(--radius-lg);padding:16px;text-align:center;box-shadow:var(--shadow-sm);border-left:4px solid var(--terracotta);transition:transform var(--transition-fast),box-shadow var(--transition-fast),background-color var(--transition-normal)}
+    .overview-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
     .overview-card.income{border-left-color:var(--sage)}
     .overview-card.expense{border-left-color:var(--critical)}
     .overview-card.gap{border-left-color:var(--high)}
@@ -75,14 +77,17 @@
     .timeline-title{font-weight:600;font-size:0.9rem}
     .timeline-date{font-size:0.75rem;color:var(--navy-light)}
     .timeline-amount{font-family:'Fraunces',serif;font-weight:700;color:var(--sage)}
-    .btn{padding:8px 16px;border:none;border-radius:999px;font-family:inherit;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px}
+    .btn{padding:8px 16px;border:none;border-radius:999px;font-family:inherit;font-size:0.85rem;font-weight:600;cursor:pointer;transition:all var(--transition-fast);display:inline-flex;align-items:center;gap:6px}
     .btn-primary{background:var(--terracotta);color:white}
+    .btn-primary:hover{background:var(--terracotta-dark);transform:translateY(-1px);box-shadow:0 4px 12px rgba(224,122,95,0.3)}
+    .btn-primary:active{transform:translateY(0);box-shadow:0 2px 6px rgba(224,122,95,0.2)}
     .btn-secondary{background:var(--cream);color:var(--navy)}
+    .btn-secondary:hover{background:var(--cream-dark);transform:translateY(-1px)}
     .btn-sm{padding:6px 12px;font-size:0.75rem}
     .form-group{margin-bottom:12px}
     .form-label{display:block;font-size:0.8rem;font-weight:600;margin-bottom:4px;color:var(--navy)}
-    .form-input{width:100%;padding:10px 12px;border:2px solid var(--cream-dark);border-radius:var(--radius-sm);font-family:inherit;font-size:0.9rem}
-    .form-input:focus{outline:none;border-color:var(--terracotta)}
+    .form-input{width:100%;padding:10px 12px;border:2px solid var(--cream-dark);border-radius:var(--radius-sm);font-family:inherit;font-size:0.9rem;transition:all var(--transition-fast)}
+    .form-input:focus{outline:none;border-color:var(--terracotta);box-shadow:0 0 0 3px rgba(224,122,95,0.1)}
     .budget-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
     .budget-section{background:var(--cream);border-radius:var(--radius-lg);padding:16px}
     .budget-section-title{font-family:'Fraunces',serif;font-size:0.95rem;margin-bottom:12px;display:flex;align-items:center;gap:8px}
@@ -128,12 +133,13 @@
     .time-icon{font-size:1.1rem}
     .time-title{font-weight:700;font-size:0.9rem}
     .time-range{font-size:0.7rem;color:var(--navy-light);margin-left:auto}
-    .task-item{display:flex;align-items:flex-start;gap:10px;padding:10px;background:var(--cream);border-radius:var(--radius-md);margin-bottom:6px;cursor:pointer;transition:all 0.2s}
-    .task-item:hover{background:var(--cream-dark)}
+    .task-item{display:flex;align-items:flex-start;gap:10px;padding:10px;background:var(--cream);border-radius:var(--radius-md);margin-bottom:6px;cursor:pointer;transition:all var(--transition-fast)}
+    .task-item:hover{background:var(--cream-dark);transform:translateX(2px)}
+    .task-item:active{transform:scale(0.98)}
     .task-item.completed{opacity:0.5}
     .task-item.completed .task-text{text-decoration:line-through}
-    .task-check{width:20px;height:20px;border:2px solid var(--navy-light);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:white}
-    .task-check.checked{background:var(--sage);border-color:var(--sage);color:white}
+    .task-check{width:20px;height:20px;border:2px solid var(--navy-light);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:white;transition:all var(--transition-fast)}
+    .task-check.checked{background:var(--sage);border-color:var(--sage);color:white;animation:checkBounce 0.4s ease}
     .task-content{flex:1}
     .task-text{font-size:0.85rem;font-weight:500}
     .task-meta{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
@@ -149,12 +155,14 @@
     .goal-focus-title{font-weight:700;color:#7c3aed;font-size:0.8rem;margin-bottom:4px}
     .goal-focus-text{font-size:0.85rem;color:#6b21a8}
     .goal-focus-time{font-size:0.7rem;color:#9333ea;margin-top:4px}
-    .goal-card{background:white;border-radius:var(--radius-lg);margin-bottom:10px;border-left:4px solid var(--medium);overflow:hidden;box-shadow:var(--shadow-sm)}
+    .goal-card{background:white;border-radius:var(--radius-lg);margin-bottom:10px;border-left:4px solid var(--medium);overflow:hidden;box-shadow:var(--shadow-sm);transition:all var(--transition-fast)}
+    .goal-card:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
     .goal-card.critical{border-left-color:var(--critical)}
     .goal-card.high{border-left-color:var(--high)}
     .goal-card.medium{border-left-color:var(--medium)}
     .goal-card.low{border-left-color:var(--low)}
-    .goal-header{padding:14px;cursor:pointer;display:flex;align-items:center;gap:10px}
+    .goal-header{padding:14px;cursor:pointer;display:flex;align-items:center;gap:10px;transition:background-color var(--transition-fast)}
+    .goal-header:hover{background:rgba(0,0,0,0.02)}
     .goal-icon{font-size:1.3rem}
     .goal-info{flex:1}
     .goal-title{font-weight:700;font-size:0.9rem}
@@ -164,11 +172,12 @@
     .goal-count{font-size:0.7rem;color:var(--navy-light)}
     .goal-body{padding:0 14px 14px;display:none}
     .goal-body.open{display:block}
-    .step-item{display:flex;gap:8px;padding:8px;background:var(--cream);border-radius:var(--radius-sm);margin-bottom:4px;cursor:pointer;font-size:0.85rem}
+    .step-item{display:flex;gap:8px;padding:8px;background:var(--cream);border-radius:var(--radius-sm);margin-bottom:4px;cursor:pointer;font-size:0.85rem;transition:all var(--transition-fast)}
+    .step-item:hover{background:var(--cream-dark);transform:translateX(3px)}
     .step-item.completed{opacity:0.5}
     .step-item.completed .step-text{text-decoration:line-through}
-    .step-check{width:18px;height:18px;border:2px solid var(--navy-light);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:white}
-    .step-check.checked{background:var(--sage);border-color:var(--sage);color:white}
+    .step-check{width:18px;height:18px;border:2px solid var(--navy-light);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:white;transition:all var(--transition-fast)}
+    .step-check.checked{background:var(--sage);border-color:var(--sage);color:white;animation:checkBounce 0.4s ease}
     .step-text{flex:1}
     .step-date{font-size:0.7rem;color:var(--navy-light)}
     .benefit-item{display:flex;align-items:center;gap:10px;padding:10px;background:var(--cream);border-radius:var(--radius-md);margin-bottom:6px}
@@ -179,10 +188,12 @@
     .benefit-saving{font-weight:700;color:var(--sage);font-size:0.85rem}
     .tip-box{background:#fef3c7;border-left:3px solid var(--gold-dark);border-radius:var(--radius-sm);padding:12px;margin:12px 0;font-size:0.85rem;color:#78350f}
     .milestone-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:16px}
-    .milestone-card{background:white;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);border:2px solid var(--cream-dark);transition:all 0.2s}
-    .milestone-card:hover{border-color:var(--terracotta)}
+    .milestone-card{background:white;border-radius:var(--radius-lg);overflow:hidden;box-shadow:var(--shadow-sm);border:2px solid var(--cream-dark);transition:all var(--transition-fast)}
+    .milestone-card:hover{border-color:var(--terracotta);transform:translateY(-3px);box-shadow:var(--shadow-md)}
     .milestone-card.achieved{border-color:var(--sage)}
     .milestone-photo{width:100%;height:140px;background:var(--cream);display:flex;align-items:center;justify-content:center;font-size:3rem;opacity:0.3;position:relative;overflow:hidden}
+    .milestone-photo.loading{background:linear-gradient(90deg,var(--cream) 0%,var(--cream-dark) 50%,var(--cream) 100%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
     .milestone-photo img{width:100%;height:100%;object-fit:cover;opacity:1}
     .milestone-photo.has-photo{opacity:1}
     .milestone-upload{position:absolute;top:8px;right:8px;width:32px;height:32px;background:var(--terracotta);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:0.9rem;z-index:10}
@@ -211,10 +222,16 @@
     .celebration{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:9999;pointer-events:none}
     .celebration-box{background:linear-gradient(135deg,var(--gold),var(--terracotta));color:white;padding:16px 32px;border-radius:999px;font-family:'Fraunces',serif;font-size:1.2rem;font-weight:700;box-shadow:var(--shadow-md);animation:pop 0.5s ease}
     @keyframes pop{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
-    .fab{position:fixed;bottom:20px;right:20px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--terracotta),var(--shawnie));color:white;border:none;font-size:1.2rem;cursor:pointer;box-shadow:var(--shadow-md);z-index:900}
-    .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center;padding:16px}
+    .fab{position:fixed;bottom:20px;right:20px;width:50px;height:50px;border-radius:50%;background:linear-gradient(135deg,var(--terracotta),var(--shawnie));color:white;border:none;font-size:1.2rem;cursor:pointer;box-shadow:var(--shadow-md);z-index:900;transition:all var(--transition-fast)}
+    .fab:hover{transform:scale(1.1);box-shadow:var(--shadow-lg)}
+    .fab:active{transform:scale(0.95)}
+    .modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1000;align-items:center;justify-content:center;padding:16px;animation:fadeIn var(--transition-normal)}
     .modal.show{display:flex}
-    .modal-content{background:white;border-radius:var(--radius-xl);width:100%;max-width:480px;max-height:90vh;overflow-y:auto}
+    .modal-content{background:rgba(255,255,255,0.98);border-radius:var(--radius-xl);width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);animation:slideUp var(--transition-normal);border:1px solid rgba(255,255,255,0.3)}
+    @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+    @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+    @keyframes checkBounce{0%{transform:scale(1)}50%{transform:scale(1.2)}100%{transform:scale(1)}}
+    @keyframes pulse{0%{transform:scale(1);opacity:1}50%{transform:scale(1.05);opacity:0.8}100%{transform:scale(1);opacity:1}}
     .modal-header{padding:20px;border-bottom:2px solid var(--cream);display:flex;justify-content:space-between;align-items:center}
     .modal-close{background:transparent;border:none;font-size:2rem;cursor:pointer;color:var(--navy-light);line-height:1}
     .modal-body{padding:20px}
@@ -223,7 +240,8 @@
     .modal-footer{padding:16px 20px;border-top:2px solid var(--cream);display:flex;justify-content:flex-end;gap:8px}
     @media(max-width:640px){.summary-row{grid-template-columns:repeat(2,1fr)}.overview-grid{grid-template-columns:repeat(2,1fr)}.day-tab{min-width:60px;padding:10px 12px}.milestone-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}}
     body.dark{--cream:#1f2937;--cream-dark:#374151;--navy:#f9fafb;--navy-light:#d1d5db;background:#111827;color:#f9fafb}
-    body.dark .card,body.dark .nav,body.dark .modal-content{background:#1f2937;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+    body.dark .card,body.dark .nav{background:#1f2937;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
+    body.dark .modal-content{background:rgba(31,41,55,0.98);box-shadow:0 20px 60px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1)}
     body.dark .budget-section{background:#374151}
     body.dark .form-input,body.dark .budget-input,body.dark .modal-textarea{background:#374151;border-color:#4b5563;color:#f9fafb}
     body.dark .task-item,body.dark .step-item,body.dark .benefit-item{background:#374151}
@@ -239,6 +257,62 @@
     .milestone-notes{font-size:0.8rem;color:var(--navy-light);font-style:italic;margin:8px 0;line-height:1.4;padding:8px;background:var(--cream);border-radius:6px}
     body.dark .milestone-notes{background:#4b5563;color:#d1d5db}
     .chart-container{position:relative;height:280px;margin-top:16px}
+    .madison-hero{background:linear-gradient(135deg,var(--madison),var(--madison-light));border-radius:var(--radius-xl);padding:24px;color:white;margin-bottom:16px;text-align:center}
+    .madison-age{font-family:'Fraunces',serif;font-size:2.5rem;font-weight:700}
+    .madison-stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px;margin-bottom:16px}
+    .madison-stat-card{background:white;border-radius:var(--radius-lg);padding:16px;text-align:center;box-shadow:var(--shadow-sm);border-left:4px solid var(--madison)}
+    .madison-stat-icon{font-size:1.8rem;margin-bottom:8px}
+    .madison-stat-value{font-family:'Fraunces',serif;font-size:1.3rem;font-weight:700;color:var(--navy)}
+    .madison-stat-label{font-size:0.7rem;color:var(--navy-light);text-transform:uppercase;margin-top:4px}
+    .madison-stat-date{font-size:0.65rem;color:var(--navy-light);margin-top:2px}
+    .growth-entry{display:flex;gap:12px;padding:12px;background:var(--cream);border-radius:var(--radius-md);margin-bottom:8px;align-items:center}
+    .growth-date-col{min-width:80px;font-size:0.75rem;font-weight:600;color:var(--navy-light)}
+    .growth-data-col{flex:1;display:flex;gap:16px}
+    .growth-metric{display:flex;flex-direction:column}
+    .growth-metric-label{font-size:0.65rem;color:var(--navy-light);text-transform:uppercase}
+    .growth-metric-value{font-size:0.9rem;font-weight:700;color:var(--navy)}
+    .vacc-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--cream);border-radius:var(--radius-md);margin-bottom:8px}
+    .vacc-item.completed{background:var(--sage-light)}
+    .vacc-check{width:24px;height:24px;border:2px solid var(--navy-light);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;background:white;flex-shrink:0}
+    .vacc-check.checked{background:var(--sage);border-color:var(--sage);color:white}
+    .vacc-info{flex:1}
+    .vacc-name{font-weight:600;font-size:0.9rem}
+    .vacc-age{font-size:0.75rem;color:var(--navy-light)}
+    .vacc-date{font-size:0.75rem;color:var(--navy-light);min-width:100px;text-align:right}
+    .dev-category{background:var(--cream);border-radius:var(--radius-lg);padding:16px;margin-bottom:12px}
+    .dev-category-title{font-weight:700;font-size:0.95rem;margin-bottom:12px;display:flex;align-items:center;gap:8px;color:var(--navy)}
+    .dev-milestone{display:flex;align-items:flex-start;gap:10px;padding:8px;background:white;border-radius:var(--radius-sm);margin-bottom:6px;cursor:pointer}
+    .dev-milestone.achieved{opacity:0.6}
+    .dev-check{width:20px;height:20px;border:2px solid var(--navy-light);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;background:white}
+    .dev-check.checked{background:var(--madison);border-color:var(--madison);color:white}
+    .dev-text{flex:1;font-size:0.85rem}
+    .dev-age{font-size:0.7rem;color:var(--navy-light);margin-left:auto}
+    .health-note{background:var(--madison-light);border-left:4px solid var(--madison);border-radius:var(--radius-md);padding:14px;margin-bottom:12px}
+    .health-note-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px}
+    .health-note-date{font-weight:600;font-size:0.8rem;color:#7a4a1f}
+    .health-note-type{font-size:0.7rem;color:#7a4a1f;text-transform:uppercase;background:rgba(255,255,255,0.5);padding:2px 8px;border-radius:12px}
+    .health-note-text{font-size:0.85rem;color:#5a3a1f;line-height:1.5}
+    body.dark .madison-stat-card{background:#374151}
+    body.dark .growth-entry{background:#374151}
+    body.dark .vacc-item{background:#374151}
+    body.dark .dev-category{background:#374151}
+    body.dark .dev-milestone{background:#1f2937}
+    
+    @media print{
+      *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+      body{background:white;color:black;font-size:11pt}
+      .header,.nav-wrap,.fab,.icon-btn,.modal,.btn{display:none!important}
+      .app{padding-bottom:0}
+      .card{page-break-inside:avoid;box-shadow:none;border:1px solid #ddd;margin-bottom:1rem}
+      .card-title{color:var(--terracotta);border-bottom:2px solid var(--terracotta);padding-bottom:0.5rem;margin-bottom:1rem}
+      .overview-hero{background:linear-gradient(135deg,var(--terracotta),var(--gold));-webkit-print-color-adjust:exact;print-color-adjust:exact;page-break-inside:avoid}
+      .budget-grid,.overview-grid,.madison-stat-grid{page-break-inside:avoid}
+      .goal-card,.benefit-item,.note-card{page-break-inside:avoid}
+      .chart-container{display:none}
+      h1,h2,h3{page-break-after:avoid}
+      .nav-btn.active::after{content:" (Current)"}
+      @page{margin:1.5cm;size:A4}
+    }
   </style></head>
 <body>
   <div id="root"></div>
@@ -246,7 +320,7 @@
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
   <script src="https://unpkg.com/@babel/standalone@7.23.5/babel.min.js"></script>
   <script type="text/babel">
-const{useState,useEffect,useMemo}=React;
+const{useState,useEffect,useMemo,useCallback}=React;
 const Check=()=><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polyline points="20 6 9 17 4 12"/></svg>;
 const ChevronDown=()=><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"/></svg>;
 
@@ -415,23 +489,185 @@ const defaultBudget={
 };
 
 const defaultMilestones=[
-  {id:'first-words',title:'First Words',date:'2026-03',icon:'💬',achieved:false,photo:null,notes:''},
-  {id:'first-steps',title:'First Steps',date:'2026-06',icon:'👣',achieved:false,photo:null,notes:''},
-  {id:'potty-trained',title:'Potty Trained',date:'2026',icon:'🚽',achieved:false,photo:null,notes:''},
-  {id:'first-day-nursery',title:'First Day Nursery',date:'2026',icon:'🏫',achieved:false,photo:null,notes:''},
-  {id:'first-bike',title:'First Bike Ride',date:'2027',icon:'🚲',achieved:false,photo:null,notes:''},
-  {id:'first-school-day',title:'First Day School',date:'2028',icon:'🎒',achieved:false,photo:null,notes:''},
-  {id:'first-holiday',title:'First Family Holiday',date:'2025',icon:'🏖️',achieved:false,photo:null,notes:''},
+  {id:'first-smile',title:'First Smile',date:'2025-09',icon:'😊',achieved:true,photo:null,notes:''},
+  {id:'first-laugh',title:'First Laugh',date:'2025-11',icon:'😄',achieved:false,photo:null,notes:''},
+  {id:'rolling-over',title:'Rolling Over',date:'2025-12',icon:'🔄',achieved:true,photo:null,notes:''},
+  {id:'first-unassisted-sit',title:'First Unassisted Sit',date:'2026-01',icon:'🪑',achieved:false,photo:null,notes:''},
+  {id:'first-crawl',title:'First Crawl',date:'2026-04',icon:'👶',achieved:false,photo:null,notes:''},
+  {id:'first-words',title:'First Words',date:'2026-07',icon:'💬',achieved:false,photo:null,notes:''},
+  {id:'first-steps',title:'First Steps',date:'2026-07',icon:'👣',achieved:false,photo:null,notes:''},
+  {id:'first-birthday',title:'First Birthday',date:'2026-07-09',icon:'🎂',achieved:false,photo:null,notes:''},
   {id:'first-christmas',title:'First Christmas',date:'2025-12',icon:'🎄',achieved:false,photo:null,notes:''},
-  {id:'first-tooth-lost',title:'First Tooth Lost',date:'2027',icon:'🦷',achieved:false,photo:null,notes:''},
-  {id:'first-swim',title:'First Swim',date:'2026',icon:'🏊',achieved:false,photo:null,notes:''},
-  {id:'first-smile',title:'First Smile',date:'2025-12',icon:'😊',achieved:false,photo:null,notes:''},
-  {id:'first-laugh',title:'First Laugh',date:'2025-12',icon:'😄',achieved:false,photo:null,notes:''},
-  {id:'rolling-over',title:'Rolling Over',date:'2025-12',icon:'🔄',achieved:false,photo:null,notes:''},
-  {id:'first-crawl',title:'First Crawl',date:'2025-12',icon:'👶',achieved:false,photo:null,notes:''},
-  {id:'first-birthday',title:'First Birthday',date:'2025-12',icon:'🎂',achieved:false,photo:null,notes:''},
-  {id:'first-unassisted-sit',title:'First Unassisted Sit',date:'2025-12',icon:'🪑',achieved:false,photo:null,notes:''}
+  {id:'first-swim',title:'First Swim',date:'2026-08',icon:'🏊',achieved:false,photo:null,notes:''},
+  {id:'first-tooth',title:'First Tooth',date:'2026-01',icon:'🦷',achieved:false,photo:null,notes:''},
+  {id:'first-holiday',title:'First Family Holiday',date:'2026',icon:'🏖️',achieved:false,photo:null,notes:''},
+  {id:'first-day-nursery',title:'First Day Nursery',date:'2027',icon:'🏫',achieved:false,photo:null,notes:''},
+  {id:'potty-trained',title:'Potty Trained',date:'2027',icon:'🚽',achieved:false,photo:null,notes:''},
+  {id:'first-bike',title:'First Bike Ride',date:'2028',icon:'🚲',achieved:false,photo:null,notes:''},
+  {id:'first-school-day',title:'First Day School',date:'2029',icon:'🎒',achieved:false,photo:null,notes:''}
 ];
+
+const familyAndFriends={
+  sheffield:[
+    {id:'kyle-dunja',names:'Kyle & Dunja',type:'friends',icon:'👫',relation:'Friends',lastSeen:'',notes:''},
+    {id:'kat',names:'Kat',type:'friend',icon:'👤',relation:'Friend',lastSeen:'',notes:''}
+  ],
+  harrogate:[
+    {id:'luke',names:'Luke',type:'friend',icon:'👤',relation:'Friend',lastSeen:'',notes:''},
+    {id:'rheiza',names:'Rheiza',type:'friend',icon:'👤',relation:'Friend',lastSeen:'',notes:''}
+  ],
+  durham:[
+    {id:'kay-family',names:'Kay, Richard & Zachary',type:'friends',icon:'👨‍👩‍👦',relation:'Friends & Son',lastSeen:'',notes:''}
+  ],
+  peterlee:[
+    {id:'debbie-mick',names:'Debbie & Mick',type:'family',icon:'👴👵',relation:'Shawnie\'s Parents',lastSeen:'',notes:''}
+  ],
+  richFamily:[
+    {id:'emily-isaac',names:'Emily & Isaac',type:'family',icon:'👩‍👦',relation:'Rich\'s Sister & Nephew',lastSeen:'',notes:''},
+    {id:'becky-sully',names:'Becky & Sully',type:'family',icon:'👵👴',relation:'Rich\'s Mom & Partner',lastSeen:'',notes:''}
+  ],
+  shawnieFamily:[
+    {id:'jemma-family',names:'Jemma, James, Amelia & Oliver',type:'family',icon:'👨‍👩‍👧‍👦',relation:'Shawnie\'s Sister, Brother-in-law & Kids',lastSeen:'',notes:''},
+    {id:'flora',names:'Flora',type:'family',icon:'👵',relation:'Shawnie\'s Grandma',lastSeen:'',notes:''},
+    {id:'albert',names:'Albert',type:'family',icon:'👴',relation:'Shawnie\'s Grandad',lastSeen:'',notes:''},
+    {id:'carole-jim',names:'Carole & Jim',type:'family',icon:'👵👴',relation:'Shawnie\'s Grandma & Great-Grandad',lastSeen:'',notes:''}
+  ]
+};
+
+const tailoredDailyTasks={
+  family:[
+    {task:'Madison morning routine',person:'Both',time:'morning',icon:'👶',priority:'critical'},
+    {task:'Madison feeding',person:'Both',time:'morning',icon:'🍼',priority:'critical'},
+    {task:'Madison nappy change',person:'Either',time:'morning',icon:'👶',priority:'high'},
+    {task:'Tummy time with Madison',person:'Either',time:'morning',icon:'🤸',priority:'medium'},
+    {task:'Play with Madison',person:'Either',time:'afternoon',icon:'🎮',priority:'high'},
+    {task:'Madison feeding',person:'Both',time:'afternoon',icon:'🍼',priority:'critical'},
+    {task:'Madison nap time',person:'Either',time:'afternoon',icon:'😴',priority:'high'},
+    {task:'Madison bath time',person:'Rich',time:'evening',icon:'🛁',priority:'critical'},
+    {task:'Madison bedtime routine',person:'Both',time:'evening',icon:'📖',priority:'critical'}
+  ],
+  house:[
+    {task:'Make beds',person:'Both',time:'morning',icon:'🛏️',priority:'medium'},
+    {task:'Kitchen wipe down',person:'Rich',time:'morning',icon:'🧽',priority:'medium'},
+    {task:'Living room tidy',person:'Either',time:'afternoon',icon:'🛋️',priority:'low'},
+    {task:'Laundry (as needed)',person:'Rich',time:'morning',icon:'👕',priority:'medium'},
+    {task:'Dishes after meals',person:'Rich',time:'evening',icon:'🍽️',priority:'medium'},
+    {task:'Quick evening tidy (10min)',person:'Both',time:'evening',icon:'✨',priority:'low'}
+  ],
+  goals:[
+    {task:'Apply to 1 electrician apprenticeship',person:'Rich',time:'morning',icon:'⚡',priority:'critical',goalId:1,frequency:'weekly'},
+    {task:'Research Sheffield areas (15min)',person:'Both',time:'evening',icon:'🏘️',priority:'high',goalId:3,frequency:'weekly'},
+    {task:'Check savings progress',person:'Shawnie',time:'evening',icon:'💰',priority:'high',goalId:5,frequency:'daily'},
+    {task:'Review budget',person:'Shawnie',time:'evening',icon:'📊',priority:'medium',goalId:5,frequency:'weekly'},
+    {task:'Update Madison milestones',person:'Both',time:'evening',icon:'🎯',priority:'medium',goalId:6,frequency:'weekly'}
+  ],
+  social:[
+    {task:'Video call family',person:'Both',time:'evening',icon:'📱',priority:'low',frequency:'weekly'},
+    {task:'Plan Sheffield visit',person:'Both',time:'evening',icon:'🚗',priority:'medium',frequency:'monthly'},
+    {task:'Text/check in friends',person:'Either',time:'afternoon',icon:'💬',priority:'low',frequency:'weekly'}
+  ],
+  selfCare:[
+    {task:'Rich: Read/gaming (30min)',person:'Rich',time:'evening',icon:'🎮',priority:'low'},
+    {task:'Shawnie: Relax time (30min)',person:'Shawnie',time:'evening',icon:'☕',priority:'low'},
+    {task:'Couple time together',person:'Both',time:'evening',icon:'❤️',priority:'medium'}
+  ]
+};
+
+const weeklySpecialTasks={
+  0:[
+    {task:'Hoover whole house',person:'Rich',icon:'🧹',category:'cleaning'},
+    {task:'Meal plan for week',person:'Both',icon:'📝',category:'planning'},
+    {task:'Sunday roast prep',person:'Rich',icon:'🍗',category:'cooking'}
+  ],
+  1:[
+    {task:'Clean bathroom',person:'Rich',icon:'🚿',category:'cleaning'},
+    {task:'Apprenticeship applications',person:'Rich',icon:'⚡',category:'goals'}
+  ],
+  2:[
+    {task:'Change bed sheets',person:'Both',icon:'🛏️',category:'cleaning'}
+  ],
+  3:[
+    {task:'Deep clean kitchen',person:'Rich',icon:'✨',category:'cleaning'},
+    {task:'Budget review meeting',person:'Both',icon:'📊',category:'goals'}
+  ],
+  4:[
+    {task:'Hoover whole house',person:'Rich',icon:'🧹',category:'cleaning'}
+  ],
+  5:[
+    {task:'Food shopping',person:'Both',icon:'🛒',category:'essential'},
+    {task:'Tidy/declutter session',person:'Both',icon:'📦',category:'cleaning'}
+  ],
+  6:[]
+};
+
+const defaultMadisonData={
+  birthDate:'2025-07-09',
+  growth:[
+    {id:1,date:'2025-07-09',height:50,weight:3.4,headCirc:35,notes:'Birth measurements'},
+    {id:2,date:'2025-08-09',height:56,weight:4.8,headCirc:38,notes:'1-month check'},
+    {id:3,date:'2025-10-09',height:61,weight:6.2,headCirc:41,notes:'3-month check'},
+    {id:4,date:'2025-12-09',height:65,weight:7.0,headCirc:43,notes:'5-month check'}
+  ],
+  vaccinations:[
+    {id:'8wk-1',name:'6-in-1 vaccine (1st dose)',ageWeeks:8,completed:true,date:'2025-09-03'},
+    {id:'8wk-2',name:'Rotavirus (1st dose)',ageWeeks:8,completed:true,date:'2025-09-03'},
+    {id:'8wk-3',name:'MenB (1st dose)',ageWeeks:8,completed:true,date:'2025-09-03'},
+    {id:'12wk-1',name:'6-in-1 vaccine (2nd dose)',ageWeeks:12,completed:true,date:'2025-10-01'},
+    {id:'12wk-2',name:'Pneumococcal (PCV)',ageWeeks:12,completed:true,date:'2025-10-01'},
+    {id:'12wk-3',name:'Rotavirus (2nd dose)',ageWeeks:12,completed:true,date:'2025-10-01'},
+    {id:'16wk-1',name:'6-in-1 vaccine (3rd dose)',ageWeeks:16,completed:false,date:''},
+    {id:'16wk-2',name:'MenB (2nd dose)',ageWeeks:16,completed:false,date:''},
+    {id:'1yr-1',name:'Hib/MenC (1st dose)',ageMonths:12,completed:false,date:''},
+    {id:'1yr-2',name:'MMR (1st dose)',ageMonths:12,completed:false,date:''},
+    {id:'1yr-3',name:'Pneumococcal (2nd dose)',ageMonths:12,completed:false,date:''},
+    {id:'1yr-4',name:'MenB (3rd dose)',ageMonths:12,completed:false,date:''},
+    {id:'2yr',name:'Flu vaccine (annual)',ageYears:2,completed:false,date:''},
+    {id:'3yr-1',name:'MMR (2nd dose)',ageYears:3,completed:false,date:''},
+    {id:'3yr-2',name:'4-in-1 pre-school booster',ageYears:3,completed:false,date:''}
+  ],
+  developmental:{
+    motor:[
+      {id:'m1',skill:'Holds head steady',achieved:true,ageMonths:3,date:'2025-10-09'},
+      {id:'m2',skill:'Rolls over both ways',achieved:true,ageMonths:5,date:'2025-12-09'},
+      {id:'m3',skill:'Sits without support',achieved:false,ageMonths:6,date:''},
+      {id:'m4',skill:'Crawls',achieved:false,ageMonths:9,date:''},
+      {id:'m5',skill:'Pulls to standing',achieved:false,ageMonths:10,date:''},
+      {id:'m6',skill:'Walks independently',achieved:false,ageMonths:12,date:''},
+      {id:'m7',skill:'Runs',achieved:false,ageMonths:18,date:''},
+      {id:'m8',skill:'Kicks ball',achieved:false,ageMonths:24,date:''},
+      {id:'m9',skill:'Jumps with both feet',achieved:false,ageMonths:30,date:''}
+    ],
+    language:[
+      {id:'l1',skill:'Responds to name',achieved:false,ageMonths:9,date:''},
+      {id:'l2',skill:'Says "mama" or "dada"',achieved:false,ageMonths:11,date:''},
+      {id:'l3',skill:'Says 3-5 words',achieved:false,ageMonths:15,date:''},
+      {id:'l4',skill:'Points to named objects',achieved:false,ageMonths:18,date:''},
+      {id:'l5',skill:'Uses 2-word phrases',achieved:false,ageMonths:24,date:''},
+      {id:'l6',skill:'Speaks in sentences',achieved:false,ageMonths:36,date:''}
+    ],
+    social:[
+      {id:'s1',skill:'Smiles at people',achieved:true,ageMonths:2,date:'2025-09-09'},
+      {id:'s2',skill:'Plays peek-a-boo',achieved:false,ageMonths:9,date:''},
+      {id:'s3',skill:'Waves bye-bye',achieved:false,ageMonths:10,date:''},
+      {id:'s4',skill:'Shows affection to familiar people',achieved:false,ageMonths:12,date:''},
+      {id:'s5',skill:'Plays alongside other children',achieved:false,ageMonths:24,date:''},
+      {id:'s6',skill:'Takes turns in games',achieved:false,ageMonths:36,date:''}
+    ],
+    cognitive:[
+      {id:'c1',skill:'Looks at things when you point',achieved:false,ageMonths:12,date:''},
+      {id:'c2',skill:'Finds hidden objects',achieved:false,ageMonths:15,date:''},
+      {id:'c3',skill:'Knows names of familiar people',achieved:false,ageMonths:18,date:''},
+      {id:'c4',skill:'Sorts shapes and colors',achieved:false,ageMonths:24,date:''},
+      {id:'c5',skill:'Counts to 10',achieved:false,ageMonths:48,date:''}
+    ]
+  },
+  health:[
+    {id:1,date:'2025-07-09',type:'Birth',notes:'Born healthy, 3.4kg, 50cm',weight:3.4,height:50},
+    {id:2,date:'2025-07-23',type:'Check-up',notes:'2-week check - all good',weight:3.8,height:52},
+    {id:3,date:'2025-10-09',type:'Check-up',notes:'3-month development check - meeting milestones',weight:6.2,height:61},
+    {id:4,date:'2025-12-09',type:'Check-up',notes:'5-month check - rolling over, very alert',weight:7.0,height:65}
+  ]
+};
 
 const createDefaultData=()=>({
   goals:defaultGoals,
@@ -441,7 +677,10 @@ const createDefaultData=()=>({
   lastReset:new Date().toDateString(),
   milestones:defaultMilestones,
   notes:[],
-  events:{}
+  events:{},
+  madison:defaultMadisonData,
+  familyFriends:familyAndFriends,
+  socialLog:[]
 });
 
 const createDefaultConfig=()=>({
@@ -450,6 +689,8 @@ const createDefaultConfig=()=>({
   targetLocation:'Sheffield',
   startDate:'2025-12-04',
   shawnieReturnDate:'2026-07-01',
+  shawnieBirthDate:'1992-01-11',
+  richBirthDate:'1990-12-16',
   richPension:72766.58,
   shawniePension:0,
   emergencyFund:0,
@@ -469,6 +710,13 @@ const App=()=>{
   const[showEventModal,setShowEventModal]=useState(false);
   const[noteText,setNoteText]=useState('');
   const[eventForm,setEventForm]=useState({time:'',title:'',desc:'',who:''});
+  const[searchTerm,setSearchTerm]=useState('');
+  const[searchResults,setSearchResults]=useState({goals:[],notes:[],benefits:[]});
+  const[showGrowthModal,setShowGrowthModal]=useState(false);
+  const[showHealthModal,setShowHealthModal]=useState(false);
+  const[growthForm,setGrowthForm]=useState({height:'',weight:'',headCirc:'',notes:''});
+  const[healthForm,setHealthForm]=useState({type:'Check-up',notes:'',weight:'',height:''});
+  const[madisonTab,setMadisonTab]=useState('overview');
 
   useEffect(()=>{
     try{
@@ -510,6 +758,22 @@ const App=()=>{
   
   useEffect(()=>{
     const handleKeyDown=(e)=>{
+      // Ctrl+K or Cmd+K to focus search
+      if((e.ctrlKey||e.metaKey)&&e.key==='k'){
+        e.preventDefault();
+        const searchInput=document.querySelector('input[placeholder*="Search"]');
+        if(searchInput)searchInput.focus();
+        return;
+      }
+      
+      // / key to focus search (like GitHub)
+      if(e.key==='/'&&!['INPUT','TEXTAREA'].includes(e.target.tagName)){
+        e.preventDefault();
+        const searchInput=document.querySelector('input[placeholder*="Search"]');
+        if(searchInput)searchInput.focus();
+        return;
+      }
+      
       if(e.key==='Escape'){
         if(showNoteModal)setShowNoteModal(false);
         if(showEventModal)setShowEventModal(false);
@@ -534,40 +798,65 @@ const App=()=>{
     document.body.classList.toggle('dark',darkMode);
   },[darkMode]);
   
-  const celebrate=(text='🎉 Done!')=>{setCelebrationText(text);setShowCelebration(true);setTimeout(()=>setShowCelebration(false),1500)};
-  const toggleTask=(taskKey)=>{
-    const wasCompleted=data.completedTasks[taskKey];
-    if(!wasCompleted)celebrate('✅ Done!');
-    setData(prev=>({...prev,completedTasks:{...prev.completedTasks,[taskKey]:!wasCompleted}}));
-  };
+const celebrate=(text='🎉 Done!')=>{setCelebrationText(text);setShowCelebration(true);setTimeout(()=>setShowCelebration(false),1500)};
+  const toggleTask=useCallback((taskKey)=>{
+  const wasCompleted=data.completedTasks[taskKey];
+  if(!wasCompleted)celebrate('✅ Done!');
+  setData(prev=>({...prev,completedTasks:{...prev.completedTasks,[taskKey]:!wasCompleted}}));
+},[data.completedTasks]);
 
-  const toggleGoalStep=(goalId,stepId)=>{
-    const goal=data.goals.find(g=>g.id===goalId);
-    const step=goal?.steps.find(s=>s.id===stepId);
-    if(step&&!step.done)celebrate('🎯 Progress!');
-    setData(prev=>({...prev,goals:prev.goals.map(g=>g.id===goalId?{...g,steps:g.steps.map(s=>s.id===stepId?{...s,done:!s.done}:s)}:g)}));
-  };
+const toggleGoalStep=useCallback((goalId,stepId)=>{
+  const goal=data.goals.find(g=>g.id===goalId);
+  const step=goal?.steps.find(s=>s.id===stepId);
+  if(step&&!step.done)celebrate('🎯 Progress!');
+  setData(prev=>({...prev,goals:prev.goals.map(g=>g.id===goalId?{...g,steps:g.steps.map(s=>s.id===stepId?{...s,done:!s.done}:s)}:g)}));
+},[data.goals]);
 
-  const toggleBenefit=(id)=>{setData(prev=>({...prev,benefits:prev.benefits.map(b=>b.id===id?{...b,claimed:!b.claimed}:b)}))};
+const toggleBenefit=useCallback((id)=>{
+  setData(prev=>({...prev,benefits:prev.benefits.map(b=>b.id===id?{...b,claimed:!b.claimed}:b)}));
+},[]);
 
-  const updateBudget=(cat,field,val)=>{
-    const numVal=Number(val);
-    if(isNaN(numVal)||numVal<0)return;
-    setData(prev=>({...prev,budget:{...prev.budget,[cat]:{...prev.budget[cat],[field]:numVal}}}));
-  };
-
-  const toggleMilestone=(id)=>{
-    const m=data.milestones.find(ms=>ms.id===id);
-    if(m&&!m.achieved)celebrate('🎉 Milestone!');
-    setData(prev=>({...prev,milestones:prev.milestones.map(ms=>ms.id===id?{...ms,achieved:!ms.achieved}:ms)}));
-  };
-
-  const uploadMilestonePhoto=(id,file)=>{
-    if(file.size>5*1024*1024){
-      alert('Image too large! Max 5MB');
+const updateBudget=useCallback((cat,field,val)=>{
+  const numVal=Number(val);
+  
+  // Validation
+  if(isNaN(numVal)){
+    console.warn('Invalid number input');
+    return;
+  }
+  if(numVal<0){
+    alert('Amount cannot be negative');
+    return;
+  }
+  if(numVal>100000){
+    if(!confirm(`£${numVal.toLocaleString()} seems unusually high. Continue?`)){
       return;
     }
-    const reader=new FileReader();
+  }
+  
+  setData(prev=>({...prev,budget:{...prev.budget,[cat]:{...prev.budget[cat],[field]:numVal}}}));
+},[]);
+
+const toggleMilestone=useCallback((id)=>{
+  const m=data.milestones.find(ms=>ms.id===id);
+  if(m&&!m.achieved)celebrate('🎉 Milestone!');
+  setData(prev=>({...prev,milestones:prev.milestones.map(ms=>ms.id===id?{...ms,achieved:!ms.achieved}:ms)}));
+},[data.milestones]);
+
+const uploadMilestonePhoto=useCallback((id,file)=>{
+  // Check file size FIRST
+  if(file.size>5*1024*1024){
+    alert('Image too large! Please use an image under 5MB.');
+    return;
+  }
+  
+  // Check file type
+  if(!file.type.startsWith('image/')){
+    alert('Please select an image file (JPG, PNG, etc.)');
+    return;
+  }
+  
+  const reader=new FileReader();
     reader.onload=(e)=>{
       const img=new Image();
       img.onload=()=>{
@@ -597,7 +886,7 @@ const App=()=>{
       img.src=e.target.result;
     };
     reader.readAsDataURL(file);
-  };
+  },[]);
 
   const checkStorageUsage=()=>{
     try{
@@ -614,32 +903,183 @@ const App=()=>{
     }catch(e){console.error(e)}
   };
 
-  const addNote=()=>{
-    if(!noteText.trim())return;
-    const note={id:Date.now(),date:new Date().toISOString(),text:noteText};
-    setData(prev=>({...prev,notes:[note,...prev.notes]}));
-    setNoteText('');
-    setShowNoteModal(false);
-    celebrate('📝 Note Saved!');
-  };
-
+const addNote=useCallback(()=>{
+  const trimmed=noteText.trim();
+  
+  if(!trimmed){
+    alert('Please enter some text for your note');
+    return;
+  }
+  
+  if(trimmed.length>5000){
+    alert('Note is too long (max 5000 characters)');
+    return;
+  }
+  
+  const note={id:Date.now(),date:new Date().toISOString(),text:trimmed};
+  setData(prev=>({...prev,notes:[note,...prev.notes]}));
+  setNoteText('');
+  setShowNoteModal(false);
+  celebrate('📝 Note Saved!');
+},[noteText]);
   const deleteNote=(id)=>{
     setData(prev=>({...prev,notes:prev.notes.filter(n=>n.id!==id)}));
   };
 
-  const addEvent=()=>{
-    if(!eventForm.time||!eventForm.title)return;
-    const dateKey=selectedDate.toISOString().split('T')[0];
-    const event={id:Date.now(),...eventForm};
-    setData(prev=>({...prev,events:{...prev.events,[dateKey]:[...(prev.events[dateKey]||[]),event]}}));
-    setEventForm({time:'',title:'',desc:'',who:''});
-    setShowEventModal(false);
-    celebrate('📅 Event Added!');
+const addEvent=useCallback(()=>{
+  // Validation
+  if(!eventForm.time){
+    alert('Please select a time');
+    return;
+  }
+  if(!eventForm.title.trim()){
+    alert('Please enter an event title');
+    return;
+  }
+  
+  const dateKey=selectedDate.toISOString().split('T')[0];
+  const event={
+    id:Date.now(),
+    time:eventForm.time,
+    title:eventForm.title.trim(),
+    desc:eventForm.desc.trim(),
+    who:eventForm.who.trim()
   };
+  setData(prev=>({...prev,events:{...prev.events,[dateKey]:[...(prev.events[dateKey]||[]),event]}}));
+  setEventForm({time:'',title:'',desc:'',who:''});
+  setShowEventModal(false);
+  celebrate('📅 Event Added!');
+},[eventForm,selectedDate]);
 
   const deleteEvent=(dateKey,eventId)=>{
     setData(prev=>({...prev,events:{...prev.events,[dateKey]:prev.events[dateKey].filter(e=>e.id!==eventId)}}));
   };
+  const handleSearch=useCallback((term)=>{
+  setSearchTerm(term);
+  
+  if(!term.trim()){
+    setSearchResults({goals:[],notes:[],benefits:[]});
+    return;
+  }
+  
+  const lower=term.toLowerCase();
+  
+  // Search goals and steps
+  const matchedGoals=data.goals.filter(g=>
+    g.title.toLowerCase().includes(lower)||
+    g.subtitle.toLowerCase().includes(lower)||
+    g.steps.some(s=>s.text.toLowerCase().includes(lower))
+  );
+  
+  // Search notes
+  const matchedNotes=data.notes.filter(n=>
+    n.text.toLowerCase().includes(lower)
+  );
+  
+  // Search benefits
+  const matchedBenefits=data.benefits.filter(b=>
+    b.name.toLowerCase().includes(lower)
+  );
+  
+  setSearchResults({
+    goals:matchedGoals,
+    notes:matchedNotes,
+    benefits:matchedBenefits
+  });
+},[data.goals,data.notes,data.benefits]);
+
+const highlightText=(text,term)=>{
+  if(!term)return text;
+  const regex=new RegExp(`(${term.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`,'gi');
+  const parts=text.split(regex);
+  return parts.map((part,i)=>
+    regex.test(part)?<mark key={i} style={{background:'#fef3c7',padding:'0 2px',borderRadius:'2px'}}>{part}</mark>:part
+  );
+};
+
+// Madison helper functions
+const calculateAge=(birthDate)=>{
+  const birth=new Date(birthDate);
+  const now=new Date();
+  const months=((now.getFullYear()-birth.getFullYear())*12)+(now.getMonth()-birth.getMonth());
+  const years=Math.floor(months/12);
+  const remainingMonths=months%12;
+  return{years,months:remainingMonths,totalMonths:months};
+};
+
+const formatAge=(birthDate)=>{
+  const{years,months}=calculateAge(birthDate);
+  if(years===0)return`${months} month${months!==1?'s':''}`;
+  if(months===0)return`${years} year${years!==1?'s':''}`;
+  return`${years}y ${months}m`;
+};
+
+const addMadisonGrowth=useCallback((height,weight,headCirc,notes)=>{
+  const newEntry={
+    id:Date.now(),
+    date:new Date().toISOString().split('T')[0],
+    height:Number(height),
+    weight:Number(weight),
+    headCirc:Number(headCirc)||null,
+    notes:notes.trim()
+  };
+  setData(prev=>({
+    ...prev,
+    madison:{
+      ...prev.madison,
+      growth:[...prev.madison.growth,newEntry]
+    }
+  }));
+  celebrate('📏 Growth recorded!');
+},[]);
+
+const toggleVaccination=useCallback((id)=>{
+  setData(prev=>({
+    ...prev,
+    madison:{
+      ...prev.madison,
+      vaccinations:prev.madison.vaccinations.map(v=>
+        v.id===id?{...v,completed:!v.completed,date:v.completed?'':new Date().toISOString().split('T')[0]}:v
+      )
+    }
+  }));
+  celebrate('💉 Updated!');
+},[]);
+
+const toggleDevMilestone=useCallback((category,id)=>{
+  setData(prev=>({
+    ...prev,
+    madison:{
+      ...prev.madison,
+      developmental:{
+        ...prev.madison.developmental,
+        [category]:prev.madison.developmental[category].map(m=>
+          m.id===id?{...m,achieved:!m.achieved,date:m.achieved?'':new Date().toISOString().split('T')[0]}:m
+        )
+      }
+    }
+  }));
+  celebrate('🎉 Milestone!');
+},[]);
+
+const addHealthNote=useCallback((type,notes,weight,height)=>{
+  const newNote={
+    id:Date.now(),
+    date:new Date().toISOString().split('T')[0],
+    type,
+    notes:notes.trim(),
+    weight:weight?Number(weight):null,
+    height:height?Number(height):null
+  };
+  setData(prev=>({
+    ...prev,
+    madison:{
+      ...prev.madison,
+      health:[...prev.madison.health,newNote]
+    }
+  }));
+  celebrate('🏥 Note saved!');
+},[]);
 
   const totalIncome=useMemo(()=>Object.values(data.budget.income).reduce((a,b)=>a+b,0),[data.budget.income]);
   const totalExpenses=useMemo(()=>Object.values(data.budget.expenses).reduce((a,b)=>a+b,0),[data.budget.expenses]);
@@ -734,7 +1174,72 @@ const App=()=>{
         });
       }
     }
-  },[tab,totalIncome,totalExpenses,totalSavings,monthlyLeftover,darkMode]);
+    
+    if(tab==='madison'&&madisonTab==='growth'){
+      const ctx=document.getElementById('growthChart');
+      if(ctx&&data.madison?.growth){
+        const existingChart=Chart.getChart(ctx);
+        if(existingChart){existingChart.destroy();}
+        
+        const sortedGrowth=[...data.madison.growth].sort((a,b)=>new Date(a.date)-new Date(b.date));
+        
+        new Chart(ctx,{
+          type:'line',
+          data:{
+            labels:sortedGrowth.map(g=>new Date(g.date).toLocaleDateString('en-GB',{month:'short',year:'2-digit'})),
+            datasets:[
+              {
+                label:'Height (cm)',
+                data:sortedGrowth.map(g=>g.height),
+                borderColor:'#f2a65a',
+                backgroundColor:'rgba(242,166,90,0.1)',
+                tension:0.4,
+                yAxisID:'y'
+              },
+              {
+                label:'Weight (kg)',
+                data:sortedGrowth.map(g=>g.weight),
+                borderColor:'#81b29a',
+                backgroundColor:'rgba(129,178,154,0.1)',
+                tension:0.4,
+                yAxisID:'y1'
+              }
+            ]
+          },
+          options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            interaction:{mode:'index',intersect:false},
+            plugins:{
+              legend:{position:'top'},
+              tooltip:{
+                callbacks:{
+                  label:(context)=>`${context.dataset.label}: ${context.parsed.y}`
+                }
+              }
+            },
+            scales:{
+              y:{
+                type:'linear',
+                display:true,
+                position:'left',
+                title:{display:true,text:'Height (cm)'},
+                beginAtZero:false
+              },
+              y1:{
+                type:'linear',
+                display:true,
+                position:'right',
+                title:{display:true,text:'Weight (kg)'},
+                beginAtZero:false,
+                grid:{drawOnChartArea:false}
+              }
+            }
+          }
+        });
+      }
+    }
+  },[tab,madisonTab,totalIncome,totalExpenses,totalSavings,monthlyLeftover,darkMode,data.madison]);
 
   const exportData=()=>{    const blob=new Blob([JSON.stringify({config,data,exportDate:new Date().toISOString()},null,2)],{type:'application/json'});
     const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;
@@ -789,6 +1294,66 @@ const App=()=>{
         </div>
       </div>
 
+      {/* Growth Modal */}
+      <div className={`modal ${showGrowthModal?'show':''}`} onClick={()=>setShowGrowthModal(false)} role="dialog" aria-modal="true">
+        <div className="modal-content" onClick={e=>e.stopPropagation()}>
+          <div className="modal-header"><h3>Add Growth Entry</h3><button className="modal-close" onClick={()=>setShowGrowthModal(false)}>×</button></div>
+          <div className="modal-body">
+            <div className="form-group"><label className="form-label">Height (cm)</label><input type="number" className="form-input" value={growthForm.height} onChange={e=>setGrowthForm({...growthForm,height:e.target.value})} placeholder="e.g. 76"/></div>
+            <div className="form-group"><label className="form-label">Weight (kg)</label><input type="number" step="0.1" className="form-input" value={growthForm.weight} onChange={e=>setGrowthForm({...growthForm,weight:e.target.value})} placeholder="e.g. 10.2"/></div>
+            <div className="form-group"><label className="form-label">Head Circumference (cm) - Optional</label><input type="number" className="form-input" value={growthForm.headCirc} onChange={e=>setGrowthForm({...growthForm,headCirc:e.target.value})} placeholder="e.g. 46"/></div>
+            <div className="form-group"><label className="form-label">Notes</label><textarea className="modal-textarea" value={growthForm.notes} onChange={e=>setGrowthForm({...growthForm,notes:e.target.value})} placeholder="Any observations..."/></div>
+          </div>
+          <div className="modal-footer">
+            <button className="btn btn-secondary" onClick={()=>setShowGrowthModal(false)}>Cancel</button>
+            <button className="btn btn-primary" onClick={()=>{
+              if(!growthForm.height||!growthForm.weight){
+                alert('Please enter height and weight');
+                return;
+              }
+              addMadisonGrowth(growthForm.height,growthForm.weight,growthForm.headCirc,growthForm.notes);
+              setGrowthForm({height:'',weight:'',headCirc:'',notes:''});
+              setShowGrowthModal(false);
+            }}>Save Entry</button>
+          </div>
+        </div>
+      </div>
+
+      {/* Health Modal */}
+      <div className={`modal ${showHealthModal?'show':''}`} onClick={()=>setShowHealthModal(false)} role="dialog" aria-modal="true">
+        <div className="modal-content" onClick={e=>e.stopPropagation()}>
+          <div className="modal-header"><h3>Add Health Note</h3><button className="modal-close" onClick={()=>setShowHealthModal(false)}>×</button></div>
+          <div className="modal-body">
+            <div className="form-group">
+              <label className="form-label">Type</label>
+              <select className="form-input" value={healthForm.type} onChange={e=>setHealthForm({...healthForm,type:e.target.value})}>
+                <option>Check-up</option>
+                <option>Illness</option>
+                <option>Vaccination</option>
+                <option>Injury</option>
+                <option>Appointment</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div className="form-group"><label className="form-label">Notes</label><textarea className="modal-textarea" value={healthForm.notes} onChange={e=>setHealthForm({...healthForm,notes:e.target.value})} placeholder="What happened..."/></div>
+            <div className="form-group"><label className="form-label">Weight (kg) - Optional</label><input type="number" step="0.1" className="form-input" value={healthForm.weight} onChange={e=>setHealthForm({...healthForm,weight:e.target.value})} placeholder="e.g. 10.2"/></div>
+            <div className="form-group"><label className="form-label">Height (cm) - Optional</label><input type="number" className="form-input" value={healthForm.height} onChange={e=>setHealthForm({...healthForm,height:e.target.value})} placeholder="e.g. 76"/></div>
+          </div>
+          <div className="modal-footer">
+            <button className="btn btn-secondary" onClick={()=>setShowHealthModal(false)}>Cancel</button>
+            <button className="btn btn-primary" onClick={()=>{
+              if(!healthForm.notes.trim()){
+                alert('Please enter notes');
+                return;
+              }
+              addHealthNote(healthForm.type,healthForm.notes,healthForm.weight,healthForm.height);
+              setHealthForm({type:'Check-up',notes:'',weight:'',height:''});
+              setShowHealthModal(false);
+            }}>Save Note</button>
+          </div>
+        </div>
+      </div>
+
       <header className="header"><div className="header-content">
         <div className="header-top">
           <div className="logo"><div className="logo-icon">🏠</div><div><div className="logo-title">{config.familyName}</div><div className="logo-sub">{config.location} → {config.targetLocation}</div></div></div>
@@ -808,7 +1373,7 @@ const App=()=>{
       </div></div></header>
 
       <div className="nav-wrap"><nav className="nav">
-        {[{id:'overview',label:'🏠 Overview'},{id:'calendar',label:'📅 Calendar'},{id:'goals',label:'🎯 Goals'},{id:'budget',label:'💰 Budget'},{id:'benefits',label:'✅ Benefits'},{id:'memories',label:'📸 Memories'},{id:'week',label:'📋 Week'},{id:'settings',label:'⚙️'}].map(t=>
+        {[{id:'overview',label:'🏠 Overview'},{id:'calendar',label:'📅 Calendar'},{id:'goals',label:'🎯 Goals'},{id:'budget',label:'💰 Budget'},{id:'benefits',label:'✅ Benefits'},{id:'madison',label:'👶 Madison'},{id:'memories',label:'📸 Memories'},{id:'week',label:'📋 Week'},{id:'settings',label:'⚙️'}].map(t=>
           <button key={t.id} className={`nav-btn ${tab===t.id?'active':''}`} onClick={()=>setTab(t.id)}>{t.label}</button>
         )}
       </nav></div>
@@ -996,14 +1561,51 @@ const App=()=>{
 
         {/* GOALS TAB */}
         {tab==='goals'&&<>
-          <div className="summary-row">
+          <div className="card" style={{marginBottom:'16px'}}>
+           <div style={{position:'relative'}}>
+            <input 
+             type="text"
+             className="form-input"
+             placeholder="🔍 Search goals, steps..."
+            value={searchTerm}
+            onChange={e=>handleSearch(e.target.value)}
+            style={{paddingLeft:'40px'}}
+          />
+          {searchTerm&&(
+           <button 
+             onClick={()=>handleSearch('')}
+             style={{
+               position:'absolute',
+                right:'12px',
+               top:'50%',
+               transform:'translateY(-50%)',
+               background:'none',
+               border:'none',
+               fontSize:'1.2rem',
+               cursor:'pointer',
+               color:'var(--navy-light)'
+             }}
+           >
+             ×
+            </button>
+          )}
+       </div>
+       {searchTerm&&(
+         <div style={{marginTop:'8px',fontSize:'0.85rem',color:'var(--navy-light)'}}>
+            Found: {searchResults.goals.length} goals
+          </div>
+       )}
+      </div>
+  
+       <div className="summary-row">
+
             <div className="summary-box income"><div className="summary-label">Complete</div><div className="summary-value">{goalsProgress.done}</div></div>
             <div className="summary-box expense"><div className="summary-label">Remaining</div><div className="summary-value">{goalsProgress.total-goalsProgress.done}</div></div>
             <div className="summary-box saving"><div className="summary-label">Progress</div><div className="summary-value">{goalsProgress.pct}%</div></div>
             <div className="summary-box leftover"><div className="summary-label">Total</div><div className="summary-value">{goalsProgress.total}</div></div>
           </div>
 
-          {data.goals.map(goal=>{
+          {(searchTerm?searchResults.goals:data.goals).map(goal=>{
             const done=goal.steps.filter(s=>s.done).length;
             const total=goal.steps.length;
             const pct=total?Math.round((done/total)*100):0;
@@ -1012,8 +1614,8 @@ const App=()=>{
               <div className="goal-header" onClick={()=>setExpandedGoals(prev=>({...prev,[goal.id]:!prev[goal.id]}))}>
                 <div className="goal-icon">{goal.icon}</div>
                 <div className="goal-info">
-                  <div className="goal-title">{goal.title}</div>
-                  <div className="goal-subtitle">{goal.subtitle}</div>
+                  <div className="goal-title">{highlightText(goal.title,searchTerm)}</div>
+                  <div className="goal-subtitle">{highlightText(goal.subtitle,searchTerm)}</div>
                   <div style={{display:'flex',gap:4,marginTop:4}}>{renderTag(goal.person)}<span className={`tag tag-${goal.priority}`}>{goal.priority}</span></div>
                 </div>
                 <div className="goal-progress"><div className="goal-pct">{pct}%</div><div className="goal-count">{done}/{total}</div></div>
@@ -1023,7 +1625,7 @@ const App=()=>{
                 {goal.steps.map(step=>(
                   <div key={step.id} className={`step-item ${step.done?'completed':''}`} onClick={()=>toggleGoalStep(goal.id,step.id)}>
                     <div className={`step-check ${step.done?'checked':''}`}>{step.done&&<Check/>}</div>
-                    <div className="step-text">{step.text}</div>
+                    <div className="step-text">{highlightText(step.text,searchTerm)}</div>
                     <div className="step-date">{step.time&&`⏱️${step.time} • `}{step.date}</div>
                   </div>
                 ))}
@@ -1108,6 +1710,42 @@ const App=()=>{
 
         {/* BENEFITS TAB */}
         {tab==='benefits'&&<>
+          <div className="card" style={{marginBottom:'16px'}}>
+            <div style={{position:'relative'}}>
+              <input 
+                type="text"
+                className="form-input"
+                placeholder="🔍 Search benefits..."
+                value={searchTerm}
+                onChange={e=>handleSearch(e.target.value)}
+                style={{paddingLeft:'40px'}}
+              />
+              {searchTerm&&(
+                <button 
+                  onClick={()=>handleSearch('')}
+                  style={{
+                    position:'absolute',
+                    right:'12px',
+                    top:'50%',
+                    transform:'translateY(-50%)',
+                    background:'none',
+                    border:'none',
+                    fontSize:'1.2rem',
+                    cursor:'pointer',
+                    color:'var(--navy-light)'
+                  }}
+                >
+                  ×
+                </button>
+              )}
+            </div>
+            {searchTerm&&(
+              <div style={{marginTop:'8px',fontSize:'0.85rem',color:'var(--navy-light)'}}>
+                Found: {searchResults.benefits.length} benefits
+              </div>
+            )}
+          </div>
+
           <div className="summary-row">
             <div className="summary-box income"><div className="summary-label">Claimed</div><div className="summary-value">{data.benefits.filter(b=>b.claimed).length}</div></div>
             <div className="summary-box expense"><div className="summary-label">Unclaimed</div><div className="summary-value">{data.benefits.filter(b=>!b.claimed).length}</div></div>
@@ -1119,10 +1757,10 @@ const App=()=>{
 
           <div className="card">
             <h3 className="card-title">✅ Benefits Checklist</h3>
-            {data.benefits.map(b=>(
+            {(searchTerm?searchResults.benefits:data.benefits).map(b=>(
               <div key={b.id} className={`benefit-item ${!b.claimed&&b.saving?'unclaimed':''}`}>
                 <div className={`benefit-check ${b.claimed?'checked':''}`} onClick={()=>toggleBenefit(b.id)}>{b.claimed&&<Check/>}</div>
-                <div className="benefit-name">{b.name}</div>
+                <div className="benefit-name">{highlightText(b.name,searchTerm)}</div>
                 {b.saving&&!b.claimed&&<div className="benefit-saving">Save £{b.saving}/yr</div>}
                 {b.claimed&&<span className="tag tag-family">Claimed ✓</span>}
               </div>
@@ -1135,16 +1773,237 @@ const App=()=>{
           </div>
         </>}
 
+        {/* MADISON TAB */}
+        {tab==='madison'&&<>
+          <div className="madison-hero">
+            <div className="overview-countdown">👶 Madison's Journey</div>
+            <div className="madison-age">{formatAge(data.madison?.birthDate||'2024-02-01')}</div>
+            <div className="overview-label">old today</div>
+            <div className="overview-date">Born {new Date(data.madison?.birthDate||'2024-02-01').toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div>
+          </div>
+
+          <div className="nav" style={{marginBottom:'16px',background:'var(--madison-light)',padding:'6px'}}>
+            {['overview','growth','health','development','vaccinations'].map(t=>(
+              <button key={t} className={`nav-btn ${madisonTab===t?'active':''}`} onClick={()=>setMadisonTab(t)} style={{fontSize:'0.75rem',padding:'8px 12px'}}>
+                {t==='overview'&&'📊 Overview'}
+                {t==='growth'&&'📏 Growth'}
+                {t==='health'&&'🏥 Health'}
+                {t==='development'&&'🎯 Development'}
+                {t==='vaccinations'&&'💉 Vaccines'}
+              </button>
+            ))}
+          </div>
+
+          {/* OVERVIEW SUB-TAB */}
+          {madisonTab==='overview'&&<>
+            <div className="madison-stat-grid">
+              {data.madison?.growth?.length>0&&<>
+                <div className="madison-stat-card">
+                  <div className="madison-stat-icon">📏</div>
+                  <div className="madison-stat-value">{data.madison.growth[data.madison.growth.length-1].height}</div>
+                  <div className="madison-stat-label">Height (cm)</div>
+                  <div className="madison-stat-date">{new Date(data.madison.growth[data.madison.growth.length-1].date).toLocaleDateString('en-GB',{month:'short',year:'numeric'})}</div>
+                </div>
+                <div className="madison-stat-card">
+                  <div className="madison-stat-icon">⚖️</div>
+                  <div className="madison-stat-value">{data.madison.growth[data.madison.growth.length-1].weight}</div>
+                  <div className="madison-stat-label">Weight (kg)</div>
+                  <div className="madison-stat-date">{new Date(data.madison.growth[data.madison.growth.length-1].date).toLocaleDateString('en-GB',{month:'short',year:'numeric'})}</div>
+                </div>
+              </>}
+              <div className="madison-stat-card">
+                <div className="madison-stat-icon">💉</div>
+                <div className="madison-stat-value">{data.madison?.vaccinations?.filter(v=>v.completed).length}/{data.madison?.vaccinations?.length||0}</div>
+                <div className="madison-stat-label">Vaccinations</div>
+              </div>
+              <div className="madison-stat-card">
+                <div className="madison-stat-icon">🎯</div>
+                <div className="madison-stat-value">{Object.values(data.madison?.developmental||{}).reduce((sum,arr)=>sum+arr.filter(m=>m.achieved).length,0)}</div>
+                <div className="madison-stat-label">Milestones</div>
+              </div>
+            </div>
+
+            <div className="card">
+              <h3 className="card-title">🎉 Recent Achievements</h3>
+              {Object.entries(data.madison?.developmental||{}).map(([category,items])=>
+                items.filter(m=>m.achieved).slice(-2).map(m=>(
+                  <div key={m.id} className="dev-milestone achieved" style={{background:'var(--sage-light)',cursor:'default'}}>
+                    <div className="dev-check checked"><Check/></div>
+                    <div className="dev-text">{m.skill}</div>
+                    <div className="dev-age">{m.date?new Date(m.date).toLocaleDateString('en-GB',{month:'short',day:'numeric'}):''}</div>
+                  </div>
+                ))
+              )}
+            </div>
+
+            <div className="card">
+              <h3 className="card-title">📋 Coming Up</h3>
+              {data.madison?.vaccinations?.filter(v=>!v.completed).slice(0,3).map(v=>(
+                <div key={v.id} className="vacc-item">
+                  <div className="vacc-check"><span style={{fontSize:'1.2rem'}}>💉</span></div>
+                  <div className="vacc-info">
+                    <div className="vacc-name">{v.name}</div>
+                    <div className="vacc-age">Due: {v.ageWeeks?`${v.ageWeeks} weeks`:v.ageMonths?`${v.ageMonths} months`:`${v.ageYears} years`}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>}
+
+          {/* GROWTH SUB-TAB */}
+          {madisonTab==='growth'&&<>
+            <button className="btn btn-primary" style={{marginBottom:'16px',width:'100%'}} onClick={()=>setShowGrowthModal(true)}>+ Add Growth Entry</button>
+
+            <div className="card">
+              <h3 className="card-title">📈 Growth Chart</h3>
+              <div className="chart-container" style={{height:'300px'}}>
+                <canvas id="growthChart"></canvas>
+              </div>
+            </div>
+
+            <div className="card">
+              <h3 className="card-title">📏 Growth History</h3>
+              {[...(data.madison?.growth||[])].reverse().map(entry=>(
+                <div key={entry.id} className="growth-entry">
+                  <div className="growth-date-col">{new Date(entry.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'})}</div>
+                  <div className="growth-data-col">
+                    <div className="growth-metric">
+                      <div className="growth-metric-label">Height</div>
+                      <div className="growth-metric-value">{entry.height} cm</div>
+                    </div>
+                    <div className="growth-metric">
+                      <div className="growth-metric-label">Weight</div>
+                      <div className="growth-metric-value">{entry.weight} kg</div>
+                    </div>
+                    {entry.headCirc&&<div className="growth-metric">
+                      <div className="growth-metric-label">Head</div>
+                      <div className="growth-metric-value">{entry.headCirc} cm</div>
+                    </div>}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>}
+
+          {/* HEALTH SUB-TAB */}
+          {madisonTab==='health'&&<>
+            <button className="btn btn-primary" style={{marginBottom:'16px',width:'100%'}} onClick={()=>setShowHealthModal(true)}>+ Add Health Note</button>
+
+            <div className="card">
+              <h3 className="card-title">🏥 Health Records</h3>
+              {[...(data.madison?.health||[])].reverse().map(note=>(
+                <div key={note.id} className="health-note">
+                  <div className="health-note-header">
+                    <div className="health-note-date">{new Date(note.date).toLocaleDateString('en-GB',{day:'numeric',month:'long',year:'numeric'})}</div>
+                    <div className="health-note-type">{note.type}</div>
+                  </div>
+                  <div className="health-note-text">{note.notes}</div>
+                  {(note.weight||note.height)&&<div style={{marginTop:'8px',fontSize:'0.75rem',color:'#7a4a1f'}}>
+                    {note.weight&&`Weight: ${note.weight}kg`}
+                    {note.weight&&note.height&&' • '}
+                    {note.height&&`Height: ${note.height}cm`}
+                  </div>}
+                </div>
+              ))}
+            </div>
+          </>}
+
+          {/* DEVELOPMENT SUB-TAB */}
+          {madisonTab==='development'&&<>
+            {Object.entries(data.madison?.developmental||{}).map(([category,items])=>(
+              <div key={category} className="dev-category">
+                <div className="dev-category-title">
+                  {category==='motor'&&'🏃 Motor Skills'}
+                  {category==='language'&&'💬 Language'}
+                  {category==='social'&&'👥 Social'}
+                  {category==='cognitive'&&'🧠 Cognitive'}
+                  <span style={{marginLeft:'auto',fontSize:'0.8rem',fontWeight:'normal'}}>
+                    {items.filter(m=>m.achieved).length}/{items.length}
+                  </span>
+                </div>
+                {items.map(milestone=>(
+                  <div key={milestone.id} className={`dev-milestone ${milestone.achieved?'achieved':''}`} onClick={()=>toggleDevMilestone(category,milestone.id)}>
+                    <div className={`dev-check ${milestone.achieved?'checked':''}`}>{milestone.achieved&&<Check/>}</div>
+                    <div className="dev-text">{milestone.skill}</div>
+                    <div className="dev-age">{milestone.ageMonths}m</div>
+                  </div>
+                ))}
+              </div>
+            ))}
+          </>}
+
+          {/* VACCINATIONS SUB-TAB */}
+          {madisonTab==='vaccinations'&&<>
+            <div className="card">
+              <h3 className="card-title">💉 Vaccination Schedule (NHS UK)</h3>
+              <div style={{marginBottom:'16px',fontSize:'0.85rem',color:'var(--navy-light)'}}>
+                UK vaccination schedule - tap to mark as complete
+              </div>
+              {data.madison?.vaccinations?.map(vacc=>(
+                <div key={vacc.id} className={`vacc-item ${vacc.completed?'completed':''}`}>
+                  <div className={`vacc-check ${vacc.completed?'checked':''}`} onClick={()=>toggleVaccination(vacc.id)}>
+                    {vacc.completed&&<Check/>}
+                  </div>
+                  <div className="vacc-info">
+                    <div className="vacc-name">{vacc.name}</div>
+                    <div className="vacc-age">
+                      Age: {vacc.ageWeeks?`${vacc.ageWeeks} weeks`:vacc.ageMonths?`${vacc.ageMonths} months`:`${vacc.ageYears} years`}
+                    </div>
+                  </div>
+                  <div className="vacc-date">
+                    {vacc.completed&&vacc.date?new Date(vacc.date).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}):'Not yet'}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>}
+        </>}
         {/* MEMORIES TAB */}
         {tab==='memories'&&<>
           <button className="btn btn-primary" style={{marginBottom:'16px',width:'100%'}} onClick={()=>setShowNoteModal(true)}>+ Add Family Note</button>
 
-          {data.notes.length>0&&<div className="card">
+          <div className="card" style={{marginBottom:'16px'}}>
+            <div style={{position:'relative'}}>
+              <input 
+                type="text"
+                className="form-input"
+                placeholder="🔍 Search notes..."
+                value={searchTerm}
+                onChange={e=>handleSearch(e.target.value)}
+                style={{paddingLeft:'40px'}}
+              />
+              {searchTerm&&(
+                <button 
+                  onClick={()=>handleSearch('')}
+                  style={{
+                    position:'absolute',
+                    right:'12px',
+                    top:'50%',
+                    transform:'translateY(-50%)',
+                    background:'none',
+                    border:'none',
+                    fontSize:'1.2rem',
+                    cursor:'pointer',
+                    color:'var(--navy-light)'
+                  }}
+                >
+                  ×
+                </button>
+              )}
+            </div>
+            {searchTerm&&(
+              <div style={{marginTop:'8px',fontSize:'0.85rem',color:'var(--navy-light)'}}>
+                Found: {searchResults.notes.length} notes
+              </div>
+            )}
+          </div>
+
+          {(searchTerm?searchResults.notes:data.notes).length>0&&<div className="card">
             <h3 className="card-title">📝 Family Notes</h3>
-            {data.notes.map(note=>(
+            {(searchTerm?searchResults.notes:data.notes).map(note=>(
               <div key={note.id} className="note-card">
                 <div className="note-date">{new Date(note.date).toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
-                <div className="note-text">{note.text}</div>
+                <div className="note-text">{highlightText(note.text,searchTerm)}</div>
                 <button className="btn btn-sm btn-secondary" style={{marginTop:'8px'}} onClick={()=>deleteNote(note.id)}>Delete</button>
               </div>
             ))}
@@ -1226,7 +2085,27 @@ const App=()=>{
               <div><label className="form-label">Current Location</label><input type="text" className="form-input" value={config.location} onChange={e=>setConfig(c=>({...c,location:e.target.value}))}/></div>
               <div><label className="form-label">Target Location</label><input type="text" className="form-input" value={config.targetLocation} onChange={e=>setConfig(c=>({...c,targetLocation:e.target.value}))}/></div>
             </div>
-            <div><label className="form-label">Shawnie Return Date</label><input type="date" className="form-input" value={config.shawnieReturnDate} onChange={e=>setConfig(c=>({...c,shawnieReturnDate:e.target.value}))}/></div>
+            <div>
+  <label className="form-label">Shawnie Return Date</label>
+  <input 
+    type="date" 
+    className="form-input" 
+    value={config.shawnieReturnDate} 
+    min={new Date().toISOString().split('T')[0]}
+    onChange={e=>{
+      const newDate=new Date(e.target.value);
+      const today=new Date();
+      today.setHours(0,0,0,0);
+      
+      if(newDate<today){
+        alert('Return date cannot be in the past');
+        return;
+      }
+      
+      setConfig(c=>({...c,shawnieReturnDate:e.target.value}));
+    }}
+  />
+</div>
           </div>
           <div style={{marginTop:20,display:'flex',gap:10,flexWrap:'wrap'}}>
             <button className="btn btn-secondary" onClick={exportData} title="Backup your family data">
