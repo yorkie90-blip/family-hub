@@ -1366,9 +1366,14 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
   const getWeekDates=()=>{
     const start=new Date(selectedDate);
     const day=start.getDay();
-    start.setDate(start.getDate()-day+(day===0?-6:1));
-    return Array.from({length:7},(_,i)=>{const d=new Date(start);d.setDate(start.getDate()+i);return d});
+    const diff=day===0?-6:1-day; // Calculate offset to Monday
+    return Array.from({length:7},(_,i)=>{
+      const d=new Date(start);
+      d.setDate(start.getDate()+diff+i);
+      return d;
+    });
   };
+
   const weekDates=getWeekDates();
   const dayOfWeek=selectedDate.getDay();
   const dayMeals=weeklyMeals[dayOfWeek]||{breakfast:{name:"TBD",cost:0,prep:"",cook:""},lunch:{name:"TBD",cost:0,prep:"",cook:""},dinner:{name:"TBD",cost:0,prep:"",cook:""}};
