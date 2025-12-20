@@ -1385,18 +1385,33 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
   const isSelected=(d)=>d.toDateString()===selectedDate.toDateString();
   const dayEvents=data.events[dateKey]||[];
 
-  const currentGoalSteps=useMemo(()=>{
-    const now=new Date();
-    const steps=[];
-    data.goals.forEach(g=>{
-      g.steps.filter(s=>!s.done).slice(0,2).forEach(s=>{
-        if(s.date.includes('Dec 2025')||s.date.includes('Jan 2026')||s.date.includes('Ongoing')||s.date.includes('2025')){
-          steps.push({...s,goalTitle:g.title,goalIcon:g.icon,person:g.person});
+  const currentGoalSteps = useMemo(() => {
+  const now = new Date();
+  const steps = [];
+
+  data.goals.forEach(g => {
+    g.steps
+      .filter(s => !s.done)
+      .slice(0, 2)
+      .forEach(s => {
+        if (
+          s.date.includes('Dec 2025') ||
+          s.date.includes('Jan 2026') ||
+          s.date.includes('Ongoing') ||
+          s.date.includes('2025')
+        ) {
+          steps.push({
+            ...s,
+            goalTitle: g.title,
+            goalIcon: g.icon,
+            person: g.person
+          });
         }
       });
-    });
-    return steps.slice(0,4);
-},[data.goals]);
+  });
+
+  return steps.slice(0, 4);
+}, [data.goals]);
 
   useEffect(()=>{
     if(tab==='budget'){
