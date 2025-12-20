@@ -2,12 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
   <meta name="theme-color" content="#e07a5f">
-  <title>Turnbull-Shaw Family Hub</title>
+  <meta name="description" content="Complete family planning and goal tracking system with gamification - Track tasks, earn XP, reach your Sheffield dreams!">
+  <title>Turnbull-Shaw Family Hub - Level Up Your Life!</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -238,7 +240,24 @@
     .modal-textarea{width:100%;padding:12px;border:2px solid var(--cream-dark);border-radius:var(--radius-md);font-family:inherit;font-size:0.9rem;min-height:120px;resize:vertical}
     .modal-textarea:focus{outline:none;border-color:var(--terracotta)}
     .modal-footer{padding:16px 20px;border-top:2px solid var(--cream);display:flex;justify-content:flex-end;gap:8px}
-    @media(max-width:640px){.summary-row{grid-template-columns:repeat(2,1fr)}.overview-grid{grid-template-columns:repeat(2,1fr)}.day-tab{min-width:60px;padding:10px 12px}.milestone-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}}
+    @media(max-width:640px){
+      .summary-row{grid-template-columns:repeat(2,1fr)}
+      .overview-grid{grid-template-columns:repeat(2,1fr)}
+      .day-tab{min-width:60px;padding:10px 12px}
+      .milestone-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+      .compact-task{font-size:0.85rem;padding:6px 8px}
+      .task-time{font-size:0.85rem;min-width:55px}
+      .time-badge{font-size:0.65rem;padding:3px 8px}
+      .card-title{font-size:1rem}
+      .nav{font-size:0.75rem}
+      .nav-btn{padding:8px 12px;font-size:0.75rem}
+      .quick-stats{grid-template-columns:repeat(2,1fr)}
+      .month-calendar{gap:2px}
+      .month-day{font-size:0.7rem}
+      .xp-bar{height:20px}
+      .xp-fill{font-size:0.7rem;padding:0 8px}
+      .level-badge,.streak-badge{font-size:0.8rem;padding:6px 12px}
+    }
     body.dark{--cream:#1f2937;--cream-dark:#374151;--navy:#f9fafb;--navy-light:#d1d5db;background:#111827;color:#f9fafb}
     body.dark .card,body.dark .nav{background:#1f2937;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
     body.dark .modal-content{background:rgba(31,41,55,0.98);box-shadow:0 20px 60px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1)}
@@ -297,6 +316,31 @@
     body.dark .vacc-item{background:#374151}
     body.dark .dev-category{background:#374151}
     body.dark .dev-milestone{background:#1f2937}
+    
+    .xp-bar{background:var(--cream-dark);height:24px;border-radius:12px;overflow:hidden;position:relative;margin:8px 0}
+    .xp-fill{height:100%;background:linear-gradient(90deg,#10b981,#059669);transition:width 0.5s ease;display:flex;align-items:center;padding:0 12px;color:white;font-size:0.75rem;font-weight:700}
+    .level-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:linear-gradient(135deg,#f59e0b,#d97706);color:white;border-radius:999px;font-weight:700;font-size:0.9rem;box-shadow:0 4px 12px rgba(245,158,11,0.3)}
+    .streak-badge{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;background:linear-gradient(135deg,#ef4444,#dc2626);color:white;border-radius:999px;font-weight:700;font-size:0.9rem;box-shadow:0 4px 12px rgba(239,68,68,0.3)}
+    .achievement-toast{position:fixed;top:80px;right:20px;background:linear-gradient(135deg,#8b5cf6,#7c3aed);color:white;padding:16px 24px;border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);z-index:1001;animation:slideInRight 0.4s ease,slideOutRight 0.4s ease 2.6s}
+    @keyframes slideInRight{from{transform:translateX(400px);opacity:0}to{transform:translateX(0);opacity:1}}
+    @keyframes slideOutRight{from{transform:translateX(0);opacity:1}to{transform:translateX(400px);opacity:0}}
+    .progress-ring{transform:rotate(-90deg)}
+    .progress-ring-circle{transition:stroke-dashoffset 0.5s ease;fill:none;stroke-linecap:round}
+    .time-badge{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;background:var(--terracotta);color:white;border-radius:6px;font-size:0.7rem;font-weight:700;white-space:nowrap}
+    .task-time{min-width:70px;font-family:'Fraunces',serif;font-weight:700;font-size:0.95rem;color:var(--terracotta);flex-shrink:0}
+    .quick-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:8px;margin:12px 0}
+    .quick-stat{text-align:center;padding:12px 8px;background:var(--cream);border-radius:var(--radius-md)}
+    .quick-stat-value{font-family:'Fraunces',serif;font-size:1.4rem;font-weight:700;color:var(--terracotta)}
+    .quick-stat-label{font-size:0.65rem;color:var(--navy-light);text-transform:uppercase;margin-top:2px}
+    .month-calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:12px}
+    .month-day{aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:var(--cream);border-radius:8px;font-size:0.75rem;font-weight:600;position:relative;cursor:pointer;transition:all 0.2s}
+    .month-day.completed{background:linear-gradient(135deg,#10b981,#059669);color:white}
+    .month-day.today{border:2px solid var(--terracotta);font-weight:700}
+    .month-day.partial{background:linear-gradient(135deg,#fbbf24,#f59e0b);color:white}
+    .month-day:hover{transform:scale(1.1)}
+    .compact-task{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--cream);border-radius:var(--radius-md);margin-bottom:6px;cursor:pointer;transition:all var(--transition-fast)}
+    .compact-task:hover{background:var(--cream-dark);transform:translateX(2px)}
+    .compact-task.completed{opacity:0.6}
     
     @media print{
       *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
@@ -536,40 +580,40 @@ const familyAndFriends={
 
 const tailoredDailyTasks={
   family:[
-    {task:'Madison morning routine',person:'Both',time:'morning',icon:'👶',priority:'critical'},
-    {task:'Madison feeding',person:'Both',time:'morning',icon:'🍼',priority:'critical'},
-    {task:'Madison nappy change',person:'Either',time:'morning',icon:'👶',priority:'high'},
-    {task:'Tummy time with Madison',person:'Either',time:'morning',icon:'🤸',priority:'medium'},
-    {task:'Play with Madison',person:'Either',time:'afternoon',icon:'🎮',priority:'high'},
-    {task:'Madison feeding',person:'Both',time:'afternoon',icon:'🍼',priority:'critical'},
-    {task:'Madison nap time',person:'Either',time:'afternoon',icon:'😴',priority:'high'},
-    {task:'Madison bath time',person:'Rich',time:'evening',icon:'🛁',priority:'critical'},
-    {task:'Madison bedtime routine',person:'Both',time:'evening',icon:'📖',priority:'critical'}
+    {task:'Wake & change Madison',person:'Both',exactTime:'7:00',icon:'👶',priority:'critical',xp:10},
+    {task:'Madison breakfast',person:'Both',exactTime:'8:00',icon:'🍼',priority:'critical',xp:10},
+    {task:'Tummy time',person:'Either',exactTime:'9:00',icon:'🤸',priority:'high',xp:8},
+    {task:'Morning nap',person:'Either',exactTime:'10:00',icon:'😴',priority:'high',xp:5},
+    {task:'Madison lunch',person:'Both',exactTime:'12:00',icon:'🍼',priority:'critical',xp:10},
+    {task:'Play & activities',person:'Either',exactTime:'13:00',icon:'🎮',priority:'high',xp:8},
+    {task:'Afternoon nap',person:'Either',exactTime:'14:30',icon:'😴',priority:'high',xp:5},
+    {task:'Madison dinner',person:'Both',exactTime:'17:00',icon:'🍼',priority:'critical',xp:10},
+    {task:'Bath time',person:'Rich',exactTime:'18:30',icon:'🛁',priority:'critical',xp:10},
+    {task:'Bedtime routine',person:'Both',exactTime:'19:00',icon:'📖',priority:'critical',xp:15}
   ],
   house:[
-    {task:'Make beds',person:'Both',time:'morning',icon:'🛏️',priority:'medium'},
-    {task:'Kitchen wipe down',person:'Rich',time:'morning',icon:'🧽',priority:'medium'},
-    {task:'Living room tidy',person:'Either',time:'afternoon',icon:'🛋️',priority:'low'},
-    {task:'Laundry (as needed)',person:'Rich',time:'morning',icon:'👕',priority:'medium'},
-    {task:'Dishes after meals',person:'Rich',time:'evening',icon:'🍽️',priority:'medium'},
-    {task:'Quick evening tidy (10min)',person:'Both',time:'evening',icon:'✨',priority:'low'}
+    {task:'Make beds',person:'Both',exactTime:'8:30',icon:'🛏️',priority:'medium',xp:5},
+    {task:'Kitchen clean',person:'Rich',exactTime:'9:30',icon:'🧽',priority:'medium',xp:5},
+    {task:'Laundry',person:'Rich',exactTime:'10:30',icon:'👕',priority:'low',xp:5},
+    {task:'Living room tidy',person:'Either',exactTime:'15:00',icon:'🛋️',priority:'low',xp:3},
+    {task:'Dinner prep',person:'Rich',exactTime:'16:30',icon:'🍳',priority:'high',xp:10},
+    {task:'Evening tidy',person:'Both',exactTime:'20:00',icon:'✨',priority:'low',xp:5}
+  ],
+  meals:[
+    {task:'Family breakfast',person:'Rich',exactTime:'9:00',icon:'🍳',priority:'high',xp:8},
+    {task:'Family lunch',person:'Either',exactTime:'13:00',icon:'🥪',priority:'high',xp:8},
+    {task:'Family dinner',person:'Rich',exactTime:'18:00',icon:'🍽️',priority:'high',xp:10}
   ],
   goals:[
-    {task:'Apply to 1 electrician apprenticeship',person:'Rich',time:'morning',icon:'⚡',priority:'critical',goalId:1,frequency:'weekly'},
-    {task:'Research Sheffield areas (15min)',person:'Both',time:'evening',icon:'🏘️',priority:'high',goalId:3,frequency:'weekly'},
-    {task:'Check savings progress',person:'Shawnie',time:'evening',icon:'💰',priority:'high',goalId:5,frequency:'daily'},
-    {task:'Review budget',person:'Shawnie',time:'evening',icon:'📊',priority:'medium',goalId:5,frequency:'weekly'},
-    {task:'Update Madison milestones',person:'Both',time:'evening',icon:'🎯',priority:'medium',goalId:6,frequency:'weekly'}
-  ],
-  social:[
-    {task:'Video call family',person:'Both',time:'evening',icon:'📱',priority:'low',frequency:'weekly'},
-    {task:'Plan Sheffield visit',person:'Both',time:'evening',icon:'🚗',priority:'medium',frequency:'monthly'},
-    {task:'Text/check in friends',person:'Either',time:'afternoon',icon:'💬',priority:'low',frequency:'weekly'}
+    {task:'Apprenticeship work',person:'Rich',exactTime:'10:00',icon:'⚡',priority:'critical',xp:25,goalId:1,frequency:'daily'},
+    {task:'Sheffield research',person:'Both',exactTime:'20:30',icon:'🏘️',priority:'high',xp:15,goalId:3,frequency:'weekly'},
+    {task:'Check finances',person:'Shawnie',exactTime:'21:00',icon:'💰',priority:'high',xp:10,goalId:5,frequency:'daily'},
+    {task:'Update Madison log',person:'Both',exactTime:'21:30',icon:'👶',priority:'medium',xp:10,goalId:6,frequency:'daily'}
   ],
   selfCare:[
-    {task:'Rich: Read/gaming (30min)',person:'Rich',time:'evening',icon:'🎮',priority:'low'},
-    {task:'Shawnie: Relax time (30min)',person:'Shawnie',time:'evening',icon:'☕',priority:'low'},
-    {task:'Couple time together',person:'Both',time:'evening',icon:'❤️',priority:'medium'}
+    {task:'Rich relax time',person:'Rich',exactTime:'21:00',icon:'🎮',priority:'low',xp:5},
+    {task:'Shawnie relax time',person:'Shawnie',exactTime:'21:00',icon:'☕',priority:'low',xp:5},
+    {task:'Couple time',person:'Both',exactTime:'22:00',icon:'❤️',priority:'medium',xp:10}
   ]
 };
 
@@ -680,7 +724,17 @@ const createDefaultData=()=>({
   events:{},
   madison:defaultMadisonData,
   familyFriends:familyAndFriends,
-  socialLog:[]
+  socialLog:[],
+  gamification:{
+    xp:0,
+    level:1,
+    streak:0,
+    longestStreak:0,
+    totalTasksCompleted:0,
+    achievements:[],
+    dailyXP:{},
+    monthlyCompletion:{}
+  }
 });
 
 const createDefaultConfig=()=>({
@@ -706,6 +760,8 @@ const App=()=>{
   const[expandedGoals,setExpandedGoals]=useState({});
   const[showCelebration,setShowCelebration]=useState(false);
   const[celebrationText,setCelebrationText]=useState('');
+  const[showAchievement,setShowAchievement]=useState(false);
+  const[achievementText,setAchievementText]=useState('');
   const[showNoteModal,setShowNoteModal]=useState(false);
   const[showEventModal,setShowEventModal]=useState(false);
   const[noteText,setNoteText]=useState('');
@@ -730,13 +786,17 @@ const App=()=>{
     }
   },[]);
 
+  // Auto-save with debouncing for performance
   useEffect(()=>{
-    try{
-      localStorage.setItem('familyHubV12Data',JSON.stringify(data));
-    }catch(e){
-      console.error('Failed to save data:',e);
-      if(e.name==='QuotaExceededError')alert('Storage full! Clear old photos in Settings.');
-    }
+    const timer=setTimeout(()=>{
+      try{
+        localStorage.setItem('familyHubV12Data',JSON.stringify(data));
+      }catch(e){
+        console.error('Failed to save data:',e);
+        if(e.name==='QuotaExceededError')alert('Storage full! Clear old photos in Settings.');
+      }
+    },500);
+    return()=>clearTimeout(timer);
   },[data]);
   
   useEffect(()=>{
@@ -798,12 +858,86 @@ const App=()=>{
     document.body.classList.toggle('dark',darkMode);
   },[darkMode]);
   
+  useEffect(()=>{
+    const checkStreak=()=>{
+      const today=new Date().toDateString();
+      const dateKey=new Date().toISOString().split('T')[0];
+      
+      const allTaskCategories=['family','house','meals','goals','selfCare'];
+      let totalTodayTasks=0;
+      allTaskCategories.forEach(cat=>{
+        if(tailoredDailyTasks[cat]){
+          totalTodayTasks+=tailoredDailyTasks[cat].length;
+        }
+      });
+      
+      const completedTodayTasks=Object.keys(data.completedTasks).filter(key=>
+        key.includes(dateKey)&&data.completedTasks[key]
+      ).length;
+      
+      const completionRate=totalTodayTasks>0?completedTodayTasks/totalTodayTasks:0;
+      
+      if(completionRate>=0.8&&data.lastReset===today){
+        const newStreak=(data.gamification?.streak||0)+1;
+        const longestStreak=Math.max(newStreak,data.gamification?.longestStreak||0);
+        
+        setData(prev=>({
+          ...prev,
+          gamification:{
+            ...prev.gamification,
+            streak:newStreak,
+            longestStreak:longestStreak
+          }
+        }));
+        
+        if(newStreak===7){
+          setAchievementText('🔥 WEEK WARRIOR! 7 Day Streak!');
+          setShowAchievement(true);
+          setTimeout(()=>setShowAchievement(false),3000);
+        }
+      }
+    };
+    
+    const timer=setTimeout(checkStreak,1000);
+    return()=>clearTimeout(timer);
+  },[data.completedTasks,data.lastReset,data.gamification]);
+  
 const celebrate=(text='🎉 Done!')=>{setCelebrationText(text);setShowCelebration(true);setTimeout(()=>setShowCelebration(false),1500)};
-  const toggleTask=useCallback((taskKey)=>{
-  const wasCompleted=data.completedTasks[taskKey];
-  if(!wasCompleted)celebrate('✅ Done!');
-  setData(prev=>({...prev,completedTasks:{...prev.completedTasks,[taskKey]:!wasCompleted}}));
-},[data.completedTasks]);
+  
+  const calculateXP=(taskKey,taskXP=5)=>{
+    const newXP=(data.gamification?.xp||0)+taskXP;
+    const newLevel=Math.floor(newXP/100)+1;
+    const oldLevel=data.gamification?.level||1;
+    
+    setData(prev=>({
+      ...prev,
+      gamification:{
+        ...prev.gamification,
+        xp:newXP,
+        level:newLevel,
+        totalTasksCompleted:(prev.gamification?.totalTasksCompleted||0)+1,
+        dailyXP:{
+          ...prev.gamification?.dailyXP,
+          [new Date().toISOString().split('T')[0]]:(prev.gamification?.dailyXP?.[new Date().toISOString().split('T')[0]]||0)+taskXP
+        }
+      }
+    }));
+    
+    if(newLevel>oldLevel){
+      setAchievementText(`🎉 LEVEL ${newLevel}!`);
+      setShowAchievement(true);
+      setTimeout(()=>setShowAchievement(false),3000);
+    }
+    
+    celebrate(`+${taskXP} XP!`);
+  };
+  const toggleTask=useCallback((taskKey,taskXP=5)=>{
+    const wasCompleted=data.completedTasks[taskKey];
+    if(!wasCompleted){
+      calculateXP(taskKey,taskXP);
+    }
+    setData(prev=>({...prev,completedTasks:{...prev.completedTasks,[taskKey]:!wasCompleted}}));
+  },[data.completedTasks,calculateXP]);
 
 const toggleGoalStep=useCallback((goalId,stepId)=>{
   const goal=data.goals.find(g=>g.id===goalId);
@@ -839,9 +973,17 @@ const updateBudget=useCallback((cat,field,val)=>{
 
 const toggleMilestone=useCallback((id)=>{
   const m=data.milestones.find(ms=>ms.id===id);
-  if(m&&!m.achieved)celebrate('🎉 Milestone!');
+  if(m&&!m.achieved){
+    let xpValue=50;
+    if(id==='first-steps'||id==='first-words')xpValue=150;
+    else if(id==='first-birthday')xpValue=500;
+    else if(id==='first-crawl')xpValue=100;
+    else if(id==='first-tooth')xpValue=75;
+    calculateXP(`photo-milestone-${id}`,xpValue);
+    celebrate(`🎉 ${xpValue} XP! Milestone!`);
+  }
   setData(prev=>({...prev,milestones:prev.milestones.map(ms=>ms.id===id?{...ms,achieved:!ms.achieved}:ms)}));
-},[data.milestones]);
+},[data.milestones,calculateXP]);
 
 const uploadMilestonePhoto=useCallback((id,file)=>{
   // Check file size FIRST
@@ -1047,6 +1189,12 @@ const toggleVaccination=useCallback((id)=>{
 },[]);
 
 const toggleDevMilestone=useCallback((category,id)=>{
+  const milestone=data.madison.developmental[category]?.find(m=>m.id===id);
+  if(milestone&&!milestone.achieved){
+    const xpValue=category==='motor'?75:category==='language'?100:category==='social'?50:60;
+    calculateXP(`milestone-${category}-${id}`,xpValue);
+    celebrate(`🎉 ${xpValue} XP! Milestone!`);
+  }
   setData(prev=>({
     ...prev,
     madison:{
@@ -1059,8 +1207,7 @@ const toggleDevMilestone=useCallback((category,id)=>{
       }
     }
   }));
-  celebrate('🎉 Milestone!');
-},[]);
+},[data.madison,calculateXP]);
 
 const addHealthNote=useCallback((type,notes,weight,height)=>{
   const newNote={
@@ -1173,6 +1320,129 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
           }
         });
       }
+      
+      const savingsCtx=document.getElementById('savingsChart');
+      if(savingsCtx){
+        const existingChart=Chart.getChart(savingsCtx);
+        if(existingChart){existingChart.destroy();}
+        
+        const months=['Oct 24','Nov 24','Dec 24','Jan 25','Feb 25','Mar 25','Apr 25','May 25','Jun 25','Jul 25','Aug 25','Sep 25'];
+        const currentSavings=config.emergencyFund+config.houseDeposit;
+        const monthlySavingsRate=totalSavings;
+        const shawnieBoost=2600;
+        
+        const actual=[0,0,currentSavings];
+        const projected=months.map((_,i)=>{
+          if(i<3)return actual[i]||0;
+          if(i<7)return currentSavings+(monthlySavingsRate*(i-2));
+          return currentSavings+(monthlySavingsRate*5)+((monthlySavingsRate+shawnieBoost)*(i-6));
+        });
+        
+        new Chart(savingsCtx,{
+          type:'line',
+          data:{
+            labels:months,
+            datasets:[{
+              label:'Projected Savings',
+              data:projected,
+              borderColor:'#10b981',
+              backgroundColor:'rgba(16,185,129,0.1)',
+              fill:true,
+              tension:0.4,
+              pointRadius:4,
+              pointHoverRadius:6
+            }]
+          },
+          options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+              legend:{position:'bottom',labels:{font:{family:'DM Sans',size:13},color:darkMode?'#f9fafb':'#3d405b'}},
+              tooltip:{
+                callbacks:{
+                  label:(context)=>`Savings: £${Math.round(context.parsed.y).toLocaleString()}`
+                }
+              }
+            },
+            scales:{
+              y:{
+                beginAtZero:true,
+                ticks:{
+                  callback:(value)=>`£${(value/1000).toFixed(0)}k`,
+                  color:darkMode?'#d1d5db':'#6b7280'
+                },
+                grid:{color:darkMode?'#374151':'#e5e7eb'}
+              },
+              x:{
+                ticks:{color:darkMode?'#d1d5db':'#6b7280'},
+                grid:{display:false}
+              }
+            }
+          }
+        });
+      }
+      
+      const pensionCtx=document.getElementById('pensionChart');
+      if(pensionCtx){
+        const existingChart=Chart.getChart(pensionCtx);
+        if(existingChart){existingChart.destroy();}
+        
+        const years=['2025','2030','2035','2040','2045','2050','2055'];
+        const richPension=config.richPension||72766;
+        const shawniePension=config.shawniePension||0;
+        const growthRate=1.05;
+        
+        const richProjection=years.map((_,i)=>richPension*Math.pow(growthRate,i*5));
+        const shawnieProjection=years.map((_,i)=>shawniePension*Math.pow(growthRate,i*5));
+        
+        new Chart(pensionCtx,{
+          type:'line',
+          data:{
+            labels:years,
+            datasets:[{
+              label:'Rich',
+              data:richProjection,
+              borderColor:'#3b82f6',
+              backgroundColor:'rgba(59,130,246,0.1)',
+              fill:true,
+              tension:0.4
+            },{
+              label:'Shawnie',
+              data:shawnieProjection,
+              borderColor:'#d4729b',
+              backgroundColor:'rgba(212,114,155,0.1)',
+              fill:true,
+              tension:0.4
+            }]
+          },
+          options:{
+            responsive:true,
+            maintainAspectRatio:false,
+            plugins:{
+              legend:{position:'bottom',labels:{font:{family:'DM Sans',size:13},color:darkMode?'#f9fafb':'#3d405b'}},
+              tooltip:{
+                callbacks:{
+                  label:(context)=>`${context.dataset.label}: £${Math.round(context.parsed.y/1000)}k`
+                }
+              }
+            },
+            scales:{
+              y:{
+                beginAtZero:true,
+                ticks:{
+                  callback:(value)=>`£${(value/1000).toFixed(0)}k`,
+                  color:darkMode?'#d1d5db':'#6b7280'
+                },
+                grid:{color:darkMode?'#374151':'#e5e7eb'}
+              },
+              x:{
+                ticks:{color:darkMode?'#d1d5db':'#6b7280'},
+                grid:{display:false}
+              }
+            }
+          }
+        });
+      }
     }
     
     if(tab==='madison'&&madisonTab==='growth'){
@@ -1262,6 +1532,7 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
   return(
     <div className="app">
       {showCelebration&&<div className="celebration"><div className="celebration-box">{celebrationText}</div></div>}
+      {showAchievement&&<div className="achievement-toast">{achievementText}</div>}
 
       {/* Note Modal */}
       <div className={`modal ${showNoteModal?'show':''}`} onClick={()=>setShowNoteModal(false)} role="dialog" aria-modal="true" aria-labelledby="note-modal-title">
@@ -1370,10 +1641,19 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
           <div className="mini-stat"><div className="mini-stat-val">{daysUntilReturn}</div><div className="mini-stat-lbl">days</div></div>
           <div className="mini-stat"><div className="mini-stat-val">{goalsProgress.pct}%</div><div className="mini-stat-lbl">goals</div></div>
         </div>
+        <div style={{display:'flex',gap:'8px',marginTop:'8px',flexWrap:'wrap'}}>
+          <div className="level-badge">⭐ Level {data.gamification?.level||1}</div>
+          <div className="streak-badge">🔥 {data.gamification?.streak||0} day streak</div>
+        </div>
+        <div className="xp-bar">
+          <div className="xp-fill" style={{width:`${((data.gamification?.xp||0)%100)}%`}}>
+            {data.gamification?.xp||0} / {Math.ceil(((data.gamification?.xp||0)/100))*100+100} XP
+          </div>
+        </div>
       </div></div></header>
 
       <div className="nav-wrap"><nav className="nav">
-        {[{id:'overview',label:'🏠 Overview'},{id:'calendar',label:'📅 Calendar'},{id:'goals',label:'🎯 Goals'},{id:'budget',label:'💰 Budget'},{id:'benefits',label:'✅ Benefits'},{id:'madison',label:'👶 Madison'},{id:'memories',label:'📸 Memories'},{id:'week',label:'📋 Week'},{id:'settings',label:'⚙️'}].map(t=>
+        {[{id:'overview',label:'🏠 Overview'},{id:'calendar',label:'📅 Daily Plan'},{id:'goals',label:'🎯 Goals'},{id:'budget',label:'💰 Budget'},{id:'benefits',label:'✅ Benefits'},{id:'madison',label:'👶 Madison'},{id:'month',label:'📊 Month'},{id:'memories',label:'📸 Memories'},{id:'week',label:'📋 Week'},{id:'settings',label:'⚙️'}].map(t=>
           <button key={t.id} className={`nav-btn ${tab===t.id?'active':''}`} onClick={()=>setTab(t.id)}>{t.label}</button>
         )}
       </nav></div>
@@ -1434,7 +1714,7 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
           </div>
         </>}
 
-        {/* CALENDAR TAB */}
+        {/* DAILY PLAN TAB - INTEGRATED CALENDAR & GOALS */}
         {tab==='calendar'&&<>
           <div className="week-nav">
             <button className="btn btn-secondary btn-sm" onClick={()=>{const d=new Date(selectedDate);d.setDate(d.getDate()-7);setSelectedDate(d)}}>←</button>
@@ -1449,11 +1729,26 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
             <button className="btn btn-secondary btn-sm" onClick={()=>{const d=new Date(selectedDate);d.setDate(d.getDate()+7);setSelectedDate(d)}}>→</button>
           </div>
 
-          <button className="btn btn-primary" style={{marginBottom:'16px',width:'100%'}} onClick={()=>setShowEventModal(true)}>+ Add Event</button>
+          {/* Today's Priority Goals */}
+          {currentGoalSteps.length>0&&<div className="card" style={{background:'linear-gradient(135deg,#fdf4ff,#f3e8ff)',border:'2px solid #a855f7'}}>
+            <h3 className="card-title" style={{color:'#7c3aed'}}>🎯 Today's Goal Actions</h3>
+            {currentGoalSteps.map((s,i)=>(
+              <div key={i} className="goal-focus">
+                <div className="goal-focus-title">{s.goalIcon} {s.goalTitle}</div>
+                <div className="goal-focus-text">{s.text}</div>
+                {s.time&&<div className="goal-focus-time">⏱️ {s.time} • {renderTag(s.person)}</div>}
+              </div>
+            ))}
+            <button className="btn btn-secondary btn-sm" style={{marginTop:'8px'}} onClick={()=>setTab('goals')}>View All Goals →</button>
+          </div>}
 
-          {dayEvents.length>0&&<div className="card">
-            <h3 className="card-title">📅 Today's Events</h3>
-            {dayEvents.map(ev=>(
+          {/* Events */}
+          <div className="card">
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'16px'}}>
+              <h3 className="card-title" style={{marginBottom:0}}>📅 {selectedDate.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</h3>
+              <button className="btn btn-primary btn-sm" onClick={()=>setShowEventModal(true)}>+ Event</button>
+            </div>
+            {dayEvents.length>0&&dayEvents.map(ev=>(
               <div key={ev.id} className="event-card">
                 <div className="event-header">
                   <div className="event-time">🕐 {ev.time}</div>
@@ -1464,101 +1759,194 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
                 {ev.who&&<div className="event-meta">👥 {ev.who}</div>}
               </div>
             ))}
+            {dayEvents.length===0&&<div style={{padding:'16px',textAlign:'center',color:'var(--navy-light)',fontSize:'0.85rem'}}>No events scheduled • Click + Event to add</div>}
+          </div>
+
+          {/* Madison Priority Tasks */}
+          <div className="card" style={{background:'linear-gradient(135deg,#fff5f0,#ffe8df)',border:'2px solid var(--madison)'}}>
+            <h3 className="card-title" style={{color:'#d97706'}}>👶 Madison's Day <span style={{fontSize:'0.8rem',fontWeight:600,color:'#f59e0b',marginLeft:'8px'}}>Total: {tailoredDailyTasks.family.reduce((sum,t)=>sum+t.xp,0)} XP</span></h3>
+            {tailoredDailyTasks.family.map((task,i)=>{
+              const key=`madison-${dateKey}-${task.task}`;
+              const done=data.completedTasks[key];
+              return(
+                <div key={i} className={`compact-task ${done?'completed':''}`} onClick={()=>toggleTask(key,task.xp)}>
+                  <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
+                  <div className="task-time">{task.exactTime}</div>
+                  <div className="task-content" style={{flex:1}}>
+                    <div className="task-text">{task.icon} {task.task}</div>
+                  </div>
+                  {renderTag(task.person)}
+                  <div className="time-badge">+{task.xp} XP</div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Meals */}
+          <div className="card">
+            <h3 className="card-title">🍽️ Today's Meals <span style={{fontSize:'0.8rem',fontWeight:600,color:'var(--gold)',marginLeft:'8px'}}>Total: {tailoredDailyTasks.meals.reduce((sum,t)=>sum+t.xp,0)} XP</span></h3>
+            {tailoredDailyTasks.meals.map((task,i)=>{
+              const key=`meal-${dateKey}-${task.task}`;
+              const done=data.completedTasks[key];
+              const mealData=i===0?dayMeals.breakfast:i===1?dayMeals.lunch:dayMeals.dinner;
+              return(
+                <div key={i} style={{marginBottom:'12px'}}>
+                  <div className={`compact-task ${done?'completed':''}`} onClick={()=>toggleTask(key,task.xp)}>
+                    <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
+                    <div className="task-time">{task.exactTime}</div>
+                    <div className="task-content" style={{flex:1}}>
+                      <div className="task-text">{task.icon} {task.task}</div>
+                    </div>
+                    {renderTag(task.person)}
+                    <div className="time-badge">+{task.xp} XP</div>
+                  </div>
+                  <div style={{marginLeft:'98px',fontSize:'0.8rem',color:'var(--navy-light)',marginTop:'4px'}}>
+                    {mealData.name} • £{mealData.cost.toFixed(2)} • Prep: {mealData.prep}
+                  </div>
+                </div>
+              );
+            })}
+            <div className="tip-box" style={{margin:'12px 0 0 0'}}>💰 Today's food cost: <strong>£{dailyMealCost}</strong> • Weekly average: ~£45-50</div>
+          </div>
+
+          {/* House Tasks */}
+          <div className="card">
+            <h3 className="card-title">🏠 House Tasks <span style={{fontSize:'0.8rem',fontWeight:600,color:'var(--sage)',marginLeft:'8px'}}>Total: {tailoredDailyTasks.house.reduce((sum,t)=>sum+t.xp,0)} XP</span></h3>
+            {tailoredDailyTasks.house.map((task,i)=>{
+              const key=`house-${dateKey}-${task.task}`;
+              const done=data.completedTasks[key];
+              return(
+                <div key={i} className={`compact-task ${done?'completed':''}`} onClick={()=>toggleTask(key,task.xp)}>
+                  <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
+                  <div className="task-time">{task.exactTime}</div>
+                  <div className="task-content" style={{flex:1}}>
+                    <div className="task-text">{task.icon} {task.task}</div>
+                  </div>
+                  {renderTag(task.person)}
+                  <div className="time-badge">+{task.xp} XP</div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Weekly Special Tasks */}
+          {weeklySpecialTasks[dayOfWeek]&&weeklySpecialTasks[dayOfWeek].length>0&&<div className="card">
+            <h3 className="card-title">✨ {['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'][dayOfWeek]} Specials</h3>
+            {weeklySpecialTasks[dayOfWeek].map((task,i)=>{
+              const key=`special-${dateKey}-${task.task}`;
+              const done=data.completedTasks[key];
+              return<div key={i} className={`task-item ${done?'completed':''}`} onClick={()=>toggleTask(key)}>
+                <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
+                <div className="task-content">
+                  <div className="task-text">{task.icon} {task.task}</div>
+                  <div className="task-meta">
+                    {renderTag(task.person)}
+                    <span className="tag tag-high">{task.category}</span>
+                  </div>
+                </div>
+              </div>
+            })}
           </div>}
 
-          {currentGoalSteps.length>0&&<div className="card" style={{background:'linear-gradient(135deg,#fdf4ff,#f3e8ff)',border:'2px solid #a855f7'}}>
-            <h3 className="card-title" style={{color:'#7c3aed'}}>🎯 Today's Goal Focus</h3>
-            {currentGoalSteps.map((s,i)=>(
-              <div key={i} className="goal-focus">
-                <div className="goal-focus-title">{s.goalIcon} {s.goalTitle}</div>
-                <div className="goal-focus-text">{s.text}</div>
-                {s.time&&<div className="goal-focus-time">⏱️ Expected: {s.time} • {renderTag(s.person)}</div>}
+          {/* Goal-Linked Tasks */}
+          <div className="card" style={{background:'linear-gradient(135deg,#f0fdf4,#dcfce7)',border:'2px solid var(--sage)'}}>
+            <h3 className="card-title" style={{color:'#15803d'}}>🎯 Goal Actions <span style={{fontSize:'0.8rem',fontWeight:600,color:'#059669',marginLeft:'8px'}}>Total: {tailoredDailyTasks.goals.reduce((sum,t)=>sum+t.xp,0)} XP</span></h3>
+            {tailoredDailyTasks.goals.map((task,i)=>{
+              const shouldShow=task.frequency==='daily'||(task.frequency==='weekly'&&dayOfWeek===1)||(task.frequency==='monthly'&&new Date(selectedDate).getDate()===1);
+              if(!shouldShow)return null;
+              const key=`goal-${dateKey}-${task.task}`;
+              const done=data.completedTasks[key];
+              return(
+                <div key={i} className={`compact-task ${done?'completed':''}`} onClick={()=>toggleTask(key,task.xp)}>
+                  <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
+                  <div className="task-time">{task.exactTime}</div>
+                  <div className="task-content" style={{flex:1}}>
+                    <div className="task-text">{task.icon} {task.task}</div>
+                  </div>
+                  {renderTag(task.person)}
+                  <span className={`tag tag-${task.frequency==='daily'?'medium':'high'}`} style={{fontSize:'0.65rem'}}>{task.frequency}</span>
+                  <div className="time-badge">+{task.xp} XP</div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Social & Self-Care */}
+          <div className="card">
+            <h3 className="card-title">💝 Wellbeing</h3>
+            {tailoredDailyTasks.social.map((task,i)=>{
+              const shouldShow=task.frequency==='daily'||(task.frequency==='weekly'&&dayOfWeek===0)||(task.frequency==='monthly'&&new Date(selectedDate).getDate()===1);
+              if(!shouldShow)return null;
+              const key=`social-${dateKey}-${task.task}`;
+              const done=data.completedTasks[key];
+              return<div key={i} className={`task-item ${done?'completed':''}`} onClick={()=>toggleTask(key)}>
+                <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
+                <div className="task-content">
+                  <div className="task-text">{task.icon} {task.task}</div>
+                  <div className="task-meta">
+                    {renderTag(task.person)}
+                    <span className="tag tag-low">social</span>
+                  </div>
+                </div>
+              </div>
+            })}
+            {tailoredDailyTasks.selfCare.map((task,i)=>{
+              const key=`care-${dateKey}-${task.task}`;
+              const done=data.completedTasks[key];
+              return(
+                <div key={i} className={`compact-task ${done?'completed':''}`} onClick={()=>toggleTask(key,task.xp)}>
+                  <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
+                  <div className="task-time">{task.exactTime}</div>
+                  <div className="task-content" style={{flex:1}}>
+                    <div className="task-text">{task.icon} {task.task}</div>
+                  </div>
+                  {renderTag(task.person)}
+                  <div className="time-badge">+{task.xp} XP</div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Family & Friends */}
+          <div className="card">
+            <h3 className="card-title">👨‍👩‍👧 Family & Friends</h3>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(200px,1fr))',gap:'12px'}}>
+              {Object.entries(data.familyFriends||familyAndFriends).map(([location,people])=>(
+                <div key={location}>
+                  <div style={{fontSize:'0.7rem',fontWeight:'600',color:'var(--navy-light)',textTransform:'uppercase',marginBottom:'6px'}}>
+                    {location==='sheffield'&&'🏙️ Sheffield'}
+                    {location==='harrogate'&&'🌳 Harrogate'}
+                    {location==='durham'&&'📍 Durham'}
+                    {location==='peterlee'&&'🏘️ Peterlee'}
+                    {location==='richFamily'&&'👨 Rich\'s Family'}
+                    {location==='shawnieFamily'&&'👩 Shawnie\'s Family'}
+                  </div>
+                  {people.map(person=>(
+                    <div key={person.id} style={{padding:'8px',background:'var(--cream)',borderRadius:'8px',marginBottom:'4px',fontSize:'0.85rem'}}>
+                      <div style={{display:'flex',alignItems:'center',gap:'6px'}}>
+                        <span>{person.icon}</span>
+                        <span style={{fontWeight:'600'}}>{person.names}</span>
+                      </div>
+                      {person.relation&&<div style={{fontSize:'0.7rem',color:'var(--navy-light)',marginTop:'2px'}}>{person.relation}</div>}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
+            <div className="tip-box" style={{marginTop:'16px'}}>💡 <strong>Stay connected:</strong> Video calls, visits, messages • Building your Sheffield life while keeping family close!</div>
+          </div>
+
+          {/* Activities */}
+          {dayActivities.length>0&&<div className="card">
+            <h3 className="card-title">🎮 Today's Activities</h3>
+            {dayActivities.map((act,i)=>(
+              <div key={i} className="activity-card">
+                <div className="activity-name">{act.icon} {act.name}{act.cost>0&&` - £${act.cost}`}</div>
+                <div className="activity-meta">{act.duration} • {act.person}{act.cost===0&&' • FREE'}</div>
               </div>
             ))}
           </div>}
-
-          <div className="card">
-            <h3 className="card-title">📅 {selectedDate.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long'})}</h3>
-            
-            {/* MORNING */}
-            <div className="time-section">
-              <div className="time-header"><span className="time-icon">🌅</span><span className="time-title">Morning</span><span className="time-range">6am - 12pm</span></div>
-              <div className="meal-card">
-                <div className="meal-header"><span className="meal-type">🍳 Breakfast</span><span className="meal-cost">£{dayMeals.breakfast.cost.toFixed(2)}</span></div>
-                <div className="meal-name">{dayMeals.breakfast.name}</div>
-              </div>
-              {dailyTasks.fixed.filter(t=>t.time==='morning').map((task,i)=>{
-                const key=`daily-${dateKey}-${task.task}`;
-                const done=data.completedTasks[key];
-                return<div key={i} className={`task-item ${done?'completed':''}`} onClick={()=>toggleTask(key)}>
-                  <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
-                  <div className="task-content"><div className="task-text">{task.icon} {task.task}</div><div className="task-meta">{renderTag(task.person)}</div></div>
-                </div>
-              })}
-            </div>
-
-            {/* AFTERNOON */}
-            <div className="time-section">
-              <div className="time-header"><span className="time-icon">☀️</span><span className="time-title">Afternoon</span><span className="time-range">12pm - 6pm</span></div>
-              <div className="meal-card">
-                <div className="meal-header"><span className="meal-type">🥪 Lunch</span><span className="meal-cost">£{dayMeals.lunch.cost.toFixed(2)}</span></div>
-                <div className="meal-name">{dayMeals.lunch.name}</div>
-              </div>
-              {dailyTasks.fixed.filter(t=>t.time==='afternoon').map((task,i)=>{
-                const key=`daily-${dateKey}-${task.task}`;
-                const done=data.completedTasks[key];
-                return<div key={i} className={`task-item ${done?'completed':''}`} onClick={()=>toggleTask(key)}>
-                  <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
-                  <div className="task-content"><div className="task-text">{task.icon} {task.task}</div><div className="task-meta">{renderTag(task.person)}</div></div>
-                </div>
-              })}
-              {dayActivities.slice(0,1).map((act,i)=>(
-                <div key={i} className="activity-card">
-                  <div className="activity-name">{act.icon} {act.name}{act.cost>0&&` - £${act.cost}`}</div>
-                  <div className="activity-meta">{act.duration} • {act.person}{act.cost===0&&' • FREE'}</div>
-                </div>
-              ))}
-            </div>
-
-            {/* EVENING */}
-            <div className="time-section">
-              <div className="time-header"><span className="time-icon">🌙</span><span className="time-title">Evening</span><span className="time-range">6pm - 10pm</span></div>
-              <div className="meal-card">
-                <div className="meal-header"><span className="meal-type">🍽️ Dinner</span><span className="meal-cost">£{dayMeals.dinner.cost.toFixed(2)}</span></div>
-                <div className="meal-name">{dayMeals.dinner.name} ({dayMeals.dinner.prep})</div>
-              </div>
-              {dailyTasks.fixed.filter(t=>t.time==='evening').map((task,i)=>{
-                const key=`daily-${dateKey}-${task.task}`;
-                const done=data.completedTasks[key];
-                return<div key={i} className={`task-item ${done?'completed':''}`} onClick={()=>toggleTask(key)}>
-                  <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
-                  <div className="task-content"><div className="task-text">{task.icon} {task.task}</div><div className="task-meta">{renderTag(task.person)}</div></div>
-                </div>
-              })}
-              {dayActivities.slice(1).map((act,i)=>(
-                <div key={i} className="activity-card">
-                  <div className="activity-name">{act.icon} {act.name}{act.cost>0&&` - £${act.cost}`}</div>
-                  <div className="activity-meta">{act.duration} • {act.person}{act.cost===0&&' • FREE'}</div>
-                </div>
-              ))}
-            </div>
-
-            {dayWeeklyTasks.length>0&&<div className="time-section">
-              <div className="time-header"><span className="time-icon">🧹</span><span className="time-title">Weekly Cleaning ({['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][dayOfWeek]})</span></div>
-              {dayWeeklyTasks.map((task,i)=>{
-                const key=`weekly-${dateKey}-${task.task}`;
-                const done=data.completedTasks[key];
-                return<div key={i} className={`task-item ${done?'completed':''}`} onClick={()=>toggleTask(key)}>
-                  <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
-                  <div className="task-content"><div className="task-text">{task.icon} {task.task}</div><div className="task-meta">{renderTag(task.person)}<span className="tag tag-high">Weekly</span></div></div>
-                </div>
-              })}
-            </div>}
-          </div>
-
-          <div className="tip-box">🍽️ <strong>Today's food:</strong> £{dailyMealCost} | <strong>Weekly average:</strong> ~£45-50</div>
         </>}
-
         {/* GOALS TAB */}
         {tab==='goals'&&<>
           <div className="card" style={{marginBottom:'16px'}}>
@@ -1603,6 +1991,57 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
             <div className="summary-box expense"><div className="summary-label">Remaining</div><div className="summary-value">{goalsProgress.total-goalsProgress.done}</div></div>
             <div className="summary-box saving"><div className="summary-label">Progress</div><div className="summary-value">{goalsProgress.pct}%</div></div>
             <div className="summary-box leftover"><div className="summary-label">Total</div><div className="summary-value">{goalsProgress.total}</div></div>
+          </div>
+          
+          <div className="card">
+            <h3 className="card-title">📊 Progress Rings</h3>
+            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(120px,1fr))',gap:'16px'}}>
+              {data.goals.map(goal=>{
+                const done=goal.steps.filter(s=>s.done).length;
+                const total=goal.steps.length;
+                const pct=total?(done/total)*100:0;
+                const circumference=2*Math.PI*40;
+                const offset=circumference-(pct/100)*circumference;
+                const strokeColor=goal.priority==='critical'?'var(--critical)':goal.priority==='high'?'var(--high)':goal.priority==='medium'?'var(--medium)':'var(--low)';
+                
+                return(
+                  <div key={goal.id} style={{textAlign:'center'}}>
+                    <svg className="progress-ring" width="100" height="100" style={{transform:'rotate(-90deg)'}}>
+                      <circle
+                        className="progress-ring-circle"
+                        stroke="var(--cream-dark)"
+                        strokeWidth="8"
+                        cx="50"
+                        cy="50"
+                        r="40"
+                      />
+                      <circle
+                        className="progress-ring-circle"
+                        stroke={strokeColor}
+                        strokeWidth="8"
+                        strokeDasharray={circumference}
+                        strokeDashoffset={offset}
+                        cx="50"
+                        cy="50"
+                        r="40"
+                      />
+                      <text x="50" y="50" textAnchor="middle" dy="0.3em" fontSize="24" transform="rotate(90 50 50)">
+                        {goal.icon}
+                      </text>
+                    </svg>
+                    <div style={{fontSize:'0.9rem',fontWeight:700,marginTop:'8px',color:'var(--navy)'}}>
+                      {Math.round(pct)}%
+                    </div>
+                    <div style={{fontSize:'0.7rem',color:'var(--navy-light)',marginBottom:'4px'}}>
+                      {done}/{total} steps
+                    </div>
+                    <div style={{fontSize:'0.75rem',fontWeight:600,color:'var(--navy)',lineHeight:1.3}}>
+                      {goal.title.length>20?goal.title.substring(0,20)+'...':goal.title}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
 
           {(searchTerm?searchResults.goals:data.goals).map(goal=>{
@@ -1649,6 +2088,28 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
             <h3 className="card-title"><span className="card-icon">📊</span>Budget Breakdown</h3>
             <div className="chart-container">
               <canvas id="budgetChart"></canvas>
+            </div>
+          </div>
+          
+          <div className="card">
+            <h3 className="card-title"><span className="card-icon">📈</span>Savings Projection</h3>
+            <div className="chart-container">
+              <canvas id="savingsChart"></canvas>
+            </div>
+            <div className="tip-box" style={{marginTop:'16px'}}>
+              💡 <strong>Projection based on:</strong> Current monthly savings of £{totalSavings}. 
+              Shawnie returns July 2026 (+£2,600/mo). Reach £25k house deposit by 2029!
+            </div>
+          </div>
+          
+          <div className="card">
+            <h3 className="card-title"><span className="card-icon">👴</span>Pension Growth Projection</h3>
+            <div className="chart-container">
+              <canvas id="pensionChart"></canvas>
+            </div>
+            <div className="tip-box" style={{marginTop:'16px'}}>
+              💡 <strong>Retirement projections:</strong> Based on current balances and monthly contributions. 
+              Assumes 5% annual growth. Rich retires at 67 (2057), Shawnie at 67 (2059).
             </div>
           </div>
 
@@ -2073,6 +2534,88 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
                 </div>
               </div>
             })}
+          </div>
+        </>}
+
+        {/* MONTH OVERVIEW TAB */}
+        {tab==='month'&&<>
+          <div className="card">
+            <h3 className="card-title">📊 December 2025</h3>
+            
+            <div className="quick-stats">
+              <div className="quick-stat">
+                <div className="quick-stat-value">{data.gamification?.level||1}</div>
+                <div className="quick-stat-label">Level</div>
+              </div>
+              <div className="quick-stat">
+                <div className="quick-stat-value">{data.gamification?.streak||0}</div>
+                <div className="quick-stat-label">Streak</div>
+              </div>
+              <div className="quick-stat">
+                <div className="quick-stat-value">{data.gamification?.xp||0}</div>
+                <div className="quick-stat-label">Total XP</div>
+              </div>
+              <div className="quick-stat">
+                <div className="quick-stat-value">{data.gamification?.longestStreak||0}</div>
+                <div className="quick-stat-label">Best Streak</div>
+              </div>
+            </div>
+            
+            <div className="month-calendar">
+              <div style={{fontWeight:700,fontSize:'0.7rem',color:'var(--navy-light)',padding:'8px',textAlign:'center'}}>SUN</div>
+              <div style={{fontWeight:700,fontSize:'0.7rem',color:'var(--navy-light)',padding:'8px',textAlign:'center'}}>MON</div>
+              <div style={{fontWeight:700,fontSize:'0.7rem',color:'var(--navy-light)',padding:'8px',textAlign:'center'}}>TUE</div>
+              <div style={{fontWeight:700,fontSize:'0.7rem',color:'var(--navy-light)',padding:'8px',textAlign:'center'}}>WED</div>
+              <div style={{fontWeight:700,fontSize:'0.7rem',color:'var(--navy-light)',padding:'8px',textAlign:'center'}}>THU</div>
+              <div style={{fontWeight:700,fontSize:'0.7rem',color:'var(--navy-light)',padding:'8px',textAlign:'center'}}>FRI</div>
+              <div style={{fontWeight:700,fontSize:'0.7rem',color:'var(--navy-light)',padding:'8px',textAlign:'center'}}>SAT</div>
+              
+              {Array.from({length:31},(_, i)=>{
+                const day=i+1;
+                const isToday=day===new Date().getDate()&&new Date().getMonth()===11;
+                const dateStr=`2025-12-${day.toString().padStart(2,'0')}`;
+                const dayTasks=Object.keys(data.completedTasks).filter(k=>k.includes(dateStr)&&data.completedTasks[k]);
+                const totalPossible=26;
+                const completion=dayTasks.length/totalPossible;
+                
+                return(
+                  <div
+                    key={day}
+                    className={`month-day ${
+                      completion>=0.8?'completed':completion>=0.5?'partial':''
+                    } ${isToday?'today':''}`}
+                    title={`${day} Dec: ${dayTasks.length}/${totalPossible} tasks (${Math.round(completion*100)}%)`}
+                  >
+                    {day}
+                  </div>
+                );
+              })}
+            </div>
+            
+            <div className="tip-box" style={{marginTop:'16px'}}>
+              💡 <strong>Green days</strong> = 80%+ complete • <strong>Yellow days</strong> = 50-79% • <strong>Gray days</strong> = Under 50%
+            </div>
+          </div>
+          
+          <div className="card">
+            <h3 className="card-title">🏆 Achievements</h3>
+            {(data.gamification?.achievements||[]).length===0&&(
+              <div style={{padding:'40px',textAlign:'center',color:'var(--navy-light)'}}>
+                <div style={{fontSize:'3rem',marginBottom:'16px'}}>🎯</div>
+                <div style={{fontSize:'1rem',fontWeight:600,marginBottom:'8px'}}>No achievements yet!</div>
+                <div style={{fontSize:'0.85rem'}}>Complete tasks to unlock achievements and earn bonus XP!</div>
+              </div>
+            )}
+            {(data.gamification?.achievements||[]).map((achievement,i)=>(
+              <div key={i} style={{padding:'12px',background:'var(--cream)',borderRadius:'var(--radius-md)',marginBottom:'8px',display:'flex',alignItems:'center',gap:'12px'}}>
+                <div style={{fontSize:'2rem'}}>{achievement.icon}</div>
+                <div style={{flex:1}}>
+                  <div style={{fontWeight:700,fontSize:'0.9rem'}}>{achievement.name}</div>
+                  <div style={{fontSize:'0.75rem',color:'var(--navy-light)'}}>{achievement.description}</div>
+                </div>
+                <div style={{fontSize:'0.8rem',fontWeight:700,color:'var(--gold)'}}>+{achievement.xp} XP</div>
+              </div>
+            ))}
           </div>
         </>}
 
