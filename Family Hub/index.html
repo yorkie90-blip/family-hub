@@ -1512,7 +1512,6 @@ const generateSmartSuggestions=(data,config)=>{
   });
   
   // Savings goal suggestion
-  const now=new Date();
   if(now.getDate()===1){
     suggestions.push({type:'savings',priority:'medium',text:'Start of month - update savings goals!',icon:'💰',action:'update-savings'});
   }
