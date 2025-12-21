@@ -61,11 +61,11 @@
       -moz-osx-font-smoothing:grayscale;
     }
     h1,h2,h3,h4{font-family:'Fraunces',Georgia,serif;line-height:1.2;font-weight:700}
-    .app{min-height:100vh;padding-bottom:80px}
+    .app{min-height:100vh;padding-bottom:60px}
     .header{
       background:linear-gradient(135deg,var(--terracotta) 0%,var(--shawnie) 50%,var(--gold) 100%);
       color:white;
-      padding:24px 20px;
+      padding:16px 16px;
       position:relative;
       box-shadow:var(--shadow-xl);
     }
@@ -75,11 +75,11 @@
       bottom:0;
       left:0;
       right:0;
-      height:32px;
+      height:24px;
       background:linear-gradient(to bottom,transparent,#fafaf9);
     }
-    .header-content{max-width:1200px;margin:0 auto;position:relative;z-index:1;padding-bottom:16px}
-    .header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+    .header-content{max-width:1200px;margin:0 auto;position:relative;z-index:1;padding-bottom:12px}
+    .header-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
     .logo{display:flex;align-items:center;gap:12px}
     .logo-icon{
       width:48px;
@@ -138,17 +138,41 @@
     .nav-btn:hover{background:var(--cream);color:var(--navy)}
     .nav-btn.active{background:var(--terracotta);color:white}
     .main{max-width:1200px;margin:0 auto;padding:0 16px}
-    .card{background:white;border-radius:var(--radius-xl);padding:20px;margin-bottom:16px;box-shadow:var(--shadow-sm);transition:transform var(--transition-fast),box-shadow var(--transition-fast),background-color var(--transition-normal)}
-    .card:hover{transform:translateY(-2px);box-shadow:var(--shadow-md)}
-    .card-title{font-size:1.1rem;display:flex;align-items:center;gap:8px;margin-bottom:16px}
+    .card{
+      background:white;
+      border-radius:var(--radius-xl);
+      padding:16px;
+      margin-bottom:12px;
+      box-shadow:var(--shadow-md);
+      border:1px solid rgba(0,0,0,0.05);
+      transition:all var(--transition-normal);
+    }
+    .card:hover{box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+    .card-title{font-size:1.05rem;display:flex;align-items:center;gap:8px;margin-bottom:12px;font-weight:700}
     .card-icon{width:32px;height:32px;background:linear-gradient(135deg,var(--terracotta),var(--gold));border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;font-size:1rem}
-    .overview-hero{background:linear-gradient(135deg,var(--terracotta) 0%,var(--shawnie) 50%,var(--sage) 100%);border-radius:var(--radius-xl);padding:24px;color:white;margin-bottom:16px;text-align:center}
-    .overview-countdown{font-size:0.85rem;opacity:0.9;margin-bottom:8px}
-    .overview-days{font-family:'Fraunces',serif;font-size:3.5rem;font-weight:700;line-height:1}
-    .overview-label{font-size:0.9rem;margin-top:4px;opacity:0.9}
-    .overview-date{font-size:0.8rem;margin-top:8px;opacity:0.8}
-    .overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-bottom:16px}
-    .overview-card{background:white;border-radius:var(--radius-lg);padding:16px;text-align:center;box-shadow:var(--shadow-sm);border-left:4px solid var(--terracotta);transition:transform var(--transition-fast),box-shadow var(--transition-fast),background-color var(--transition-normal)}
+    .overview-hero{
+      background:linear-gradient(135deg,var(--terracotta) 0%,var(--shawnie) 50%,var(--sage) 100%);
+      border-radius:var(--radius-xl);
+      padding:20px;
+      color:white;
+      margin-bottom:12px;
+      text-align:center;
+      box-shadow:var(--shadow-lg);
+    }
+    .overview-countdown{font-size:0.8rem;opacity:0.9;margin-bottom:6px;font-weight:600}
+    .overview-days{font-family:'Fraunces',serif;font-size:3rem;font-weight:700;line-height:1}
+    .overview-label{font-size:0.85rem;margin-top:4px;opacity:0.9}
+    .overview-date{font-size:0.75rem;margin-top:6px;opacity:0.85}
+    .overview-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px}
+    .overview-card{
+      background:white;
+      border-radius:var(--radius-lg);
+      padding:14px;
+      text-align:center;
+      box-shadow:var(--shadow-sm);
+      border-left:4px solid var(--terracotta);
+      transition:all var(--transition-fast);
+    }
     .overview-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
     .overview-card.income{border-left-color:var(--sage)}
     .overview-card.expense{border-left-color:var(--critical)}
@@ -353,19 +377,117 @@
       .xp-fill{font-size:0.7rem;padding:0 8px}
       .level-badge,.streak-badge{font-size:0.8rem;padding:6px 12px}
     }
-    body.dark{--cream:#1f2937;--cream-dark:#374151;--navy:#f9fafb;--navy-light:#d1d5db;background:#111827;color:#f9fafb}
-    body.dark .card,body.dark .nav{background:#1f2937;box-shadow:0 2px 8px rgba(0,0,0,0.3)}
-    body.dark .modal-content{background:rgba(31,41,55,0.98);box-shadow:0 20px 60px rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1)}
-    body.dark .budget-section{background:#374151}
-    body.dark .form-input,body.dark .budget-input,body.dark .modal-textarea{background:#374151;border-color:#4b5563;color:#f9fafb}
-    body.dark .task-item,body.dark .step-item,body.dark .benefit-item{background:#374151}
-    body.dark .meal-card{background:linear-gradient(135deg,#92400e,#78350f)}
-    body.dark .activity-card{background:linear-gradient(135deg,#1e40af,#1e3a8a)}
-    body.dark .note-card{background:#78350f}
-    body.dark .event-card{background:linear-gradient(135deg,#0c4a6e,#075985)}
-    body.dark .day-tab{background:#374151;border-color:#4b5563}
-    body.dark .day-tab.active{background:var(--terracotta);border-color:var(--terracotta)}
-    body.dark .overview-card,body.dark .milestone-card{background:#374151;border-color:#4b5563}
+    /* DARK MODE - BEAUTIFUL REDESIGN */
+    body.dark{
+      --cream:#0f172a;
+      --cream-dark:#1e293b;
+      --navy:#f1f5f9;
+      --navy-light:#94a3b8;
+      background:linear-gradient(135deg,#0f172a 0%,#1e293b 100%);
+      color:#f1f5f9;
+    }
+    body.dark .card{
+      background:linear-gradient(135deg,rgba(30,41,59,0.8),rgba(15,23,42,0.8));
+      backdrop-filter:blur(10px);
+      border:1px solid rgba(148,163,184,0.1);
+      box-shadow:0 8px 32px rgba(0,0,0,0.4);
+    }
+    body.dark .nav{
+      background:rgba(15,23,42,0.8);
+      backdrop-filter:blur(20px);
+      border:1px solid rgba(148,163,184,0.1);
+      box-shadow:0 4px 24px rgba(0,0,0,0.3);
+    }
+    body.dark .nav-btn.active{
+      background:linear-gradient(135deg,#e07a5f,#d4729b);
+      box-shadow:0 4px 16px rgba(224,122,95,0.4);
+    }
+    body.dark .modal-content{
+      background:rgba(15,23,42,0.95);
+      backdrop-filter:blur(20px);
+      box-shadow:0 25px 70px rgba(0,0,0,0.6);
+      border:1px solid rgba(148,163,184,0.15);
+    }
+    body.dark .compact-task{
+      background:rgba(30,41,59,0.6);
+      border:1px solid rgba(148,163,184,0.08);
+      box-shadow:0 2px 8px rgba(0,0,0,0.2);
+    }
+    body.dark .compact-task:hover{
+      background:rgba(224,122,95,0.15);
+      border-color:rgba(224,122,95,0.3);
+      box-shadow:0 4px 16px rgba(224,122,95,0.2);
+    }
+    body.dark .budget-section{background:rgba(30,41,59,0.5)}
+    body.dark .form-input,body.dark .budget-input,body.dark .modal-textarea{
+      background:rgba(30,41,59,0.6);
+      border:1px solid rgba(148,163,184,0.2);
+      color:#f1f5f9;
+    }
+    body.dark .form-input:focus,body.dark .budget-input:focus,body.dark .modal-textarea:focus{
+      border-color:rgba(224,122,95,0.5);
+      box-shadow:0 0 0 3px rgba(224,122,95,0.1);
+    }
+    body.dark .task-item,body.dark .step-item,body.dark .benefit-item{
+      background:rgba(30,41,59,0.5);
+      border:1px solid rgba(148,163,184,0.08);
+    }
+    body.dark .meal-card{background:linear-gradient(135deg,rgba(146,64,14,0.4),rgba(120,53,15,0.4))}
+    body.dark .activity-card{background:linear-gradient(135deg,rgba(30,64,175,0.4),rgba(30,58,138,0.4))}
+    body.dark .note-card{background:rgba(120,53,15,0.3);border:1px solid rgba(146,64,14,0.3)}
+    body.dark .event-card{background:linear-gradient(135deg,rgba(12,74,110,0.4),rgba(7,89,133,0.4))}
+    body.dark .day-tab{
+      background:rgba(30,41,59,0.5);
+      border:1px solid rgba(148,163,184,0.15);
+    }
+    body.dark .day-tab.active{
+      background:linear-gradient(135deg,#e07a5f,#d4729b);
+      border-color:transparent;
+      box-shadow:0 4px 12px rgba(224,122,95,0.3);
+    }
+    body.dark .overview-card,body.dark .milestone-card{
+      background:rgba(30,41,59,0.6);
+      border:1px solid rgba(148,163,184,0.15);
+      box-shadow:0 4px 12px rgba(0,0,0,0.2);
+    }
+    body.dark .milestone-notes{
+      background:rgba(30,41,59,0.5);
+      color:#cbd5e1;
+      border:1px solid rgba(148,163,184,0.1);
+    }
+    body.dark .madison-stat-card{
+      background:rgba(30,41,59,0.6);
+      border-left:4px solid #f2a65a;
+      box-shadow:0 4px 12px rgba(0,0,0,0.2);
+    }
+    body.dark .growth-entry{
+      background:rgba(30,41,59,0.5);
+      border:1px solid rgba(148,163,184,0.08);
+    }
+    body.dark .vacc-item{
+      background:rgba(30,41,59,0.5);
+      border:1px solid rgba(148,163,184,0.08);
+    }
+    body.dark .dev-category{
+      background:rgba(30,41,59,0.5);
+      border:1px solid rgba(148,163,184,0.1);
+    }
+    body.dark .dev-milestone{
+      background:rgba(15,23,42,0.5);
+      border:1px solid rgba(148,163,184,0.08);
+    }
+    body.dark .header{
+      box-shadow:0 8px 32px rgba(0,0,0,0.4);
+    }
+    body.dark .overview-hero{
+      background:linear-gradient(135deg,rgba(224,122,95,0.9),rgba(212,114,155,0.9));
+      box-shadow:0 8px 24px rgba(224,122,95,0.3);
+    }
+    body.dark .tip-box{
+      background:rgba(30,41,59,0.5);
+      border:1px solid rgba(148,163,184,0.15);
+    }
+    
     .photo-date{position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,0.8);color:white;padding:4px 8px;border-radius:6px;font-size:0.7rem;font-weight:600}
     .achievement-badge{position:absolute;top:8px;left:8px;background:var(--sage);color:white;padding:6px 12px;border-radius:12px;font-size:0.7rem;font-weight:700;box-shadow:0 2px 4px rgba(0,0,0,0.2)}
     .milestone-notes{font-size:0.8rem;color:var(--navy-light);font-style:italic;margin:8px 0;line-height:1.4;padding:8px;background:var(--cream);border-radius:6px}
@@ -436,11 +558,11 @@
     .compact-task{
       display:flex;
       align-items:center;
-      gap:10px;
-      padding:12px 14px;
+      gap:8px;
+      padding:10px 12px;
       background:white;
-      border-radius:var(--radius-lg);
-      margin-bottom:8px;
+      border-radius:var(--radius-md);
+      margin-bottom:6px;
       cursor:pointer;
       transition:all var(--transition-fast);
       border:1px solid rgba(0,0,0,0.05);
@@ -531,99 +653,197 @@ const dailyTasks={
   }
 };
 
-const defaultGoals=[
-  {id:1,icon:"⚡",title:"Become Qualified Electrician",subtitle:"Rich's career - 3 year path",person:"Rich",priority:"critical",
-    steps:[
-      {id:1,text:"Visit apprenticeships.gov.uk - search Sheffield",done:false,date:"Dec 2025",time:"30min"},
-      {id:2,text:"Contact Sheffield College: 0114 260 2600",done:false,date:"Dec 2025",time:"20min"},
-      {id:3,text:"Join Facebook: Sheffield Electricians group",done:false,date:"Dec 2025",time:"15min"},
-      {id:4,text:"Check Skills Bootcamp intakes",done:false,date:"Jan 2026",time:"30min"},
-      {id:5,text:"Apply to 3+ apprenticeship programs",done:false,date:"Jan 2026",time:"2hr"},
-      {id:6,text:"Check Advanced Learner Loan eligibility",done:false,date:"Jan 2026",time:"30min"},
-      {id:7,text:"Secure apprenticeship position",done:false,date:"Mar 2026",time:""},
-      {id:8,text:"Begin Level 2 Electrical Installation",done:false,date:"Sep 2026",time:""},
-      {id:9,text:"Complete Level 2",done:false,date:"Sep 2027",time:""},
-      {id:10,text:"Complete Level 3",done:false,date:"Sep 2028",time:""},
-      {id:11,text:"Pass 18th Edition (BS 7671)",done:false,date:"2028",time:""},
-      {id:12,text:"Pass AM2 Assessment",done:false,date:"2028",time:""},
-      {id:13,text:"Obtain JIB Gold Card",done:false,date:"2028",time:""},
-      {id:14,text:"Secure qualified position £40k+",done:false,date:"Dec 2028",time:""}
-    ]},
-  {id:2,icon:"💼",title:"Shawnie Career Progression",subtitle:"Band 6 → Band 7 → Band 8a",person:"Shawnie",priority:"critical",
-    steps:[
-      {id:1,text:"Research Sheffield PIP assessor vacancies",done:false,date:"Apr 2026",time:"1hr"},
-      {id:2,text:"Apply for Tax-Free Childcare account",done:false,date:"Apr 2026",time:"30min"},
-      {id:3,text:"Book Madison childcare place",done:false,date:"May 2026",time:"2hr"},
-      {id:4,text:"Confirm return to work with employer",done:false,date:"May 2026",time:"30min"},
-      {id:5,text:"Return to work (Band 6 - £40k)",done:false,date:"Jul 2026",time:""},
-      {id:6,text:"Research Band 7 requirements",done:false,date:"Sep 2026",time:"1hr"},
-      {id:7,text:"Identify training/CPD opportunities",done:false,date:"2026",time:"2hr"},
-      {id:8,text:"Apply for Band 7 Senior position (~£46-52k)",done:false,date:"Jul 2027",time:""},
-      {id:9,text:"Complete Band 7 transition",done:false,date:"2027",time:""},
-      {id:10,text:"Research Band 8a Team Lead roles",done:false,date:"2028",time:"1hr"},
-      {id:11,text:"Apply for Band 8a position (~£53-60k)",done:false,date:"2029",time:""},
-      {id:12,text:"Achieve Band 8a (~£55k+)",done:false,date:"2030",time:""}
-    ]},
-  {id:3,icon:"🚚",title:"Move to Sheffield",subtitle:"Relocate by late 2026",person:"Family",priority:"critical",
-    steps:[
-      {id:1,text:"Research areas: Crookes, Walkley, Hillsborough",done:false,date:"Dec 2025",time:"1hr"},
-      {id:2,text:"Set rental budget (£650-900/mo)",done:false,date:"Jan 2026",time:"30min"},
-      {id:3,text:"Day trip to explore Sheffield",done:false,date:"Mar 2026",time:"Full day"},
-      {id:4,text:"View 10+ rental properties",done:false,date:"Jun-Aug 2026",time:""},
-      {id:5,text:"Secure rental property",done:false,date:"Aug 2026",time:""},
-      {id:6,text:"Update addresses (DVLA, bank, GP)",done:false,date:"Oct 2026",time:"2hr"},
-      {id:7,text:"Moving day!",done:false,date:"Nov 2026",time:""}
-    ]},
-  {id:4,icon:"🏡",title:"Buy First Home",subtitle:"Sheffield homeowners by 2030",person:"Family",priority:"high",
-    steps:[
-      {id:1,text:"Check credit scores (ClearScore)",done:false,date:"2026",time:"20min"},
-      {id:2,text:"Get on electoral roll at new address",done:false,date:"Nov 2026",time:"10min"},
-      {id:3,text:"Open Lifetime ISAs (both) - 25% bonus",done:false,date:"2027",time:"1hr"},
-      {id:4,text:"Research First Homes scheme",done:false,date:"2029",time:"1hr"},
-      {id:5,text:"Build deposit to £25,000",done:false,date:"2029",time:""},
-      {id:6,text:"Get mortgage agreement in principle",done:false,date:"2029",time:"2hr"},
-      {id:7,text:"Start house hunting",done:false,date:"2029",time:""},
-      {id:8,text:"Complete purchase - HOMEOWNERS!",done:false,date:"2030",time:""}
-    ]},
-  {id:5,icon:"💰",title:"Financial Survival & Growth",subtitle:"Bridge the gap, then build wealth",person:"Family",priority:"critical",
-    steps:[
-      {id:1,text:"Apply for social broadband (save £20/mo)",done:false,date:"Dec 2025",time:"30min"},
-      {id:2,text:"Survive to July 2026",done:false,date:"Jul 2026",time:""},
-      {id:3,text:"Build £500 mini emergency fund",done:false,date:"Dec 2026",time:""},
-      {id:4,text:"Build £3,000 emergency fund",done:false,date:"Dec 2027",time:""},
-      {id:5,text:"Build £10,000 emergency fund",done:false,date:"2028",time:""},
-      {id:6,text:"Save £1,000+/month for deposit",done:false,date:"2028",time:""},
-      {id:7,text:"Reach £95k+ combined income",done:false,date:"2029",time:""}
-    ]},
-  {id:6,icon:"🎓",title:"Madison's Journey",subtitle:"Nursery → School milestones",person:"Madison",priority:"high",
-    steps:[
-      {id:1,text:"2-year health check",done:false,date:"Feb 2026",time:"1hr"},
-      {id:2,text:"Apply for 15hrs free childcare (age 2)",done:false,date:"Feb 2026",time:"30min"},
-      {id:3,text:"Start nursery",done:false,date:"Sep 2026",time:""},
-      {id:4,text:"Apply for 30hrs free childcare (age 3)",done:false,date:"Feb 2027",time:"30min"},
-      {id:5,text:"Research Sheffield primary schools",done:false,date:"2027",time:"2hr"},
-      {id:6,text:"Apply for Reception place",done:false,date:"Jan 2028",time:"1hr"},
-      {id:7,text:"Madison starts school!",done:false,date:"Sep 2028",time:""}
-    ]},
-  {id:7,icon:"💕",title:"Family Time & Wellbeing",subtitle:"Quality time together",person:"Family",priority:"medium",
-    steps:[
-      {id:1,text:"Weekly board game night",done:false,date:"Ongoing",time:"2hr/week"},
-      {id:2,text:"Monthly family day out",done:false,date:"Ongoing",time:""},
-      {id:3,text:"Weekly date night (after Madison sleeps)",done:false,date:"Ongoing",time:"2hr/week"},
-      {id:4,text:"Visit Harrogate friends quarterly",done:false,date:"Ongoing",time:""},
-      {id:5,text:"Visit Sheffield friends quarterly",done:false,date:"Ongoing",time:""},
-      {id:6,text:"Regular family visits",done:false,date:"Ongoing",time:""}
-    ]},
-  {id:8,icon:"👴",title:"Pensions & Protection",subtitle:"Long-term security",person:"Family",priority:"medium",
-    steps:[
-      {id:1,text:"Find Shawnie's existing pension",done:false,date:"Dec 2025",time:"1hr"},
-      {id:2,text:"Check apprenticeship pension options",done:false,date:"Sep 2026",time:"30min"},
-      {id:3,text:"Get life insurance quotes",done:false,date:"2027",time:"1hr"},
-      {id:4,text:"Shawnie maximize employer pension",done:false,date:"2026",time:""},
-      {id:5,text:"Open Junior ISA for Madison",done:false,date:"2027",time:"30min"},
-      {id:6,text:"Get income protection insurance",done:false,date:"2028",time:"1hr"}
-    ]}
+// GOALS SYSTEM OVERHAUL - Daily Tasks + Stretch Goals
+const dailyGoalTasks=[
+  // ELECTRICIAN PATH - Daily actions
+  {id:'elec-1',goal:'electrician',task:'Research 1 Sheffield apprenticeship opportunity',person:'Rich',time:'Anytime',xp:25,frequency:'daily',priority:'critical',category:'career'},
+  {id:'elec-2',goal:'electrician',task:'Practice electrical theory (15 mins)',person:'Rich',time:'Anytime',xp:20,frequency:'daily',priority:'high',category:'career'},
+  {id:'elec-3',goal:'electrician',task:'Watch 1 electrical tutorial video',person:'Rich',time:'Anytime',xp:15,frequency:'weekly',priority:'medium',category:'career'},
+  
+  // SHAWNIE CAREER - Daily actions
+  {id:'shawn-1',goal:'shawnie-career',task:'Review PIP assessment guidelines (10 mins)',person:'Shawnie',time:'Anytime',xp:15,frequency:'daily',priority:'high',category:'career'},
+  {id:'shawn-2',goal:'shawnie-career',task:'Research Sheffield NHS roles',person:'Shawnie',time:'Anytime',xp:20,frequency:'weekly',priority:'medium',category:'career'},
+  
+  // SHEFFIELD MOVE - Daily actions  
+  {id:'sheff-1',goal:'sheffield',task:'Browse Rightmove Sheffield (10 mins)',person:'Both',time:'Anytime',xp:15,frequency:'daily',priority:'high',category:'move'},
+  {id:'sheff-2',goal:'sheffield',task:'Research Sheffield neighborhood',person:'Both',time:'Anytime',xp:20,frequency:'weekly',priority:'high',category:'move'},
+  {id:'sheff-3',goal:'sheffield',task:'Check Sheffield local groups/events',person:'Both',time:'Anytime',xp:15,frequency:'weekly',priority:'medium',category:'move'},
+  
+  // FINANCIAL - Daily actions
+  {id:'fin-1',goal:'financial',task:'Check bank balance & upcoming bills',person:'Shawnie',time:'21:00',xp:10,frequency:'daily',priority:'critical',category:'money'},
+  {id:'fin-2',goal:'financial',task:'Log today\'s expenses in notes',person:'Both',time:'Anytime',xp:10,frequency:'daily',priority:'high',category:'money'},
+  {id:'fin-3',goal:'financial',task:'Find 1 money-saving opportunity',person:'Both',time:'Anytime',xp:15,frequency:'daily',priority:'medium',category:'money'},
+  
+  // MADISON - Daily tracking
+  {id:'mad-1',goal:'madison',task:'Update Madison development log',person:'Both',time:'21:30',xp:15,frequency:'daily',priority:'high',category:'madison'},
+  {id:'mad-2',goal:'madison',task:'Take 1 photo of Madison',person:'Both',time:'Anytime',xp:10,frequency:'daily',priority:'medium',category:'madison'},
+  {id:'mad-3',goal:'madison',task:'Try 1 new activity with Madison',person:'Both',time:'Anytime',xp:20,frequency:'weekly',priority:'medium',category:'madison'},
+  
+  // FAMILY WELLBEING - Daily actions
+  {id:'fam-1',goal:'wellbeing',task:'15-min quality time (just you two)',person:'Both',time:'22:00',xp:20,frequency:'daily',priority:'high',category:'wellbeing'},
+  {id:'fam-2',goal:'wellbeing',task:'Express gratitude to partner',person:'Both',time:'Anytime',xp:10,frequency:'daily',priority:'medium',category:'wellbeing'},
+  {id:'fam-3',goal:'wellbeing',task:'Plan weekend family activity',person:'Both',time:'Anytime',xp:15,frequency:'weekly',priority:'medium',category:'wellbeing'}
 ];
+
+// STRETCH GOALS - Ambitious, long-term aspirations
+const stretchGoals=[
+  {
+    id:'stretch-1',
+    icon:'🏆',
+    title:'Rich: Master Electrician',
+    subtitle:'Full qualification + £45k+ salary',
+    person:'Rich',
+    target:'2029',
+    milestones:[
+      {text:'Complete Level 3 qualification',target:'2028',xp:500},
+      {text:'Pass 18th Edition exam',target:'2028',xp:300},
+      {text:'Secure £40k+ qualified position',target:'2029',xp:1000},
+      {text:'Achieve £45k+ salary',target:'2029',xp:500}
+    ],
+    reward:'Career secured + financial stability for family'
+  },
+  {
+    id:'stretch-2',
+    icon:'👑',
+    title:'Shawnie: Band 8a Team Leader',
+    subtitle:'Senior NHS leadership role',
+    person:'Shawnie',
+    target:'2030',
+    milestones:[
+      {text:'Return to work Band 6',target:'Jul 2026',xp:300},
+      {text:'Achieve Band 7 promotion',target:'2027',xp:500},
+      {text:'Complete leadership training',target:'2028-2029',xp:300},
+      {text:'Secure Band 8a position (£55k+)',target:'2030',xp:1000}
+    ],
+    reward:'NHS leadership + £55k+ income + career fulfillment'
+  },
+  {
+    id:'stretch-3',
+    icon:'🏘️',
+    title:'Family: Sheffield Life Established',
+    subtitle:'Fully settled in new city',
+    person:'Family',
+    target:'2027',
+    milestones:[
+      {text:'Move to Sheffield',target:'Nov 2026',xp:500},
+      {text:'Make 5+ local family friends',target:'2027',xp:300},
+      {text:'Find favorite local spots (café, park, etc)',target:'2027',xp:200},
+      {text:'Madison thriving in Sheffield nursery',target:'2027',xp:300},
+      {text:'Feel "at home" in Sheffield',target:'2027',xp:500}
+    ],
+    reward:'Community, belonging, happiness in Sheffield'
+  },
+  {
+    id:'stretch-4',
+    icon:'🏡',
+    title:'Family: First-Time Homeowners',
+    subtitle:'Own home in Sheffield by 2030',
+    person:'Family',
+    target:'2030',
+    milestones:[
+      {text:'Save £25,000 deposit',target:'2029',xp:1000},
+      {text:'Get mortgage approval',target:'2030',xp:300},
+      {text:'Find perfect family home',target:'2030',xp:200},
+      {text:'Complete house purchase',target:'2030',xp:1500},
+      {text:'Move into OWN home',target:'2030',xp:500}
+    ],
+    reward:'Stability, security, wealth building, legacy for Madison'
+  },
+  {
+    id:'stretch-5',
+    icon:'💰',
+    title:'Family: £95k+ Combined Income',
+    subtitle:'Financial freedom achieved',
+    person:'Family',
+    target:'2029',
+    milestones:[
+      {text:'Rich earning £40k+ (qualified)',target:'2029',xp:500},
+      {text:'Shawnie earning £50k+ (Band 7)',target:'2028',xp:500},
+      {text:'Combined £90k+ income',target:'2029',xp:500},
+      {text:'Combined £95k+ income',target:'2029',xp:500},
+      {text:'Save £1,000+/month comfortably',target:'2029',xp:300}
+    ],
+    reward:'No more money stress, holidays, savings, Madison\'s future secured'
+  },
+  {
+    id:'stretch-6',
+    icon:'👶',
+    title:'Madison: Thriving Development',
+    subtitle:'Happy, healthy, hitting milestones',
+    person:'Madison',
+    target:'2028',
+    milestones:[
+      {text:'Walking confidently',target:'2026',xp:200},
+      {text:'Talking in sentences',target:'2027',xp:200},
+      {text:'Potty trained',target:'2028',xp:200},
+      {text:'Ready for school',target:'2028',xp:300},
+      {text:'Happy, confident, loved',target:'Ongoing',xp:500}
+    ],
+    reward:'Madison grows into amazing little human, proud parents'
+  },
+  {
+    id:'stretch-7',
+    icon:'✈️',
+    title:'Family: First Proper Holiday',
+    subtitle:'Week abroad - make memories',
+    person:'Family',
+    target:'2028',
+    milestones:[
+      {text:'Save £2,000 for holiday fund',target:'2028',xp:300},
+      {text:'Madison old enough to travel (3+)',target:'2028',xp:100},
+      {text:'Book week-long family holiday',target:'2028',xp:200},
+      {text:'Go on amazing holiday together',target:'2028',xp:1000}
+    ],
+    reward:'Memories with Madison, break from UK, quality family time'
+  },
+  {
+    id:'stretch-8',
+    icon:'🎓',
+    title:'Madison: School Ready',
+    subtitle:'Start Reception September 2028',
+    person:'Madison',
+    target:'2028',
+    milestones:[
+      {text:'Thriving in nursery (2026-2028)',target:'2028',xp:300},
+      {text:'Social skills developed',target:'2028',xp:200},
+      {text:'Accepted to good primary school',target:'2028',xp:300},
+      {text:'Excited to start school',target:'Sep 2028',xp:500}
+    ],
+    reward:'Madison ready for next chapter, proud parents'
+  },
+  {
+    id:'stretch-9',
+    icon:'💪',
+    title:'Rich: Physically Fit & Healthy',
+    subtitle:'Get in best shape',
+    person:'Rich',
+    target:'2027',
+    milestones:[
+      {text:'Establish gym routine (3x/week)',target:'2026',xp:200},
+      {text:'Achieve target weight/fitness',target:'2027',xp:300},
+      {text:'Maintain for 6+ months',target:'2027',xp:300},
+      {text:'Feel energized and confident',target:'2027',xp:200}
+    ],
+    reward:'Energy for Madison, confidence, long life to watch her grow'
+  },
+  {
+    id:'stretch-10',
+    icon:'❤️',
+    title:'Family: Strong Marriage',
+    subtitle:'Partnership through challenges',
+    person:'Both',
+    target:'Ongoing',
+    milestones:[
+      {text:'Survive tough 2025-2026',target:'Jul 2026',xp:500},
+      {text:'Weekly date nights maintained',target:'Ongoing',xp:200},
+      {text:'Support each other\'s goals',target:'Ongoing',xp:300},
+      {text:'Still deeply in love',target:'Ongoing',xp:1000}
+    ],
+    reward:'Strong partnership, happy family, role models for Madison'
+  }
+];
+
+const defaultGoals=[];
 
 const defaultBenefits=[
   {id:'uc',name:'Universal Credit',claimed:true,saving:null},
@@ -646,6 +866,37 @@ const defaultBudget={
   },
   savings:{emergency:0,houseDeposit:0,lisaRich:0,lisaShawnie:0,madisonJISA:0,pension:0}
 };
+
+// Phase 8: Bill Tracker
+const defaultBills=[
+  {id:'rent',name:'Rent',amount:700,dueDate:1,category:'housing',recurring:'monthly',autoDebit:true,lastPaid:''},
+  {id:'electric',name:'Electricity',amount:120,dueDate:15,category:'utilities',recurring:'monthly',autoDebit:true,lastPaid:''},
+  {id:'gas',name:'Gas',amount:80,dueDate:15,category:'utilities',recurring:'monthly',autoDebit:true,lastPaid:''},
+  {id:'water',name:'Water',amount:35,dueDate:5,category:'utilities',recurring:'monthly',autoDebit:true,lastPaid:''},
+  {id:'broadband',name:'Broadband',amount:30,dueDate:10,category:'utilities',recurring:'monthly',autoDebit:true,lastPaid:''},
+  {id:'council-tax',name:'Council Tax',amount:0,dueDate:1,category:'housing',recurring:'monthly',autoDebit:false,lastPaid:''},
+  {id:'car-finance',name:'Car Finance',amount:200,dueDate:20,category:'transport',recurring:'monthly',autoDebit:true,lastPaid:''},
+  {id:'car-insurance',name:'Car Insurance',amount:960,dueDate:'2026-03-15',category:'transport',recurring:'yearly',autoDebit:false,lastPaid:''}
+];
+
+// Phase 8: Subscription Tracker
+const defaultSubscriptions=[
+  {id:'netflix',name:'Netflix',cost:10.99,billing:'monthly',category:'entertainment',autoRenew:true,renewDate:'2025-12-01',cancelBy:'',worth:true,notes:''},
+  {id:'spotify',name:'Spotify',cost:10.99,billing:'monthly',category:'entertainment',autoRenew:true,renewDate:'2025-12-15',cancelBy:'',worth:true,notes:''},
+  {id:'prime',name:'Amazon Prime',cost:8.99,billing:'monthly',category:'shopping',autoRenew:true,renewDate:'2025-12-20',cancelBy:'',worth:true,notes:''}
+];
+
+// Phase 8: Savings Goals
+const defaultSavingsGoals=[
+  {id:'emergency',name:'Emergency Fund',target:3000,current:0,priority:'critical',monthly:50,deadline:'2027-12',icon:'🛡️',notes:'3 months expenses'},
+  {id:'house-deposit',name:'House Deposit',target:25000,current:0,priority:'critical',monthly:500,deadline:'2029-12',icon:'🏡',notes:'First home Sheffield'},
+  {id:'madison-future',name:"Madison's Future",target:5000,current:0,priority:'high',monthly:50,deadline:'2030-07',icon:'🎓',notes:'Education fund'},
+  {id:'holiday',name:'Family Holiday',target:2000,current:0,priority:'medium',monthly:100,deadline:'2028-06',icon:'✈️',notes:'First proper holiday'},
+  {id:'car',name:'New Car Fund',target:5000,current:0,priority:'low',monthly:0,deadline:'2027-12',icon:'🚗',notes:'Replace current car'}
+];
+
+// Phase 8: Expense Tracking
+const defaultExpenseLog=[];
 
 const defaultMilestones=[
   {id:'first-smile',title:'First Smile',date:'2025-09',icon:'😊',achieved:true,photo:null,notes:''},
@@ -719,16 +970,17 @@ const tailoredDailyTasks={
     {task:'Family lunch',person:'Either',exactTime:'13:00',icon:'🥪',priority:'high',xp:8},
     {task:'Family dinner',person:'Rich',exactTime:'18:00',icon:'🍽️',priority:'high',xp:10}
   ],
-  goals:[
-    {task:'Apprenticeship work',person:'Rich',exactTime:'10:00',icon:'⚡',priority:'critical',xp:25,goalId:1,frequency:'daily'},
-    {task:'Sheffield research',person:'Both',exactTime:'20:30',icon:'🏘️',priority:'high',xp:15,goalId:3,frequency:'weekly'},
-    {task:'Check finances',person:'Shawnie',exactTime:'21:00',icon:'💰',priority:'high',xp:10,goalId:5,frequency:'daily'},
-    {task:'Update Madison log',person:'Both',exactTime:'21:30',icon:'👶',priority:'medium',xp:10,goalId:6,frequency:'daily'}
-  ],
+  goals:dailyGoalTasks.filter(t=>t.frequency==='daily'||new Date().getDay()===0&&t.frequency==='weekly'||new Date().getDate()===1&&t.frequency==='monthly'),
   selfCare:[
     {task:'Rich relax time',person:'Rich',exactTime:'21:00',icon:'🎮',priority:'low',xp:5},
     {task:'Shawnie relax time',person:'Shawnie',exactTime:'21:00',icon:'☕',priority:'low',xp:5},
     {task:'Couple time',person:'Both',exactTime:'22:00',icon:'❤️',priority:'medium',xp:10}
+  ],
+  social:[
+    {task:'Quick message to family/friends',person:'Both',exactTime:'Anytime',icon:'💬',priority:'low',xp:5,frequency:'daily'},
+    {task:'Video call grandparents',person:'Both',exactTime:'Anytime',icon:'📹',priority:'medium',xp:15,frequency:'weekly'},
+    {task:'Share Madison photo/update',person:'Both',exactTime:'Anytime',icon:'📸',priority:'low',xp:10,frequency:'weekly'},
+    {task:'Plan Sheffield family meetup',person:'Both',exactTime:'Anytime',icon:'🤝',priority:'medium',xp:20,frequency:'monthly'}
   ]
 };
 
@@ -840,6 +1092,10 @@ const createDefaultData=()=>({
   madison:defaultMadisonData,
   familyFriends:familyAndFriends,
   socialLog:[],
+  bills:defaultBills,
+  subscriptions:defaultSubscriptions,
+  savingsGoals:defaultSavingsGoals,
+  expenseLog:defaultExpenseLog,
   gamification:{
     xp:0,
     level:1,
@@ -856,10 +1112,12 @@ const createDefaultConfig=()=>({
   familyName:'Turnbull-Shaw',
   location:'Seaham',
   targetLocation:'Sheffield',
+  moveDate:'2026-07-01',
   startDate:'2025-12-04',
   shawnieReturnDate:'2026-07-01',
   shawnieBirthDate:'1992-01-11',
   richBirthDate:'1990-12-16',
+  madisonBirthDate:'2025-07-09',
   richPension:72766.58,
   shawniePension:0,
   emergencyFund:0,
@@ -885,6 +1143,16 @@ const App=()=>{
   const[searchResults,setSearchResults]=useState({goals:[],notes:[],benefits:[]});
   const[showGrowthModal,setShowGrowthModal]=useState(false);
   const[showHealthModal,setShowHealthModal]=useState(false);
+  const[isOnline,setIsOnline]=useState(navigator.onLine);
+  const[dataHistory,setDataHistory]=useState([]);
+  const[personFilter,setPersonFilter]=useState('All');
+  const[priorityFilter,setPriorityFilter]=useState('All');
+  const[weather,setWeather]=useState(null);
+  const[showGratitudeModal,setShowGratitudeModal]=useState(false);
+  const[gratitudeText,setGratitudeText]=useState('');
+  const[smartSuggestions,setSmartSuggestions]=useState([]);
+  const[personalizedRecs,setPersonalizedRecs]=useState([]);
+  const[showSuggestionsPanel,setShowSuggestionsPanel]=useState(true);
   const[growthForm,setGrowthForm]=useState({height:'',weight:'',headCirc:'',notes:''});
   const[healthForm,setHealthForm]=useState({type:'Check-up',notes:'',weight:'',height:''});
   const[madisonTab,setMadisonTab]=useState('overview');
@@ -933,6 +1201,20 @@ const App=()=>{
   
   useEffect(()=>{
     const handleKeyDown=(e)=>{
+      // Ctrl/Cmd+S to force save
+      if((e.ctrlKey||e.metaKey)&&e.key==='s'){
+        e.preventDefault();
+        try{
+          localStorage.setItem('familyHubV12Data',JSON.stringify(data));
+          localStorage.setItem('familyHubV12Config',JSON.stringify(config));
+          celebrate('💾 Manually saved!');
+        }catch(err){
+          console.error('Save failed:',err);
+          alert('Save failed! ' + err.message);
+        }
+        return;
+      }
+      
       // Ctrl+K or Cmd+K to focus search
       if((e.ctrlKey||e.metaKey)&&e.key==='k'){
         e.preventDefault();
@@ -949,10 +1231,13 @@ const App=()=>{
         return;
       }
       
+      // Escape to close modals
       if(e.key==='Escape'){
         if(showNoteModal)setShowNoteModal(false);
         if(showEventModal)setShowEventModal(false);
       }
+      
+      // Arrow keys for calendar navigation
       if(e.key==='ArrowLeft'&&tab==='calendar'){
         const d=new Date(selectedDate);
         d.setDate(d.getDate()-1);
@@ -963,15 +1248,63 @@ const App=()=>{
         d.setDate(d.getDate()+1);
         setSelectedDate(d);
       }
+      
+      // Tab switching shortcuts (Ctrl+1-9)
+      if(e.ctrlKey&&e.key>='1'&&e.key<='9'){
+        e.preventDefault();
+        const tabs=['overview','calendar','budget','madison','month','memories','week','stretch','settings'];
+        const idx=parseInt(e.key)-1;
+        if(tabs[idx])setTab(tabs[idx]);
+      }
     };
     window.addEventListener('keydown',handleKeyDown);
     return()=>window.removeEventListener('keydown',handleKeyDown);
-},[showNoteModal,showEventModal,tab,selectedDate]);
+},[showNoteModal,showEventModal,tab,selectedDate,data,config]);
   
   useEffect(()=>{
     localStorage.setItem('darkMode',darkMode);
     document.body.classList.toggle('dark',darkMode);
   },[darkMode]);
+  
+  // Phase 1: Offline detection
+  useEffect(()=>{
+    const handleOnline=()=>{
+      setIsOnline(true);
+      celebrate('✅ Back online!');
+    };
+    const handleOffline=()=>{
+      setIsOnline(false);
+      celebrate('⚠️ Offline mode - changes will sync when reconnected');
+    };
+    window.addEventListener('online',handleOnline);
+    window.addEventListener('offline',handleOffline);
+    return()=>{
+      window.removeEventListener('online',handleOnline);
+      window.removeEventListener('offline',handleOffline);
+    };
+  },[]);
+  
+  // Phase 5: Fetch weather on load and daily
+  useEffect(()=>{
+    fetchWeather();
+    const interval=setInterval(fetchWeather,3600000); // Update every hour
+    return()=>clearInterval(interval);
+  },[]);
+  
+  // Phase 7: Update smart suggestions every minute
+  useEffect(()=>{
+    const updateSuggestions=()=>{
+      const suggestions=generateSmartSuggestions(data,config);
+      setSmartSuggestions(suggestions);
+      
+      const recommendations=getPersonalizedRecommendations(data,config);
+      setPersonalizedRecs(recommendations);
+    };
+    
+    updateSuggestions();
+    const interval=setInterval(updateSuggestions,60000); // Update every minute
+    return()=>clearInterval(interval);
+  },[data,config]);
   
   useEffect(()=>{
     const checkStreak=()=>{
@@ -1018,6 +1351,246 @@ const App=()=>{
   },[data.completedTasks,data.lastReset,data.gamification]);
   
 const celebrate=(text='🎉 Done!')=>{setCelebrationText(text);setShowCelebration(true);setTimeout(()=>setShowCelebration(false),1500)};
+
+// Phase 1: Madison age calculator
+const getMadisonAge=()=>{
+  const birth=new Date(config.madisonBirthDate);
+  const today=new Date();
+  const totalDays=Math.floor((today-birth)/(1000*60*60*24));
+  const months=Math.floor(totalDays/30.44);
+  const days=totalDays%30;
+  return {months,days,totalDays,weeks:Math.floor(totalDays/7)};
+};
+
+// Phase 5: Weather fetching
+const fetchWeather=async()=>{
+  try{
+    const res=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=54.84&longitude=-1.29&current_weather=true&timezone=Europe/London`);
+    const data=await res.json();
+    const temp=Math.round(data.current_weather.temperature);
+    const weatherCode=data.current_weather.weathercode;
+    
+    let condition='Clear';
+    let advice='';
+    let icon='☀️';
+    
+    if(weatherCode===0){condition='Clear';icon='☀️';advice='Perfect day for a walk with Madison!'}
+    else if(weatherCode<=3){condition='Cloudy';icon='☁️';advice='Good weather - take Madison outside'}
+    else if(weatherCode<=67){condition='Rainy';icon='🌧️';advice='Bring rain cover for pram'}
+    else if(weatherCode<=77){condition='Snow';icon='❄️';advice='Bundle up Madison - it\'s cold!'}
+    else{condition='Stormy';icon='⛈️';advice='Stay indoors today'}
+    
+    if(temp<5){advice='🧥 Very cold - extra layers for Madison!'}
+    else if(temp>25){advice='☀️ Warm day - sun cream for Madison!'}
+    
+    setWeather({temp,condition,icon,advice});
+  }catch(e){
+    console.error('Weather fetch failed:',e);
+  }
+};
+
+// Phase 5: Check if Shawnie has returned to work
+const shawnieHasReturned=()=>new Date()>=new Date(config.shawnieReturnDate);
+
+// Phase 5: Filter tasks by person and priority
+const filterTasks=(tasks)=>{
+  return tasks.filter(t=>{
+    if(!shawnieHasReturned()&&t.person==='Shawnie')return false;
+    if(personFilter!=='All'&&t.person!==personFilter)return false;
+    if(priorityFilter!=='All'&&t.priority!==priorityFilter)return false;
+    return true;
+  });
+};
+
+// Phase 7: Smart Automation & Suggestions
+const analyzeTaskPatterns=(completedTasks)=>{
+  const patterns={
+    mostProductiveHour:null,
+    averageTasksPerDay:0,
+    completionStreak:0,
+    favoriteCategory:null,
+    timeOfDayStats:{}
+  };
+  
+  // Analyze completion times
+  const taskTimes={};
+  Object.keys(completedTasks).forEach(key=>{
+    const hour=new Date().getHours();
+    taskTimes[hour]=(taskTimes[hour]||0)+1;
+  });
+  
+  // Find most productive hour
+  let maxCount=0;
+  Object.entries(taskTimes).forEach(([hour,count])=>{
+    if(count>maxCount){
+      maxCount=count;
+      patterns.mostProductiveHour=hour;
+    }
+  });
+  
+  return patterns;
+};
+
+const generateSmartSuggestions=(data,config)=>{
+  const suggestions=[];
+  const now=new Date();
+  const hour=now.getHours();
+  
+  // Morning suggestions (6-9am)
+  if(hour>=6&&hour<9){
+    if(!data.completedTasks[`madison-${now.toDateString()}-Wake & change Madison`]){
+      suggestions.push({type:'task',priority:'critical',text:'Time to wake Madison!',icon:'👶',action:'madison-routine'});
+    }
+  }
+  
+  // Breakfast time (8-10am)
+  if(hour>=8&&hour<10){
+    if(!data.completedTasks[`meal-${now.toDateString()}-Family breakfast`]){
+      suggestions.push({type:'task',priority:'high',text:'Don\'t forget breakfast!',icon:'🍳',action:'meal-breakfast'});
+    }
+  }
+  
+  // Financial check reminder (evening)
+  if(hour>=20&&hour<22){
+    if(!data.completedTasks[`goal-${now.toDateString()}-Check bank balance & upcoming bills`]){
+      suggestions.push({type:'task',priority:'high',text:'Check today\'s finances',icon:'💰',action:'finance-check'});
+    }
+  }
+  
+  // Bill due soon
+  (data.bills||[]).forEach(bill=>{
+    const dueDay=typeof bill.dueDate==='number'?bill.dueDate:new Date(bill.dueDate).getDate();
+    const dueDate=new Date(now.getFullYear(),now.getMonth(),dueDay);
+    const daysUntil=Math.ceil((dueDate-now)/(1000*60*60*24));
+    
+    if(daysUntil>=0&&daysUntil<=3&&!bill.autoDebit){
+      suggestions.push({type:'bill',priority:'critical',text:`${bill.name} due in ${daysUntil} days!`,icon:'💸',action:'pay-bill',billId:bill.id});
+    }
+  });
+  
+  // Savings goal suggestion
+  const now=new Date();
+  if(now.getDate()===1){
+    suggestions.push({type:'savings',priority:'medium',text:'Start of month - update savings goals!',icon:'💰',action:'update-savings'});
+  }
+  
+  // Madison milestone check
+  const madisonAge=getMadisonAge();
+  if(madisonAge.months===6&&!data.milestones.find(m=>m.id==='first-unassisted-sit'&&m.achieved)){
+    suggestions.push({type:'milestone',priority:'medium',text:'Madison might be sitting soon - watch for it!',icon:'🪑',action:'milestone-check'});
+  }
+  
+  // Gratitude reminder
+  const gratitudeToday=data.notes?.some(n=>n.type==='gratitude'&&new Date(n.date).toDateString()===now.toDateString());
+  if(hour>=21&&!gratitudeToday){
+    suggestions.push({type:'wellbeing',priority:'low',text:'Take a moment for gratitude',icon:'✨',action:'gratitude'});
+  }
+  
+  return suggestions;
+};
+
+const getPersonalizedRecommendations=(data,config)=>{
+  const recommendations=[];
+  
+  // Calculate stats
+  const totalIncome=Object.values(data.budget.income).reduce((sum,val)=>sum+(val||0),0);
+  const totalExpenses=Object.values(data.budget.expenses).reduce((sum,val)=>sum+(val||0),0);
+  const monthlyLeftover=totalIncome-totalExpenses;
+  
+  // Financial recommendations
+  if(monthlyLeftover<0){
+    recommendations.push({
+      category:'finance',
+      priority:'critical',
+      title:'Monthly Shortfall Detected',
+      description:`You're £${Math.abs(monthlyLeftover)} short each month until Shawnie returns`,
+      action:'Review expenses & find cuts',
+      icon:'⚠️'
+    });
+  }
+  
+  if((data.subscriptions||[]).length>5){
+    const totalSubCost=(data.subscriptions||[]).reduce((sum,s)=>sum+(s.billing==='monthly'?s.cost:s.cost/12),0);
+    if(totalSubCost>50){
+      recommendations.push({
+        category:'finance',
+        priority:'medium',
+        title:'Subscription Review',
+        description:`You're spending £${totalSubCost.toFixed(2)}/month on ${data.subscriptions.length} subscriptions`,
+        action:'Cancel unused subscriptions',
+        icon:'📱'
+      });
+    }
+  }
+  
+  if((config.emergencyFund||0)<500){
+    recommendations.push({
+      category:'savings',
+      priority:'high',
+      title:'Build Emergency Fund',
+      description:'Start with £500 mini emergency fund',
+      action:'Save £50/month = £500 in 10 months',
+      icon:'🛡️'
+    });
+  }
+  
+  // Madison recommendations
+  const madisonAge=getMadisonAge();
+  if(madisonAge.months>=6){
+    recommendations.push({
+      category:'madison',
+      priority:'medium',
+      title:'Start Weaning Process',
+      description:'Madison is ready for solid foods',
+      action:'Introduce purees gradually',
+      icon:'🥄'
+    });
+  }
+  
+  if(madisonAge.months>=9){
+    const hasChildcare=data.budget.expenses.childcare>0;
+    if(!hasChildcare){
+      recommendations.push({
+        category:'madison',
+        priority:'high',
+        title:'Research Childcare',
+        description:'Shawnie returns soon - book childcare place',
+        action:'Apply for childcare & Tax-Free Childcare account',
+        icon:'🏫'
+      });
+    }
+  }
+  
+  // Career recommendations
+  if(!shawnieHasReturned()){
+    const monthsUntilReturn=Math.ceil((new Date(config.shawnieReturnDate)-new Date())/(1000*60*60*24*30));
+    if(monthsUntilReturn<=3){
+      recommendations.push({
+        category:'career',
+        priority:'high',
+        title:'Prepare for Shawnie\'s Return',
+        description:`${monthsUntilReturn} months until return to work`,
+        action:'Confirm childcare & work arrangements',
+        icon:'💼'
+      });
+    }
+  }
+  
+  // Sheffield move
+  const monthsUntilMove=Math.ceil((new Date(config.moveDate)-new Date())/(1000*60*60*24*30));
+  if(monthsUntilMove<=6&&monthsUntilMove>0){
+    recommendations.push({
+      category:'move',
+      priority:'critical',
+      title:'Sheffield Move Approaching',
+      description:`${monthsUntilMove} months until move`,
+      action:'Start viewing properties & planning move',
+      icon:'🏘️'
+    });
+  }
+  
+  return recommendations;
+};
   
   const calculateXP=(taskKey,taskXP=5)=>{
     const newXP=(data.gamification?.xp||0)+taskXP;
@@ -1050,6 +1623,34 @@ const celebrate=(text='🎉 Done!')=>{setCelebrationText(text);setShowCelebratio
     const wasCompleted=data.completedTasks[taskKey];
     if(!wasCompleted){
       calculateXP(taskKey,taskXP);
+      
+      // Phase 7: Smart suggestions after task completion
+      const taskName=taskKey.split('-').slice(2).join('-');
+      
+      // Auto-suggest related tasks
+      if(taskName.includes('Madison breakfast')){
+        setTimeout(()=>{
+          if(!data.completedTasks[taskKey.replace('breakfast','Tummy time')]){
+            celebrate('💡 Time for tummy time soon!');
+          }
+        },1000);
+      }
+      
+      if(taskName.includes('Wake & change Madison')){
+        setTimeout(()=>{
+          if(!data.completedTasks[taskKey.replace('Wake & change','breakfast')]){
+            celebrate('🍼 Don\'t forget Madison\'s breakfast!');
+          }
+        },1500);
+      }
+      
+      if(taskName.includes('Bath time')){
+        setTimeout(()=>{
+          if(!data.completedTasks[taskKey.replace('Bath','Bedtime routine')]){
+            celebrate('📖 Bedtime routine next!');
+          }
+        },1000);
+      }
     }
     setData(prev=>({...prev,completedTasks:{...prev.completedTasks,[taskKey]:!wasCompleted}}));
   },[data.completedTasks,calculateXP]);
@@ -1356,9 +1957,15 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
 
   const goalsProgress=useMemo(()=>{
     let total=0,done=0;
-    data.goals.forEach(g=>{total+=g.steps.length;done+=g.steps.filter(s=>s.done).length});
+    stretchGoals.forEach(g=>{
+      g.milestones.forEach((m,idx)=>{
+        total++;
+        const key=`stretch-${g.id}-${idx}`;
+        if(data.completedTasks[key])done++;
+      });
+    });
     return{total,done,pct:total?Math.round((done/total)*100):0};
-  },[data.goals]);
+  },[data.completedTasks]);
 
   const potentialSavings=data.benefits.filter(b=>!b.claimed&&b.saving).reduce((sum,b)=>sum+(b.saving||0),0);
   const totalSaved=config.emergencyFund+config.houseDeposit;
@@ -1366,14 +1973,9 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
   const getWeekDates=()=>{
     const start=new Date(selectedDate);
     const day=start.getDay();
-    const diff=day===0?-6:1-day; // Calculate offset to Monday
-    return Array.from({length:7},(_,i)=>{
-      const d=new Date(start);
-      d.setDate(start.getDate()+diff+i);
-      return d;
-    });
+    start.setDate(start.getDate()-day+(day===0?-6:1));
+    return Array.from({length:7},(_,i)=>{const d=new Date(start);d.setDate(start.getDate()+i);return d});
   };
-
   const weekDates=getWeekDates();
   const dayOfWeek=selectedDate.getDay();
   const dayMeals=weeklyMeals[dayOfWeek]||{breakfast:{name:"TBD",cost:0,prep:"",cook:""},lunch:{name:"TBD",cost:0,prep:"",cook:""},dinner:{name:"TBD",cost:0,prep:"",cook:""}};
@@ -1385,33 +1987,18 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
   const isSelected=(d)=>d.toDateString()===selectedDate.toDateString();
   const dayEvents=data.events[dateKey]||[];
 
-  const currentGoalSteps = useMemo(() => {
-  const now = new Date();
-  const steps = [];
-
-  data.goals.forEach(g => {
-    g.steps
-      .filter(s => !s.done)
-      .slice(0, 2)
-      .forEach(s => {
-        if (
-          s.date.includes('Dec 2025') ||
-          s.date.includes('Jan 2026') ||
-          s.date.includes('Ongoing') ||
-          s.date.includes('2025')
-        ) {
-          steps.push({
-            ...s,
-            goalTitle: g.title,
-            goalIcon: g.icon,
-            person: g.person
-          });
+  const currentGoalSteps=useMemo(()=>{
+    const now=new Date();
+    const steps=[];
+    data.goals.forEach(g=>{
+      g.steps.filter(s=>!s.done).slice(0,2).forEach(s=>{
+        if(s.date.includes('Dec 2025')||s.date.includes('Jan 2026')||s.date.includes('Ongoing')||s.date.includes('2025')){
+          steps.push({...s,goalTitle:g.title,goalIcon:g.icon,person:g.person});
         }
       });
-  });
-
-  return steps.slice(0, 4);
-}, [data.goals]);
+    });
+    return steps.slice(0,4);
+},[data.goals]);
 
   useEffect(()=>{
     if(tab==='budget'){
@@ -1782,7 +2369,7 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
         <div className="mini-stats">
           <div className="mini-stat"><div className={`mini-stat-val ${monthlyLeftover<0?'negative':'positive'}`}>£{monthlyLeftover}</div><div className="mini-stat-lbl">/mo</div></div>
           <div className="mini-stat"><div className="mini-stat-val">{daysUntilReturn}</div><div className="mini-stat-lbl">days</div></div>
-          <div className="mini-stat"><div className="mini-stat-val">{goalsProgress.pct}%</div><div className="mini-stat-lbl">goals</div></div>
+          <div className="mini-stat"><div className="mini-stat-val">{goalsProgress.pct}%</div><div className="mini-stat-lbl">stretch</div></div>
         </div>
         <div style={{display:'flex',gap:'8px',marginTop:'8px',flexWrap:'wrap'}}>
           <div className="level-badge">⭐ Level {data.gamification?.level||1}</div>
@@ -1795,8 +2382,13 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
         </div>
       </div></div></header>
 
+      {/* Phase 1: Offline Indicator */}
+      {!isOnline&&<div style={{background:'#f59e0b',color:'white',padding:'12px',textAlign:'center',fontSize:'0.9rem',fontWeight:600}}>
+        ⚠️ OFFLINE MODE - Changes will be saved locally and synced when you're back online
+      </div>}
+
       <div className="nav-wrap"><nav className="nav">
-        {[{id:'overview',label:'🏠 Overview'},{id:'calendar',label:'📅 Daily Plan'},{id:'goals',label:'🎯 Goals'},{id:'budget',label:'💰 Budget'},{id:'madison',label:'👶 Madison'},{id:'month',label:'📊 Month'},{id:'memories',label:'📸 Memories'},{id:'week',label:'📋 Week'},{id:'settings',label:'⚙️'}].map(t=>
+        {[{id:'overview',label:'🏠 Overview'},{id:'calendar',label:'📅 Daily Plan'},{id:'budget',label:'💰 Budget'},{id:'madison',label:'👶 Madison'},{id:'month',label:'📊 Month'},{id:'memories',label:'📸 Memories'},{id:'week',label:'📋 Week'},{id:'stretch',label:'🏆 Stretch'},{id:'settings',label:'⚙️'}].map(t=>
           <button key={t.id} className={`nav-btn ${tab===t.id?'active':''}`} onClick={()=>setTab(t.id)}>{t.label}</button>
         )}
       </nav></div>
@@ -1811,11 +2403,79 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
             <div className="overview-date">{returnDate.toLocaleDateString('en-GB',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</div>
           </div>
 
+          {/* Phase 7: Smart Suggestions Panel */}
+          {showSuggestionsPanel&&smartSuggestions.length>0&&<div className="card" style={{background:'linear-gradient(135deg,#f0f9ff,#e0f2fe)',border:'2px solid #0ea5e9'}}>
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'12px'}}>
+              <h3 className="card-title" style={{marginBottom:0,color:'#0369a1'}}>🤖 Smart Suggestions</h3>
+              <button className="btn btn-secondary btn-sm" onClick={()=>setShowSuggestionsPanel(false)}>Dismiss</button>
+            </div>
+            <div style={{display:'grid',gap:'10px'}}>
+              {smartSuggestions.slice(0,5).map((sug,idx)=>(
+                <div key={idx} style={{
+                  background:'white',
+                  padding:'12px',
+                  borderRadius:'var(--radius-md)',
+                  display:'flex',
+                  alignItems:'center',
+                  gap:'12px',
+                  borderLeft:`4px solid ${sug.priority==='critical'?'var(--critical)':sug.priority==='high'?'var(--high)':'var(--medium)'}`
+                }}>
+                  <div style={{fontSize:'2rem'}}>{sug.icon}</div>
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:600,marginBottom:'4px',color:'var(--navy)'}}>{sug.text}</div>
+                    <div style={{fontSize:'0.75rem',color:'var(--navy-light)'}}>
+                      <span className={`tag tag-${sug.priority}`}>{sug.priority}</span>
+                    </div>
+                  </div>
+                  {sug.action&&<button className="btn btn-primary btn-sm" onClick={()=>{
+                    if(sug.action==='madison-routine')setTab('calendar');
+                    if(sug.action==='finance-check')setTab('budget');
+                    if(sug.action==='gratitude')setShowGratitudeModal(true);
+                    if(sug.action==='update-savings')setTab('budget');
+                  }}>→</button>}
+                </div>
+              ))}
+            </div>
+            <div style={{fontSize:'0.75rem',color:'#0369a1',marginTop:'8px',textAlign:'center'}}>
+              💡 Suggestions update automatically based on time, tasks, and patterns
+            </div>
+          </div>}
+
+          {/* Phase 7: Personalized Recommendations */}
+          {personalizedRecs.length>0&&<div className="card" style={{background:'linear-gradient(135deg,#fef3c7,#fde68a)',border:'2px solid #f59e0b'}}>
+            <h3 className="card-title" style={{color:'#92400e'}}>💡 Personalized Recommendations</h3>
+            <div style={{display:'grid',gap:'12px'}}>
+              {personalizedRecs.map((rec,idx)=>(
+                <div key={idx} style={{
+                  background:'white',
+                  padding:'14px',
+                  borderRadius:'var(--radius-md)',
+                  borderLeft:`4px solid ${rec.priority==='critical'?'var(--critical)':rec.priority==='high'?'var(--high)':'var(--medium)'}`
+                }}>
+                  <div style={{display:'flex',alignItems:'flex-start',gap:'12px',marginBottom:'8px'}}>
+                    <div style={{fontSize:'2rem'}}>{rec.icon}</div>
+                    <div style={{flex:1}}>
+                      <div style={{fontWeight:700,marginBottom:'4px',color:'var(--navy)'}}>{rec.title}</div>
+                      <div style={{fontSize:'0.85rem',color:'var(--navy-light)',marginBottom:'8px'}}>{rec.description}</div>
+                      <div style={{fontSize:'0.85rem',background:'var(--cream)',padding:'8px',borderRadius:'var(--radius-sm)',fontWeight:600}}>
+                        ✓ {rec.action}
+                      </div>
+                    </div>
+                    <span className={`tag tag-${rec.priority}`}>{rec.priority}</span>
+                  </div>
+                  <div style={{fontSize:'0.7rem',color:'var(--navy-light)',textTransform:'uppercase',fontWeight:600}}>
+                    {rec.category}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>}
+
           <div className="overview-grid">
             <div className="overview-card income"><div className="overview-card-icon">💚</div><div className="overview-card-value">£{totalIncome}</div><div className="overview-card-label">Monthly Income</div></div>
             <div className="overview-card expense"><div className="overview-card-icon">💸</div><div className="overview-card-value">£{totalExpenses}</div><div className="overview-card-label">Monthly Expenses</div></div>
             <div className="overview-card gap"><div className="overview-card-icon">{monthlyLeftover>=0?'✨':'⚠️'}</div><div className="overview-card-value" style={{color:monthlyLeftover>=0?'var(--sage)':'var(--critical)'}}>£{monthlyLeftover}</div><div className="overview-card-label">Monthly Leftover</div></div>
-            <div className="overview-card goals"><div className="overview-card-icon">🎯</div><div className="overview-card-value">{goalsProgress.pct}%</div><div className="overview-card-label">Goals Complete</div></div>
+            <div className="overview-card goals"><div className="overview-card-icon">🏆</div><div className="overview-card-value">{goalsProgress.pct}%</div><div className="overview-card-label">Stretch Goals</div></div>
             <div className="overview-card savings"><div className="overview-card-icon">💎</div><div className="overview-card-value">£{totalSaved.toLocaleString()}</div><div className="overview-card-label">Total Saved</div></div>
             <div className="overview-card pension"><div className="overview-card-icon">👴</div><div className="overview-card-value">£{Math.round(config.richPension/1000)}k</div><div className="overview-card-label">Pension</div></div>
           </div>
@@ -1823,7 +2483,7 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
           <div className="card">
             <h3 className="card-title"><span className="card-icon">📊</span>Progress</h3>
             <div className="progress-section">
-              <div className="progress-title"><span>Goals Progress</span><span>{goalsProgress.done}/{goalsProgress.total}</span></div>
+              <div className="progress-title"><span>Stretch Goals Progress</span><span>{goalsProgress.done}/{goalsProgress.total}</span></div>
               <div className="progress-bar"><div className="progress-fill goals" style={{width:`${goalsProgress.pct}%`}}/></div>
             </div>
             {config.houseDeposit>0&&<div className="progress-section">
@@ -1872,6 +2532,65 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
             <button className="btn btn-secondary btn-sm" onClick={()=>{const d=new Date(selectedDate);d.setDate(d.getDate()+7);setSelectedDate(d)}}>→</button>
           </div>
 
+          {/* Phase 5: Weather Card */}
+          {weather&&<div className="card" style={{background:`linear-gradient(135deg,rgba(129,178,154,0.1),rgba(242,166,90,0.1))`,border:'2px solid var(--sage)'}}>
+            <div style={{display:'flex',alignItems:'center',gap:'16px'}}>
+              <div style={{fontSize:'3rem'}}>{weather.icon}</div>
+              <div style={{flex:1}}>
+                <div style={{fontSize:'1.3rem',fontWeight:700,color:'var(--navy)',marginBottom:'4px'}}>
+                  {weather.temp}°C • {weather.condition}
+                </div>
+                <div style={{fontSize:'0.85rem',color:'var(--navy-light)'}}>
+                  {weather.advice}
+                </div>
+              </div>
+            </div>
+          </div>}
+
+          {/* Phase 5: Task Filters */}
+          <div className="card" style={{padding:'12px'}}>
+            <div style={{display:'flex',gap:'10px',flexWrap:'wrap',alignItems:'center'}}>
+              <div style={{fontSize:'0.85rem',fontWeight:600,color:'var(--navy)'}}>Filter tasks:</div>
+              <select className="form-input" value={personFilter} onChange={e=>setPersonFilter(e.target.value)} style={{width:'auto',padding:'6px 12px',fontSize:'0.85rem'}}>
+                <option value="All">All People</option>
+                <option value="Rich">Rich Only</option>
+                <option value="Shawnie">Shawnie Only</option>
+                <option value="Both">Both</option>
+                <option value="Either">Either</option>
+              </select>
+              <select className="form-input" value={priorityFilter} onChange={e=>setPriorityFilter(e.target.value)} style={{width:'auto',padding:'6px 12px',fontSize:'0.85rem'}}>
+                <option value="All">All Priorities</option>
+                <option value="critical">Critical Only</option>
+                <option value="high">High Priority</option>
+                <option value="medium">Medium Priority</option>
+                <option value="low">Low Priority</option>
+              </select>
+              {(personFilter!=='All'||priorityFilter!=='All')&&<button className="btn btn-secondary btn-sm" onClick={()=>{setPersonFilter('All');setPriorityFilter('All')}}>Clear Filters</button>}
+            </div>
+          </div>
+
+          {/* Phase 7: Smart Insights */}
+          {smartSuggestions.filter(s=>s.type==='task').length>0&&<div className="card" style={{background:'linear-gradient(135deg,#f0fdf4,#dcfce7)',border:'2px solid #22c55e'}}>
+            <h3 className="card-title" style={{color:'#15803d'}}>💡 Smart Reminders</h3>
+            <div style={{display:'grid',gap:'8px'}}>
+              {smartSuggestions.filter(s=>s.type==='task').map((sug,idx)=>(
+                <div key={idx} style={{
+                  background:'white',
+                  padding:'10px',
+                  borderRadius:'var(--radius-md)',
+                  display:'flex',
+                  alignItems:'center',
+                  gap:'10px',
+                  fontSize:'0.9rem'
+                }}>
+                  <div style={{fontSize:'1.5rem'}}>{sug.icon}</div>
+                  <div style={{flex:1,fontWeight:600}}>{sug.text}</div>
+                  <span className={`tag tag-${sug.priority}`} style={{fontSize:'0.7rem'}}>{sug.priority}</span>
+                </div>
+              ))}
+            </div>
+          </div>}
+
           {/* Today's Priority Goals */}
           {currentGoalSteps.length>0&&<div className="card" style={{background:'linear-gradient(135deg,#fdf4ff,#f3e8ff)',border:'2px solid #a855f7'}}>
             <h3 className="card-title" style={{color:'#7c3aed'}}>🎯 Today's Goal Actions</h3>
@@ -1907,8 +2626,8 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
 
           {/* Madison Priority Tasks */}
           <div className="card" style={{background:'linear-gradient(135deg,#fff5f0,#ffe8df)',border:'2px solid var(--madison)'}}>
-            <h3 className="card-title" style={{color:'#d97706'}}>👶 Madison's Day <span style={{fontSize:'0.8rem',fontWeight:600,color:'#f59e0b',marginLeft:'8px'}}>Total: {tailoredDailyTasks.family.reduce((sum,t)=>sum+t.xp,0)} XP</span></h3>
-            {tailoredDailyTasks.family.map((task,i)=>{
+            <h3 className="card-title" style={{color:'#d97706'}}>👶 Madison's Day <span style={{fontSize:'0.8rem',fontWeight:600,color:'#f59e0b',marginLeft:'8px'}}>Total: {filterTasks(tailoredDailyTasks.family).reduce((sum,t)=>sum+t.xp,0)} XP</span></h3>
+            {filterTasks(tailoredDailyTasks.family).map((task,i)=>{
               const key=`madison-${dateKey}-${task.task}`;
               const done=data.completedTasks[key];
               return(
@@ -1927,8 +2646,8 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
 
           {/* Meals */}
           <div className="card">
-            <h3 className="card-title">🍽️ Today's Meals <span style={{fontSize:'0.8rem',fontWeight:600,color:'var(--gold)',marginLeft:'8px'}}>Total: {tailoredDailyTasks.meals.reduce((sum,t)=>sum+t.xp,0)} XP</span></h3>
-            {tailoredDailyTasks.meals.map((task,i)=>{
+            <h3 className="card-title">🍽️ Today's Meals <span style={{fontSize:'0.8rem',fontWeight:600,color:'var(--gold)',marginLeft:'8px'}}>Total: {filterTasks(tailoredDailyTasks.meals).reduce((sum,t)=>sum+t.xp,0)} XP</span></h3>
+            {filterTasks(tailoredDailyTasks.meals).map((task,i)=>{
               const key=`meal-${dateKey}-${task.task}`;
               const done=data.completedTasks[key];
               const mealData=i===0?dayMeals.breakfast:i===1?dayMeals.lunch:dayMeals.dinner;
@@ -1954,8 +2673,8 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
 
           {/* House Tasks */}
           <div className="card">
-            <h3 className="card-title">🏠 House Tasks <span style={{fontSize:'0.8rem',fontWeight:600,color:'var(--sage)',marginLeft:'8px'}}>Total: {tailoredDailyTasks.house.reduce((sum,t)=>sum+t.xp,0)} XP</span></h3>
-            {tailoredDailyTasks.house.map((task,i)=>{
+            <h3 className="card-title">🏠 House Tasks <span style={{fontSize:'0.8rem',fontWeight:600,color:'var(--sage)',marginLeft:'8px'}}>Total: {filterTasks(tailoredDailyTasks.house).reduce((sum,t)=>sum+t.xp,0)} XP</span></h3>
+            {filterTasks(tailoredDailyTasks.house).map((task,i)=>{
               const key=`house-${dateKey}-${task.task}`;
               const done=data.completedTasks[key];
               return(
@@ -1993,8 +2712,8 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
 
           {/* Goal-Linked Tasks */}
           <div className="card" style={{background:'linear-gradient(135deg,#f0fdf4,#dcfce7)',border:'2px solid var(--sage)'}}>
-            <h3 className="card-title" style={{color:'#15803d'}}>🎯 Goal Actions <span style={{fontSize:'0.8rem',fontWeight:600,color:'#059669',marginLeft:'8px'}}>Total: {tailoredDailyTasks.goals.reduce((sum,t)=>sum+t.xp,0)} XP</span></h3>
-            {tailoredDailyTasks.goals.map((task,i)=>{
+            <h3 className="card-title" style={{color:'#15803d'}}>🎯 Goal Actions <span style={{fontSize:'0.8rem',fontWeight:600,color:'#059669',marginLeft:'8px'}}>Total: {filterTasks(tailoredDailyTasks.goals).reduce((sum,t)=>sum+t.xp,0)} XP</span></h3>
+            {filterTasks(tailoredDailyTasks.goals).map((task,i)=>{
               const shouldShow=task.frequency==='daily'||(task.frequency==='weekly'&&dayOfWeek===1)||(task.frequency==='monthly'&&new Date(selectedDate).getDate()===1);
               if(!shouldShow)return null;
               const key=`goal-${dateKey}-${task.task}`;
@@ -2016,24 +2735,28 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
 
           {/* Social & Self-Care */}
           <div className="card">
-            <h3 className="card-title">💝 Wellbeing</h3>
-            {tailoredDailyTasks.social.map((task,i)=>{
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'12px'}}>
+              <h3 className="card-title" style={{marginBottom:0}}>💝 Wellbeing</h3>
+              <button className="btn btn-primary btn-sm" onClick={()=>setShowGratitudeModal(true)}>✨ Gratitude</button>
+            </div>
+            {(filterTasks(tailoredDailyTasks.social)||[]).map((task,i)=>{
               const shouldShow=task.frequency==='daily'||(task.frequency==='weekly'&&dayOfWeek===0)||(task.frequency==='monthly'&&new Date(selectedDate).getDate()===1);
               if(!shouldShow)return null;
               const key=`social-${dateKey}-${task.task}`;
               const done=data.completedTasks[key];
-              return<div key={i} className={`task-item ${done?'completed':''}`} onClick={()=>toggleTask(key)}>
-                <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
-                <div className="task-content">
-                  <div className="task-text">{task.icon} {task.task}</div>
-                  <div className="task-meta">
-                    {renderTag(task.person)}
-                    <span className="tag tag-low">social</span>
+              return(
+                <div key={i} className={`compact-task ${done?'completed':''}`} onClick={()=>toggleTask(key,task.xp)}>
+                  <div className={`task-check ${done?'checked':''}`}>{done&&<Check/>}</div>
+                  <div className="task-time">{task.exactTime}</div>
+                  <div className="task-content" style={{flex:1}}>
+                    <div className="task-text">{task.icon} {task.task}</div>
                   </div>
+                  {renderTag(task.person)}
+                  <div className="time-badge">+{task.xp} XP</div>
                 </div>
-              </div>
+              );
             })}
-            {tailoredDailyTasks.selfCare.map((task,i)=>{
+            {filterTasks(tailoredDailyTasks.selfCare).map((task,i)=>{
               const key=`care-${dateKey}-${task.task}`;
               const done=data.completedTasks[key];
               return(
@@ -2090,130 +2813,60 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
             ))}
           </div>}
         </>}
-        {/* GOALS TAB */}
-        {tab==='goals'&&<>
-          <div className="card" style={{marginBottom:'16px'}}>
-           <div style={{position:'relative'}}>
-            <input 
-             type="text"
-             className="form-input"
-             placeholder="🔍 Search goals, steps..."
-            value={searchTerm}
-            onChange={e=>handleSearch(e.target.value)}
-            style={{paddingLeft:'40px'}}
-          />
-          {searchTerm&&(
-           <button 
-             onClick={()=>handleSearch('')}
-             style={{
-               position:'absolute',
-                right:'12px',
-               top:'50%',
-               transform:'translateY(-50%)',
-               background:'none',
-               border:'none',
-               fontSize:'1.2rem',
-               cursor:'pointer',
-               color:'var(--navy-light)'
-             }}
-           >
-             ×
-            </button>
-          )}
-       </div>
-       {searchTerm&&(
-         <div style={{marginTop:'8px',fontSize:'0.85rem',color:'var(--navy-light)'}}>
-            Found: {searchResults.goals.length} goals
-          </div>
-       )}
-      </div>
-  
-       <div className="summary-row">
 
-            <div className="summary-box income"><div className="summary-label">Complete</div><div className="summary-value">{goalsProgress.done}</div></div>
-            <div className="summary-box expense"><div className="summary-label">Remaining</div><div className="summary-value">{goalsProgress.total-goalsProgress.done}</div></div>
-            <div className="summary-box saving"><div className="summary-label">Progress</div><div className="summary-value">{goalsProgress.pct}%</div></div>
-            <div className="summary-box leftover"><div className="summary-label">Total</div><div className="summary-value">{goalsProgress.total}</div></div>
+        {/* STRETCH GOALS TAB */}
+        {tab==='stretch'&&<>
+          <div className="card" style={{background:'linear-gradient(135deg,var(--terracotta),var(--shawnie))',color:'white',textAlign:'center',padding:'24px'}}>
+            <h2 style={{fontSize:'2rem',marginBottom:'8px'}}>🏆 Stretch Goals</h2>
+            <p style={{fontSize:'0.95rem',opacity:0.9}}>Your family's biggest dreams & ambitions</p>
           </div>
-          
-          <div className="card">
-            <h3 className="card-title">📊 Progress Rings</h3>
-            <div style={{display:'grid',gridTemplateColumns:'repeat(auto-fit,minmax(120px,1fr))',gap:'16px'}}>
-              {data.goals.map(goal=>{
-                const done=goal.steps.filter(s=>s.done).length;
-                const total=goal.steps.length;
-                const pct=total?(done/total)*100:0;
-                const circumference=2*Math.PI*40;
-                const offset=circumference-(pct/100)*circumference;
-                const strokeColor=goal.priority==='critical'?'var(--critical)':goal.priority==='high'?'var(--high)':goal.priority==='medium'?'var(--medium)':'var(--low)';
-                
-                return(
-                  <div key={goal.id} style={{textAlign:'center'}}>
-                    <svg className="progress-ring" width="100" height="100" style={{transform:'rotate(-90deg)'}}>
-                      <circle
-                        className="progress-ring-circle"
-                        stroke="var(--cream-dark)"
-                        strokeWidth="8"
-                        cx="50"
-                        cy="50"
-                        r="40"
-                      />
-                      <circle
-                        className="progress-ring-circle"
-                        stroke={strokeColor}
-                        strokeWidth="8"
-                        strokeDasharray={circumference}
-                        strokeDashoffset={offset}
-                        cx="50"
-                        cy="50"
-                        r="40"
-                      />
-                      <text x="50" y="50" textAnchor="middle" dy="0.3em" fontSize="24" transform="rotate(90 50 50)">
-                        {goal.icon}
-                      </text>
-                    </svg>
-                    <div style={{fontSize:'0.9rem',fontWeight:700,marginTop:'8px',color:'var(--navy)'}}>
-                      {Math.round(pct)}%
-                    </div>
-                    <div style={{fontSize:'0.7rem',color:'var(--navy-light)',marginBottom:'4px'}}>
-                      {done}/{total} steps
-                    </div>
-                    <div style={{fontSize:'0.75rem',fontWeight:600,color:'var(--navy)',lineHeight:1.3}}>
-                      {goal.title.length>20?goal.title.substring(0,20)+'...':goal.title}
-                    </div>
+
+          {stretchGoals.map((goal,idx)=>(
+            <div key={goal.id} className="card">
+              <div style={{display:'flex',alignItems:'flex-start',gap:'16px',marginBottom:'16px'}}>
+                <div style={{fontSize:'3rem'}}>{goal.icon}</div>
+                <div style={{flex:1}}>
+                  <h3 style={{fontSize:'1.3rem',fontWeight:700,marginBottom:'4px',color:'var(--navy)'}}>{goal.title}</h3>
+                  <div style={{fontSize:'0.9rem',color:'var(--navy-light)',marginBottom:'8px'}}>{goal.subtitle}</div>
+                  <div style={{display:'flex',gap:'8px',flexWrap:'wrap'}}>
+                    {renderTag(goal.person)}
+                    <span className="tag" style={{background:'var(--sage)',color:'white'}}>Target: {goal.target}</span>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-
-          {(searchTerm?searchResults.goals:data.goals).map(goal=>{
-            const done=goal.steps.filter(s=>s.done).length;
-            const total=goal.steps.length;
-            const pct=total?Math.round((done/total)*100):0;
-            const isOpen=expandedGoals[goal.id];
-            return<div key={goal.id} className={`goal-card ${goal.priority}`}>
-              <div className="goal-header" onClick={()=>setExpandedGoals(prev=>({...prev,[goal.id]:!prev[goal.id]}))}>
-                <div className="goal-icon">{goal.icon}</div>
-                <div className="goal-info">
-                  <div className="goal-title">{highlightText(goal.title,searchTerm)}</div>
-                  <div className="goal-subtitle">{highlightText(goal.subtitle,searchTerm)}</div>
-                  <div style={{display:'flex',gap:4,marginTop:4}}>{renderTag(goal.person)}<span className={`tag tag-${goal.priority}`}>{goal.priority}</span></div>
                 </div>
-                <div className="goal-progress"><div className="goal-pct">{pct}%</div><div className="goal-count">{done}/{total}</div></div>
-                <div style={{transform:isOpen?'rotate(180deg)':'none',transition:'0.2s'}}><ChevronDown/></div>
               </div>
-              <div className={`goal-body ${isOpen?'open':''}`}>
-                {goal.steps.map(step=>(
-                  <div key={step.id} className={`step-item ${step.done?'completed':''}`} onClick={()=>toggleGoalStep(goal.id,step.id)}>
-                    <div className={`step-check ${step.done?'checked':''}`}>{step.done&&<Check/>}</div>
-                    <div className="step-text">{highlightText(step.text,searchTerm)}</div>
-                    <div className="step-date">{step.time&&`⏱️${step.time} • `}{step.date}</div>
-                  </div>
-                ))}
+
+              <div style={{background:'var(--cream)',padding:'16px',borderRadius:'var(--radius-md)',marginBottom:'16px'}}>
+                <div style={{fontSize:'0.85rem',fontWeight:600,marginBottom:'12px',color:'var(--navy)'}}>🎯 Milestones:</div>
+                {goal.milestones.map((milestone,mIdx)=>{
+                  const key=`stretch-${goal.id}-${mIdx}`;
+                  const done=data.completedTasks[key]||false;
+                  return(
+                    <div key={mIdx} className={`step-item ${done?'completed':''}`} onClick={()=>toggleTask(key,milestone.xp)} style={{marginBottom:'8px',cursor:'pointer'}}>
+                      <div className={`step-check ${done?'checked':''}`}>{done&&<Check/>}</div>
+                      <div style={{flex:1}}>
+                        <div className="step-text">{milestone.text}</div>
+                        <div style={{fontSize:'0.7rem',color:'var(--navy-light)',marginTop:'2px'}}>Target: {milestone.target} • +{milestone.xp} XP</div>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div style={{background:'linear-gradient(135deg,rgba(129,178,154,0.1),rgba(242,166,90,0.1))',padding:'14px',borderRadius:'var(--radius-md)',borderLeft:'4px solid var(--sage)'}}>
+                <div style={{fontSize:'0.75rem',fontWeight:600,color:'var(--navy)',marginBottom:'4px'}}>🎁 REWARD:</div>
+                <div style={{fontSize:'0.85rem',color:'var(--navy-light)',lineHeight:1.5}}>{goal.reward}</div>
               </div>
             </div>
-          })}
+          ))}
+
+          <div className="card" style={{background:'var(--madison-light)',border:'2px solid var(--madison)'}}>
+            <h3 style={{fontSize:'1.1rem',marginBottom:'12px',color:'#7a4a1f'}}>💡 About Stretch Goals</h3>
+            <div style={{fontSize:'0.85rem',color:'#5a3a1f',lineHeight:1.6}}>
+              <p style={{marginBottom:'8px'}}>These are your family's <strong>BIG dreams</strong> - the goals that will transform your lives over the next 5 years.</p>
+              <p style={{marginBottom:'8px'}}>Unlike daily tasks, stretch goals are <strong>long-term aspirations</strong> that require months or years of effort. They represent the life you're building together.</p>
+              <p>Check off milestones as you achieve them, and watch your dreams become reality! 🌟</p>
+            </div>
+          </div>
         </>}
 
         {/* BUDGET TAB */}
@@ -2226,6 +2879,174 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
           </div>
 
            {monthlyLeftover<0&&<div className="tip-box" style={{background:'#fee2e2',borderColor:'#dc2626',color:'#991b1b'}}>⚠️ <strong>Monthly shortfall:</strong> £{Math.abs(monthlyLeftover)} | {monthsUntilReturn} months to go | Total gap: £{totalGapToBridge.toLocaleString()}</div>}
+
+          {/* Phase 8: Bill Tracker */}
+          <div className="card">
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'12px'}}>
+              <h3 className="card-title" style={{marginBottom:0}}>📅 Bill Tracker</h3>
+              <button className="btn btn-primary btn-sm" onClick={()=>{
+                const newBill={id:Date.now(),name:'New Bill',amount:0,dueDate:1,category:'other',recurring:'monthly',autoDebit:false,lastPaid:''};
+                setData(prev=>({...prev,bills:[...prev.bills,newBill]}));
+              }}>+ Add Bill</button>
+            </div>
+            <div style={{overflowX:'auto'}}>
+              <table style={{width:'100%',fontSize:'0.85rem'}}>
+                <thead>
+                  <tr style={{borderBottom:'2px solid var(--cream-dark)'}}>
+                    <th style={{textAlign:'left',padding:'8px'}}>Bill</th>
+                    <th style={{textAlign:'right',padding:'8px'}}>Amount</th>
+                    <th style={{textAlign:'center',padding:'8px'}}>Due</th>
+                    <th style={{textAlign:'center',padding:'8px'}}>Frequency</th>
+                    <th style={{textAlign:'center',padding:'8px'}}>Auto</th>
+                    <th style={{textAlign:'center',padding:'8px'}}>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {(data.bills||defaultBills).map((bill,idx)=>{
+                    const today=new Date();
+                    const dueDay=typeof bill.dueDate==='number'?bill.dueDate:new Date(bill.dueDate).getDate();
+                    const currentMonth=today.getMonth();
+                    const dueThisMonth=new Date(today.getFullYear(),currentMonth,dueDay);
+                    const daysUntil=Math.ceil((dueThisMonth-today)/(1000*60*60*24));
+                    const isDueSoon=daysUntil>=0&&daysUntil<=7;
+                    const isOverdue=daysUntil<0;
+                    
+                    return(
+                      <tr key={bill.id} style={{borderBottom:'1px solid var(--cream)'}}>
+                        <td style={{padding:'8px'}}>{bill.name}</td>
+                        <td style={{textAlign:'right',padding:'8px',fontWeight:600}}>£{bill.amount}</td>
+                        <td style={{textAlign:'center',padding:'8px'}}>{typeof bill.dueDate==='number'?`${bill.dueDate}th`:new Date(bill.dueDate).toLocaleDateString('en-GB',{day:'numeric',month:'short'})}</td>
+                        <td style={{textAlign:'center',padding:'8px'}}><span className="tag">{bill.recurring}</span></td>
+                        <td style={{textAlign:'center',padding:'8px'}}>{bill.autoDebit?'✅':'⚠️'}</td>
+                        <td style={{textAlign:'center',padding:'8px'}}>
+                          {isOverdue?<span style={{color:'#dc2626',fontWeight:600}}>⚠️ Overdue</span>:
+                           isDueSoon?<span style={{color:'#f59e0b',fontWeight:600}}>🔔 Due soon</span>:
+                           <span style={{color:'#059669'}}>✓ OK</span>}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <div className="tip-box" style={{marginTop:'12px'}}>
+              💡 Bills due in next 7 days: <strong>{(data.bills||defaultBills).filter(b=>{
+                const today=new Date();
+                const dueDay=typeof b.dueDate==='number'?b.dueDate:new Date(b.dueDate).getDate();
+                const dueThisMonth=new Date(today.getFullYear(),today.getMonth(),dueDay);
+                const daysUntil=Math.ceil((dueThisMonth-today)/(1000*60*60*24));
+                return daysUntil>=0&&daysUntil<=7;
+              }).length}</strong>
+            </div>
+          </div>
+
+          {/* Phase 8: Subscription Tracker */}
+          <div className="card">
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'12px'}}>
+              <h3 className="card-title" style={{marginBottom:0}}>📱 Subscriptions</h3>
+              <button className="btn btn-primary btn-sm" onClick={()=>{
+                const newSub={id:Date.now(),name:'New Subscription',cost:0,billing:'monthly',category:'other',autoRenew:true,renewDate:'',worth:true,notes:''};
+                setData(prev=>({...prev,subscriptions:[...prev.subscriptions,newSub]}));
+              }}>+ Add Subscription</button>
+            </div>
+            <div style={{display:'grid',gap:'10px'}}>
+              {(data.subscriptions||defaultSubscriptions).map((sub,idx)=>(
+                <div key={sub.id} style={{background:'var(--cream)',padding:'12px',borderRadius:'var(--radius-md)',display:'flex',alignItems:'center',gap:'12px'}}>
+                  <div style={{flex:1}}>
+                    <div style={{fontWeight:600,marginBottom:'4px'}}>{sub.name}</div>
+                    <div style={{fontSize:'0.75rem',color:'var(--navy-light)'}}>
+                      £{sub.cost}/{sub.billing} • Renews: {new Date(sub.renewDate).toLocaleDateString('en-GB')}
+                    </div>
+                  </div>
+                  <div style={{textAlign:'right'}}>
+                    <div style={{fontWeight:700,fontSize:'1.1rem',color:'var(--navy)'}}>£{sub.cost}</div>
+                    <div style={{fontSize:'0.7rem',color:sub.worth?'#059669':'#dc2626'}}>{sub.worth?'✓ Worth it':'❌ Review'}</div>
+                  </div>
+                  <button className="btn btn-secondary btn-sm" onClick={()=>{
+                    if(confirm(`Cancel ${sub.name}?`)){
+                      setData(prev=>({...prev,subscriptions:prev.subscriptions.filter(s=>s.id!==sub.id)}));
+                    }
+                  }}>🗑️</button>
+                </div>
+              ))}
+            </div>
+            <div className="tip-box" style={{marginTop:'12px'}}>
+              💰 <strong>Total monthly subscriptions:</strong> £{(data.subscriptions||defaultSubscriptions).filter(s=>s.billing==='monthly').reduce((sum,s)=>sum+s.cost,0).toFixed(2)} • 
+              <strong> Annual:</strong> £{(data.subscriptions||defaultSubscriptions).reduce((sum,s)=>sum+(s.billing==='monthly'?s.cost*12:s.cost),0).toFixed(2)}
+            </div>
+          </div>
+
+          {/* Phase 8: Savings Goals */}
+          <div className="card">
+            <h3 className="card-title">🎯 Savings Goals</h3>
+            <div style={{display:'grid',gap:'12px'}}>
+              {(data.savingsGoals||defaultSavingsGoals).map((goal,idx)=>{
+                const progress=(goal.current/goal.target)*100;
+                const monthsToTarget=goal.monthly>0?Math.ceil((goal.target-goal.current)/goal.monthly):999;
+                const projectedDate=goal.monthly>0?new Date(Date.now()+monthsToTarget*30*24*60*60*1000):null;
+                
+                return(
+                  <div key={goal.id} style={{background:'var(--cream)',padding:'14px',borderRadius:'var(--radius-md)'}}>
+                    <div style={{display:'flex',justifyContent:'space-between',alignItems:'flex-start',marginBottom:'8px'}}>
+                      <div>
+                        <div style={{fontSize:'1rem',fontWeight:700,marginBottom:'4px'}}>{goal.icon} {goal.name}</div>
+                        <div style={{fontSize:'0.75rem',color:'var(--navy-light)'}}>{goal.notes}</div>
+                      </div>
+                      <span className={`tag tag-${goal.priority}`}>{goal.priority}</span>
+                    </div>
+                    
+                    <div style={{marginBottom:'8px'}}>
+                      <div style={{display:'flex',justifyContent:'space-between',fontSize:'0.8rem',marginBottom:'4px'}}>
+                        <span>£{goal.current.toLocaleString()} / £{goal.target.toLocaleString()}</span>
+                        <span style={{fontWeight:600}}>{Math.round(progress)}%</span>
+                      </div>
+                      <div style={{height:'8px',background:'var(--cream-dark)',borderRadius:'4px',overflow:'hidden'}}>
+                        <div style={{height:'100%',width:`${progress}%`,background:progress>=100?'#059669':progress>=50?'#f59e0b':'#dc2626',transition:'width 0.3s ease'}}/>
+                      </div>
+                    </div>
+                    
+                    <div style={{display:'flex',gap:'8px',fontSize:'0.75rem',color:'var(--navy-light)'}}>
+                      <div>💰 £{goal.monthly}/mo</div>
+                      {projectedDate&&<div>📅 {monthsToTarget} months ({projectedDate.toLocaleDateString('en-GB',{month:'short',year:'numeric'})})</div>}
+                      <div>🎯 Target: {goal.deadline}</div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Phase 8: Quick Expense Logger */}
+          <div className="card">
+            <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',marginBottom:'12px'}}>
+              <h3 className="card-title" style={{marginBottom:0}}>💸 Quick Expense Log</h3>
+              <button className="btn btn-primary btn-sm" onClick={()=>{
+                const amount=prompt('Amount (£):');
+                const category=prompt('Category (groceries/transport/entertainment/other):');
+                const note=prompt('Note (optional):');
+                if(amount&&category){
+                  const expense={id:Date.now(),date:new Date().toISOString(),amount:parseFloat(amount),category,note:note||'',logged:new Date().toISOString()};
+                  setData(prev=>({...prev,expenseLog:[...prev.expenseLog,expense]}));
+                  celebrate(`💸 £${amount} logged!`);
+                }
+              }}>+ Log Expense</button>
+            </div>
+            <div style={{maxHeight:'300px',overflowY:'auto'}}>
+              {(data.expenseLog||[]).slice(-10).reverse().map(exp=>(
+                <div key={exp.id} style={{display:'flex',justifyContent:'space-between',padding:'8px',borderBottom:'1px solid var(--cream)',fontSize:'0.85rem'}}>
+                  <div>
+                    <span style={{fontWeight:600}}>£{exp.amount}</span> • {exp.category}
+                    {exp.note&&<div style={{fontSize:'0.75rem',color:'var(--navy-light)',marginTop:'2px'}}>{exp.note}</div>}
+                  </div>
+                  <div style={{fontSize:'0.75rem',color:'var(--navy-light)'}}>{new Date(exp.date).toLocaleDateString('en-GB')}</div>
+                </div>
+              ))}
+              {(!data.expenseLog||data.expenseLog.length===0)&&<div style={{textAlign:'center',padding:'16px',color:'var(--navy-light)',fontSize:'0.85rem'}}>No expenses logged yet</div>}
+            </div>
+            {data.expenseLog&&data.expenseLog.length>0&&<div className="tip-box" style={{marginTop:'12px'}}>
+              📊 <strong>This month:</strong> £{data.expenseLog.filter(e=>new Date(e.date).getMonth()===new Date().getMonth()).reduce((sum,e)=>sum+e.amount,0).toFixed(2)}
+            </div>}
+          </div>
 
           <div className="card">
             <h3 className="card-title"><span className="card-icon">📊</span>Budget Breakdown</h3>
@@ -2699,62 +3520,229 @@ const addHealthNote=useCallback((type,notes,weight,height)=>{
         </>}
 
         {/* SETTINGS TAB */}
-        {tab==='settings'&&<div className="card">
-          <h3 className="card-title">⚙️ Settings</h3>
-          <div style={{display:'grid',gap:12}}>
-            <div><label className="form-label">Family Name</label><input type="text" className="form-input" value={config.familyName} onChange={e=>setConfig(c=>({...c,familyName:e.target.value}))}/></div>
-            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
-              <div><label className="form-label">Current Location</label><input type="text" className="form-input" value={config.location} onChange={e=>setConfig(c=>({...c,location:e.target.value}))}/></div>
-              <div><label className="form-label">Target Location</label><input type="text" className="form-input" value={config.targetLocation} onChange={e=>setConfig(c=>({...c,targetLocation:e.target.value}))}/></div>
+        {tab==='settings'&&<>
+          <div className="card">
+            <h3 className="card-title">⚙️ Family Settings</h3>
+            <div style={{display:'grid',gap:16}}>
+              
+              {/* Basic Info */}
+              <div style={{display:'grid',gap:12}}>
+                <h4 style={{fontSize:'1rem',marginBottom:8,color:'var(--navy)'}}>👨‍👩‍👧 Family Information</h4>
+                <div><label className="form-label">Family Name</label><input type="text" className="form-input" value={config.familyName} onChange={e=>setConfig(c=>({...c,familyName:e.target.value}))}/></div>
+                
+                <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+                  <div><label className="form-label">Current Location</label><input type="text" className="form-input" value={config.location} onChange={e=>setConfig(c=>({...c,location:e.target.value}))}/></div>
+                  <div><label className="form-label">Target Location (Sheffield)</label><input type="text" className="form-input" value={config.targetLocation} onChange={e=>setConfig(c=>({...c,targetLocation:e.target.value}))}/></div>
+                </div>
+              </div>
+
+              {/* Important Dates */}
+              <div style={{display:'grid',gap:12,paddingTop:16,borderTop:'1px solid var(--cream)'}}>
+                <h4 style={{fontSize:'1rem',marginBottom:8,color:'var(--navy)'}}>📅 Important Dates</h4>
+                
+                <div><label className="form-label">Move Date (Sheffield)</label><input type="date" className="form-input" value={config.moveDate} onChange={e=>setConfig(c=>({...c,moveDate:e.target.value}))}/></div>
+                
+                <div><label className="form-label">Shawnie Return to Work</label><input type="date" className="form-input" value={config.shawnieReturnDate} onChange={e=>setConfig(c=>({...c,shawnieReturnDate:e.target.value}))}/></div>
+                
+                <div style={{display:'grid',gridTemplateColumns:'1fr 1fr 1fr',gap:12}}>
+                  <div><label className="form-label">Rich's Birthday</label><input type="date" className="form-input" value={config.richBirthDate} onChange={e=>setConfig(c=>({...c,richBirthDate:e.target.value}))}/></div>
+                  <div><label className="form-label">Shawnie's Birthday</label><input type="date" className="form-input" value={config.shawnieBirthDate} onChange={e=>setConfig(c=>({...c,shawnieBirthDate:e.target.value}))}/></div>
+                  <div><label className="form-label">Madison's Birthday</label><input type="date" className="form-input" value={config.madisonBirthDate} onChange={e=>setConfig(c=>({...c,madisonBirthDate:e.target.value}))}/></div>
+                </div>
+              </div>
+
+              {/* Financial */}
+              <div style={{display:'grid',gap:12,paddingTop:16,borderTop:'1px solid var(--cream)'}}>
+                <h4 style={{fontSize:'1rem',marginBottom:8,color:'var(--navy)'}}>💰 Financial Information</h4>
+                
+                <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+                  <div><label className="form-label">Emergency Fund (£)</label><input type="number" className="form-input" value={config.emergencyFund} onChange={e=>setConfig(c=>({...c,emergencyFund:parseFloat(e.target.value)||0}))}/></div>
+                  <div><label className="form-label">House Deposit Saved (£)</label><input type="number" className="form-input" value={config.houseDeposit} onChange={e=>setConfig(c=>({...c,houseDeposit:parseFloat(e.target.value)||0}))}/></div>
+                </div>
+                
+                <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:12}}>
+                  <div><label className="form-label">Rich's Pension (£)</label><input type="number" className="form-input" value={config.richPension} onChange={e=>setConfig(c=>({...c,richPension:parseFloat(e.target.value)||0}))}/></div>
+                  <div><label className="form-label">Shawnie's Pension (£)</label><input type="number" className="form-input" value={config.shawniePension} onChange={e=>setConfig(c=>({...c,shawniePension:parseFloat(e.target.value)||0}))}/></div>
+                </div>
+              </div>
+
+              {/* Madison Age Display */}
+              <div style={{display:'grid',gap:12,paddingTop:16,borderTop:'1px solid var(--cream)'}}>
+                <h4 style={{fontSize:'1rem',marginBottom:8,color:'var(--navy)'}}>👶 Madison's Age</h4>
+                <div style={{background:'var(--madison-light)',padding:16,borderRadius:'var(--radius-md)',border:'2px solid var(--madison)'}}>
+                  <div style={{fontSize:'1.5rem',fontWeight:700,color:'#d97706',marginBottom:4}}>
+                    {(()=>{
+                      const birth=new Date(config.madisonBirthDate);
+                      const today=new Date();
+                      const months=Math.floor((today-birth)/(1000*60*60*24*30.44));
+                      const days=Math.floor((today-birth)/(1000*60*60*24))%30;
+                      return `${months} months, ${days} days old`;
+                    })()}
+                  </div>
+                  <div style={{fontSize:'0.85rem',color:'#7a4a1f'}}>
+                    Born: {new Date(config.madisonBirthDate).toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}
+                  </div>
+                </div>
+              </div>
+
+              {/* Countdown to Move */}
+              <div style={{display:'grid',gap:12,paddingTop:16,borderTop:'1px solid var(--cream)'}}>
+                <h4 style={{fontSize:'1rem',marginBottom:8,color:'var(--navy)'}}>🏘️ Sheffield Move Countdown</h4>
+                <div style={{background:'linear-gradient(135deg,#f0fdf4,#dcfce7)',padding:16,borderRadius:'var(--radius-md)',border:'2px solid var(--sage)'}}>
+                  <div style={{fontSize:'2rem',fontWeight:700,color:'#15803d',marginBottom:4}}>
+                    {(()=>{
+                      const move=new Date(config.moveDate);
+                      const today=new Date();
+                      const days=Math.ceil((move-today)/(1000*60*60*24));
+                      return days>0?`${days} days`:'Moved!';
+                    })()}
+                  </div>
+                  <div style={{fontSize:'0.85rem',color:'#166534'}}>
+                    Until: {new Date(config.moveDate).toLocaleDateString('en-GB',{weekday:'long',year:'numeric',month:'long',day:'numeric'})}
+                  </div>
+                </div>
+              </div>
+
             </div>
-            <div>
-  <label className="form-label">Shawnie Return Date</label>
-  <input 
-    type="date" 
-    className="form-input" 
-    value={config.shawnieReturnDate} 
-    min={new Date().toISOString().split('T')[0]}
-    onChange={e=>{
-      const newDate=new Date(e.target.value);
-      const today=new Date();
-      today.setHours(0,0,0,0);
-      
-      if(newDate<today){
-        alert('Return date cannot be in the past');
-        return;
-      }
-      
-      setConfig(c=>({...c,shawnieReturnDate:e.target.value}));
-    }}
-  />
-</div>
           </div>
-          <div style={{marginTop:20,display:'flex',gap:10,flexWrap:'wrap'}}>
-            <button className="btn btn-secondary" onClick={exportData} title="Backup your family data">
-              💾 Export Data
-            </button>
-            <label className="btn btn-secondary" style={{cursor:'pointer'}} title="Restore from backup">
-              📂 Import Data
-              <input type="file" accept=".json" onChange={importData} style={{display:'none'}}/>
-            </label>
-            <button className="btn btn-secondary" onClick={()=>{
-              if(confirm('Clear all milestone photos? This cannot be undone.')){
-                setData(prev=>({...prev,milestones:prev.milestones.map(m=>({...m,photo:null}))}));
-                celebrate('Photos Cleared! 🗑️');
-              }
-            }} title="Free up storage space">
-              🗑️ Clear Photos
-            </button>
-            <button className="btn btn-primary" style={{background:'#dc2626'}} onClick={()=>{
-              if(confirm('⚠️ Reset EVERYTHING? This will delete all your family data, tasks, notes, and photos. This cannot be undone!')){
-                localStorage.clear();
-                window.location.reload();
-              }
-            }} title="Start fresh">
-              🔄 Reset All
-            </button>
-          </div>        </div>}
+
+          {/* Budget Editor */}
+          <div className="card">
+            <h3 className="card-title">💰 Edit Budget</h3>
+            <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:16}}>
+              
+              <div>
+                <h4 style={{fontSize:'0.95rem',marginBottom:12,color:'var(--sage)'}}>💚 Income</h4>
+                <div style={{display:'grid',gap:8}}>
+                  <div style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:8,alignItems:'center'}}>
+                    <span style={{fontSize:'0.85rem'}}>Rich Wage</span>
+                    <input type="number" className="form-input" value={data.budget.income.richWage} onChange={e=>setData(prev=>({...prev,budget:{...prev.budget,income:{...prev.budget.income,richWage:parseFloat(e.target.value)||0}}}))} style={{fontSize:'0.85rem'}}/>
+                  </div>
+                  <div style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:8,alignItems:'center'}}>
+                    <span style={{fontSize:'0.85rem'}}>Shawnie Wage</span>
+                    <input type="number" className="form-input" value={data.budget.income.shawnieWage} onChange={e=>setData(prev=>({...prev,budget:{...prev.budget,income:{...prev.budget.income,shawnieWage:parseFloat(e.target.value)||0}}}))} style={{fontSize:'0.85rem'}}/>
+                  </div>
+                  <div style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:8,alignItems:'center'}}>
+                    <span style={{fontSize:'0.85rem'}}>Child Benefit</span>
+                    <input type="number" className="form-input" value={data.budget.income.childBenefit} onChange={e=>setData(prev=>({...prev,budget:{...prev.budget,income:{...prev.budget.income,childBenefit:parseFloat(e.target.value)||0}}}))} style={{fontSize:'0.85rem'}}/>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <h4 style={{fontSize:'0.95rem',marginBottom:12,color:'#dc2626'}}>💸 Expenses</h4>
+                <div style={{display:'grid',gap:8}}>
+                  <div style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:8,alignItems:'center'}}>
+                    <span style={{fontSize:'0.85rem'}}>Rent/Mortgage</span>
+                    <input type="number" className="form-input" value={data.budget.expenses.housing} onChange={e=>setData(prev=>({...prev,budget:{...prev.budget,expenses:{...prev.budget.expenses,housing:parseFloat(e.target.value)||0}}}))} style={{fontSize:'0.85rem'}}/>
+                  </div>
+                  <div style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:8,alignItems:'center'}}>
+                    <span style={{fontSize:'0.85rem'}}>Council Tax</span>
+                    <input type="number" className="form-input" value={data.budget.expenses.councilTax} onChange={e=>setData(prev=>({...prev,budget:{...prev.budget,expenses:{...prev.budget.expenses,councilTax:parseFloat(e.target.value)||0}}}))} style={{fontSize:'0.85rem'}}/>
+                  </div>
+                  <div style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:8,alignItems:'center'}}>
+                    <span style={{fontSize:'0.85rem'}}>Utilities</span>
+                    <input type="number" className="form-input" value={data.budget.expenses.utilities} onChange={e=>setData(prev=>({...prev,budget:{...prev.budget,expenses:{...prev.budget.expenses,utilities:parseFloat(e.target.value)||0}}}))} style={{fontSize:'0.85rem'}}/>
+                  </div>
+                  <div style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:8,alignItems:'center'}}>
+                    <span style={{fontSize:'0.85rem'}}>Groceries</span>
+                    <input type="number" className="form-input" value={data.budget.expenses.groceries} onChange={e=>setData(prev=>({...prev,budget:{...prev.budget,expenses:{...prev.budget.expenses,groceries:parseFloat(e.target.value)||0}}}))} style={{fontSize:'0.85rem'}}/>
+                  </div>
+                  <div style={{display:'grid',gridTemplateColumns:'2fr 1fr',gap:8,alignItems:'center'}}>
+                    <span style={{fontSize:'0.85rem'}}>Transport</span>
+                    <input type="number" className="form-input" value={data.budget.expenses.transport} onChange={e=>setData(prev=>({...prev,budget:{...prev.budget,expenses:{...prev.budget.expenses,transport:parseFloat(e.target.value)||0}}}))} style={{fontSize:'0.85rem'}}/>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          {/* Data Management */}
+          <div className="card">
+            <h3 className="card-title">💾 Data Management</h3>
+            <div style={{display:'grid',gap:12}}>
+              <div style={{display:'flex',gap:10,flexWrap:'wrap'}}>
+                <button className="btn btn-primary" onClick={exportData} title="Backup your family data">
+                  💾 Export Data
+                </button>
+                <label className="btn btn-primary" style={{cursor:'pointer'}} title="Restore from backup">
+                  📂 Import Data
+                  <input type="file" accept=".json" onChange={importData} style={{display:'none'}}/>
+                </label>
+                <button className="btn btn-secondary" onClick={()=>{
+                  if(confirm('Clear all milestone photos? This cannot be undone.')){
+                    setData(prev=>({...prev,milestones:prev.milestones.map(m=>({...m,photo:null}))}));
+                    celebrate('Photos Cleared! 🗑️');
+                  }
+                }} title="Free up storage space">
+                  🗑️ Clear Photos
+                </button>
+                <button className="btn btn-secondary" style={{background:'#dc2626',color:'white'}} onClick={()=>{
+                  if(confirm('⚠️ Reset EVERYTHING? This will delete all your family data, tasks, notes, and photos. This cannot be undone!')){
+                    if(confirm('Are you ABSOLUTELY sure? Type "RESET" in the next prompt')){
+                      const confirmation=prompt('Type RESET to confirm:');
+                      if(confirmation==='RESET'){
+                        localStorage.clear();
+                        window.location.reload();
+                      }
+                    }
+                  }
+                }} title="Start fresh - DANGER!">
+                  🔄 Reset All Data
+                </button>
+              </div>
+              
+              <div style={{background:'var(--cream)',padding:16,borderRadius:'var(--radius-md)',fontSize:'0.85rem',color:'var(--navy-light)'}}>
+                <div><strong>💡 Tips:</strong></div>
+                <ul style={{marginTop:8,paddingLeft:20}}>
+                  <li>Export your data regularly as backup</li>
+                  <li>Clear old photos to free storage space</li>
+                  <li>All changes auto-save every 500ms</li>
+                  <li>Use keyboard shortcuts: Ctrl+S to force save</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </>}
       </main>
+      
+      {/* Phase 5: Gratitude Modal */}
+      {showGratitudeModal&&<div className="modal-overlay" onClick={()=>setShowGratitudeModal(false)}>
+        <div className="modal-content" onClick={e=>e.stopPropagation()} style={{maxWidth:'500px'}}>
+          <h3 style={{marginBottom:'16px'}}>✨ Daily Gratitude</h3>
+          <p style={{fontSize:'0.9rem',color:'var(--navy-light)',marginBottom:'16px'}}>
+            Take a moment to reflect on what you're grateful for today. This will be saved to your notes.
+          </p>
+          <textarea 
+            className="modal-textarea"
+            value={gratitudeText}
+            onChange={e=>setGratitudeText(e.target.value)}
+            placeholder="I'm grateful for..."
+            rows="5"
+            style={{width:'100%',marginBottom:'16px'}}
+          />
+          <div style={{display:'flex',gap:'8px',justifyContent:'flex-end'}}>
+            <button className="btn btn-secondary" onClick={()=>{setShowGratitudeModal(false);setGratitudeText('')}}>Cancel</button>
+            <button className="btn btn-primary" onClick={()=>{
+              if(gratitudeText.trim()){
+                const gratitudeNote={
+                  id:Date.now(),
+                  date:new Date().toISOString(),
+                  text:`✨ Gratitude: ${gratitudeText}`,
+                  type:'gratitude'
+                };
+                setData(prev=>({...prev,notes:[...prev.notes,gratitudeNote]}));
+                celebrate('💖 Gratitude saved! +10 XP');
+                setData(prev=>({...prev,gamification:{...prev.gamification,xp:(prev.gamification.xp||0)+10}}));
+                setShowGratitudeModal(false);
+                setGratitudeText('');
+              }
+            }}>Save Gratitude (+10 XP)</button>
+          </div>
+        </div>
+      </div>}
+      
       <button className="fab" onClick={()=>setTab('overview')}>🏠</button>
     </div>
   );
